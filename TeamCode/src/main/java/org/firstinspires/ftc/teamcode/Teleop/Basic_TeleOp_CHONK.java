@@ -28,12 +28,13 @@
  */
 
 package org.firstinspires.ftc.teamcode.Teleop;
-
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Robot;
+
+import java.lang.Math;
 
 
 /**
@@ -53,8 +54,8 @@ import org.firstinspires.ftc.teamcode.Robot;
  * did a horrible job of doing that.
  */
 
-@TeleOp(name="Michael Drive", group="CompBot")
-public class REEEEEEEALLLY_Basic_TeleOp extends OpMode {
+@TeleOp(name="CHONK drive", group="CompBot")
+public class Basic_TeleOp_CHONK extends OpMode {
 
     // This section tells the program all of the different pieces of hardware that are on our robot that we will use in the program.
     private ElapsedTime runtime = new ElapsedTime();
@@ -86,6 +87,8 @@ public class REEEEEEEALLLY_Basic_TeleOp extends OpMode {
     public void start() {
         runtime.reset();
         telemetry.addData("HYPE", "Let's do this!!!");
+        gamepad1.setLedColor(0, 0, 255, 100000000);
+        gamepad2.setLedColor(0, 0, 255, 100000000);
     }
 
     /*
@@ -94,15 +97,98 @@ public class REEEEEEEALLLY_Basic_TeleOp extends OpMode {
     public void loop() {
 
         singleJoystickDrive();
-        gamepad1.setLedColor(0, 0, 255, 100000000);
-        gamepad2.setLedColor(0, 0, 255, 100000000);
         // This little section updates the driver hub on the runtime and the motor powers.
         // It's mostly used for troubleshooting.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         robot.tellMotorOutput();
 
         float armStickY = this.gamepad2.left_stick_y;
+        float turntableStickX = this.gamepad2.right_stick_x;
 
+        // This section checks what buttons on the Dpad are being pressed and changes the speed accordingly.
+        //So Begins the input chain. At least try a bit to organise by driver
+
+        //Driver 1
+        if (gamepad1.back) {
+            if (robot.controlMode == "Robot Centric"){
+                robot.controlMode = "Field Centric";
+                telemetry.addData("Control Mode", "Field Centric Controls");
+            } else if (robot.controlMode == "Field Centric"){
+                robot.controlMode = "Robot Centric";
+                telemetry.addData("Control Mode", "Robot Centric Controls");
+            }
+        }
+
+        if (gamepad1.dpad_up) {
+            speed = 1;
+        } else if (gamepad1.dpad_down) {
+            speed = 0.25;
+        } else if (gamepad1.dpad_left) {
+            speed = 0.5;
+        } else if (gamepad1.dpad_right) {
+            speed = 0.75;
+        }
+
+        if (speed == 1) {
+            telemetry.addData("Speed", "Fast Boi");
+        } else if (speed == 0.5) {
+            telemetry.addData("Speed", "Slow Boi");
+        } else if (speed == 0.25) {
+            telemetry.addData("Speed", "Super Slow Boi");
+        } else if (speed == 0.75) {
+            telemetry.addData("Speed", "Normal Boi");
+        }
+
+
+
+
+        if(gamepad1.y)
+        {
+            robot.hookMotor.setPower(0.85);
+        }
+
+        if(gamepad1.back)
+        {
+            robot.hookMotor.setPower(-0.2);
+        }
+
+        if (!gamepad1.y && !gamepad1.back)
+        {
+            robot.hookMotor.setPower(0);
+        }
+
+        if (gamepad1.b)
+        {
+            robot.hookServo.setPosition(.5);
+        }
+        else if (gamepad1.a)
+        {
+            robot.hookServo.setPosition(0);
+        }
+
+        //Beginning of fast turn
+
+        if(gamepad1.right_trigger >= 0.5)
+        {
+            //storedSpeed = speed;
+            speed = 1;
+            //Do something
+            //speed = storedSpeed;
+
+        }
+        else if (gamepad1.left_trigger >0.5)
+        {
+            //storedSpeed = speed;
+            speed = 0.50;
+            //Do something
+            //speed = storedSpeed;
+        }
+        //
+
+
+
+        //Driver 2 Starts here
+        //Lift
         if (gamepad2.left_stick_y < -0.5){
             robot.slideL.setPower(-armStickY * 0.75);
             robot.slideR.setPower(-armStickY * 0.75);
@@ -112,7 +198,14 @@ public class REEEEEEEALLLY_Basic_TeleOp extends OpMode {
         } else {
             robot.holdArm();
         }
+        //ServoArm
+        if (gamepad2.y){ // up
+            robot.rotateArmUp();
+        } else if (gamepad2.x) { //lower
+            robot.rotateArmDown();
+        }
 
+        //Drone Launcher
         if(gamepad2.dpad_up)
         {
             gamepad2.rumble(800);
@@ -124,7 +217,14 @@ public class REEEEEEEALLLY_Basic_TeleOp extends OpMode {
         gamepad1.setLedColor(0, 0, 255, 100000000);
         gamepad2.setLedColor(0, 0, 255, 100000000);
 
-        //windshield wiper motion... hopefully
+        //Open and close claw
+        if (this.gamepad2.b || this.gamepad2.left_trigger > 0.5) { // open
+            robot.openClaw();
+        } else if (this.gamepad2.a || this.gamepad2.right_trigger > 0.5) {//close
+            robot.closeClaw();
+        }
+
+        //windshield wiper motion
         double idealPosition;
         double rightClosedPosition = .6;
         double leftClosedPosition = .4;
@@ -134,35 +234,6 @@ public class REEEEEEEALLLY_Basic_TeleOp extends OpMode {
             robot.openAndCloseRightClaw(rightClosedPosition -= idealPosition);
             robot.openAndCloseLeftClaw(leftClosedPosition -= idealPosition);
         }
-
-        //Moves the turntable based on the x-coordinate of the right joystick
-        //We need to switch out these motor functions for servo stuff... Idk the position we need
-        if (gamepad2.y){ // up
-            //robot.armL.setPosition(1);
-            //robot.rotateLeftArm(0.59); // good no change
-            robot.rotateArmUp();
-
-        } else if (gamepad2.x) { //lower
-            //robot.rotateLeftArm(0.85); // GOOD NO CHANGE
-            //robot.rotateLeftArm(0.6);
-            robot.rotateArmDown();
-        }
-        /*else {
-            robot.armR.setPosition(0);
-            robot.armL.setPosition(0);
-        }
-        */
-
-
-        //other possible code is this without this
-        if (this.gamepad2.b || this.gamepad2.left_trigger > 0.5) { // open
-            robot.openClaw();
-        } else if (this.gamepad2.a || this.gamepad2.right_trigger > 0.5) {//close
-            robot.closeClaw();
-        }
-
-
-
     }
 
     /*
