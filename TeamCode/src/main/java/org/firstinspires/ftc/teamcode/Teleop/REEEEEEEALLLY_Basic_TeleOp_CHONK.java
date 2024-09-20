@@ -53,8 +53,8 @@ import org.firstinspires.ftc.teamcode.Robot;
  * did a horrible job of doing that.
  */
 
-@TeleOp(name="Michael Drive", group="CompBot")
-public class REEEEEEEALLLY_Basic_TeleOp extends OpMode {
+@TeleOp(name="EZ DRIVE CHONK", group="CompBot")
+public class REEEEEEEALLLY_Basic_TeleOp_CHONK extends OpMode {
 
     // This section tells the program all of the different pieces of hardware that are on our robot that we will use in the program.
     private ElapsedTime runtime = new ElapsedTime();

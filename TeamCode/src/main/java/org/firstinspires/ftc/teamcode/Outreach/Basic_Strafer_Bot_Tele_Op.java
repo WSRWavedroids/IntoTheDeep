@@ -27,14 +27,13 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Teleop;
+package org.firstinspires.ftc.teamcode.Outreach;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Robot;
-
-import java.lang.Math;
 
 
 /**
@@ -54,15 +53,14 @@ import java.lang.Math;
  * did a horrible job of doing that.
  */
 
-@TeleOp(name="CenterStage Chonk Drive :)", group="CompBot")
-public class Basic_TeleOp extends OpMode {
+@TeleOp(name="Basic Strafer", group="CompBot")
+public class Basic_Strafer_Bot_Tele_Op extends OpMode {
 
     // This section tells the program all of the different pieces of hardware that are on our robot that we will use in the program.
     private ElapsedTime runtime = new ElapsedTime();
     private double speed = 0.75;
     //private double storedSpeed;
-    public Robot robot = null;
-
+    public org.firstinspires.ftc.teamcode.Outreach.Basic_Strafer_Bot Bot = new Basic_Strafer_Bot();
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -70,7 +68,7 @@ public class Basic_TeleOp extends OpMode {
     public void init() {
 
         // Call the initialization protocol from the Robot class.
-        robot = new Robot(hardwareMap, telemetry, this);
+        Bot = new Basic_Strafer_Bot(hardwareMap, telemetry, this);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -100,7 +98,7 @@ public class Basic_TeleOp extends OpMode {
         // This little section updates the driver hub on the runtime and the motor powers.
         // It's mostly used for troubleshooting.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
-        robot.tellMotorOutput();
+        Bot.tellMotorOutput();
 
         float armStickY = this.gamepad2.left_stick_y;
         float turntableStickX = this.gamepad2.right_stick_x;
@@ -110,11 +108,11 @@ public class Basic_TeleOp extends OpMode {
 
         //Driver 1
         if (gamepad1.back) {
-            if (robot.controlMode == "Robot Centric"){
-                robot.controlMode = "Field Centric";
+            if (Bot.controlMode == "Robot Centric"){
+                Bot.controlMode = "Field Centric";
                 telemetry.addData("Control Mode", "Field Centric Controls");
-            } else if (robot.controlMode == "Field Centric"){
-                robot.controlMode = "Robot Centric";
+            } else if (Bot.controlMode == "Field Centric"){
+                Bot.controlMode = "Robot Centric";
                 telemetry.addData("Control Mode", "Robot Centric Controls");
             }
         }
@@ -142,30 +140,6 @@ public class Basic_TeleOp extends OpMode {
 
 
 
-        if(gamepad1.y)
-        {
-            robot.hookMotor.setPower(0.85);
-        }
-
-        if(gamepad1.back)
-        {
-            robot.hookMotor.setPower(-0.2);
-        }
-
-        if (!gamepad1.y && !gamepad1.back)
-        {
-            robot.hookMotor.setPower(0);
-        }
-
-        if (gamepad1.b)
-        {
-            robot.hookServo.setPosition(.5);
-        }
-        else if (gamepad1.a)
-        {
-            robot.hookServo.setPosition(0);
-        }
-
         //Beginning of fast turn
 
         if(gamepad1.right_trigger >= 0.5)
@@ -185,55 +159,6 @@ public class Basic_TeleOp extends OpMode {
         }
         //
 
-
-
-        //Driver 2 Starts here
-        //Lift
-        if (gamepad2.left_stick_y < -0.5){
-            robot.slideL.setPower(-armStickY * 0.75);
-            robot.slideR.setPower(-armStickY * 0.75);
-        } else if (gamepad2.left_stick_y > 0.5){
-            robot.slideL.setPower(-armStickY * 0.75);
-            robot.slideR.setPower(-armStickY * 0.75);
-        } else {
-            robot.holdArm();
-        }
-        //ServoArm
-        if (gamepad2.y){ // up
-            robot.rotateArmUp();
-        } else if (gamepad2.x) { //lower
-            robot.rotateArmDown();
-        }
-
-        //Drone Launcher
-        if(gamepad2.dpad_up)
-        {
-            gamepad2.rumble(800);
-            gamepad2.setLedColor(255, 0, 0, 10000);
-            gamepad1.rumble(800);
-            gamepad1.setLedColor(255, 0, 0, 10000);
-            robot.firePlane(400);
-        }
-        gamepad1.setLedColor(0, 0, 255, 100000000);
-        gamepad2.setLedColor(0, 0, 255, 100000000);
-
-        //Open and close claw
-        if (this.gamepad2.b || this.gamepad2.left_trigger > 0.5) { // open
-            robot.openClaw();
-        } else if (this.gamepad2.a || this.gamepad2.right_trigger > 0.5) {//close
-            robot.closeClaw();
-        }
-
-        //windshield wiper motion
-        double idealPosition;
-        double rightClosedPosition = .6;
-        double leftClosedPosition = .4;
-        if (robot.primaryClawClosed == true)
-        {
-            idealPosition = gamepad2.right_stick_x * 0.135;
-            robot.openAndCloseRightClaw(rightClosedPosition -= idealPosition);
-            robot.openAndCloseLeftClaw(leftClosedPosition -= idealPosition);
-        }
     }
 
     /*
@@ -253,10 +178,10 @@ public class Basic_TeleOp extends OpMode {
         if (motorPowers.length != 4) {
             return;
         }
-        robot.frontLeftDrive.setPower(-motorPowers[0]);
-        robot.frontRightDrive.setPower(-motorPowers[1]);
-        robot.backLeftDrive.setPower(-motorPowers[2]);
-        robot.backRightDrive.setPower(-motorPowers[3]);
+        Bot.frontLeftDrive.setPower(-motorPowers[0]);
+        Bot.frontRightDrive.setPower(-motorPowers[1]);
+        Bot.backLeftDrive.setPower(-motorPowers[2]);
+        Bot.backRightDrive.setPower(-motorPowers[3]);
     }
 
     private void singleJoystickDrive () {
@@ -277,14 +202,14 @@ public class Basic_TeleOp extends OpMode {
 
         float[] motorPowers = new float[4];
 
-        if (robot.controlMode == "Robot Centric") {
+        if (Bot.controlMode == "Robot Centric") {
 
             motorPowers[0] = (leftY + leftX + rightX);
             motorPowers[1] = (leftY - leftX - rightX);
             motorPowers[2] = (leftY - leftX + rightX);
             motorPowers[3] = (leftY + leftX - rightX);
 
-        } else if (robot.controlMode == "Field Centric") {
+        } else if (Bot.controlMode == "Field Centric") {
             /*
             motorPowers[0] = (float) (Math.sin(leftStickAngle + 45 - robotAngle) * leftStickMagnitude + rightX);
             motorPowers[1] = (float) (Math.sin(leftStickAngle - 45 - robotAngle) * leftStickMagnitude + rightX);
