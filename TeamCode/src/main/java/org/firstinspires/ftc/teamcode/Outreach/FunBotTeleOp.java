@@ -6,8 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Outreach.FunBot;
-
-
 /**
  * This file is our iterative (Non-Linear) "OpMode" for TeleOp.
  * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
