@@ -27,13 +27,13 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Teleop;
+package org.firstinspires.ftc.teamcode.OLD.Teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.OLD.ChonkRobot;
 
 
 /**
@@ -60,7 +60,7 @@ public class REEEEEEEALLLY_Basic_TeleOp_CHONK extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private double speed = 0.75;
     //private double storedSpeed;
-    public Robot robot = null;
+    public ChonkRobot chonkRobot = null;
 
 
     /*
@@ -69,7 +69,7 @@ public class REEEEEEEALLLY_Basic_TeleOp_CHONK extends OpMode {
     public void init() {
 
         // Call the initialization protocol from the Robot class.
-        robot = new Robot(hardwareMap, telemetry, this);
+        chonkRobot = new ChonkRobot(hardwareMap, telemetry, this);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -99,18 +99,18 @@ public class REEEEEEEALLLY_Basic_TeleOp_CHONK extends OpMode {
         // This little section updates the driver hub on the runtime and the motor powers.
         // It's mostly used for troubleshooting.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
-        robot.tellMotorOutput();
+        chonkRobot.tellMotorOutput();
 
         float armStickY = this.gamepad2.left_stick_y;
 
         if (gamepad2.left_stick_y < -0.5){
-            robot.slideL.setPower(-armStickY * 0.75);
-            robot.slideR.setPower(-armStickY * 0.75);
+            chonkRobot.slideL.setPower(-armStickY * 0.75);
+            chonkRobot.slideR.setPower(-armStickY * 0.75);
         } else if (gamepad2.left_stick_y > 0.5){
-            robot.slideL.setPower(-armStickY * 0.75);
-            robot.slideR.setPower(-armStickY * 0.75);
+            chonkRobot.slideL.setPower(-armStickY * 0.75);
+            chonkRobot.slideR.setPower(-armStickY * 0.75);
         } else {
-            robot.holdArm();
+            chonkRobot.holdArm();
         }
 
         if(gamepad2.dpad_up)
@@ -119,7 +119,7 @@ public class REEEEEEEALLLY_Basic_TeleOp_CHONK extends OpMode {
             gamepad2.setLedColor(255, 0, 0, 10000);
             gamepad1.rumble(800);
             gamepad1.setLedColor(255, 0, 0, 10000);
-            robot.firePlane(400);
+            chonkRobot.firePlane(400);
         }
         gamepad1.setLedColor(0, 0, 255, 100000000);
         gamepad2.setLedColor(0, 0, 255, 100000000);
@@ -128,11 +128,11 @@ public class REEEEEEEALLLY_Basic_TeleOp_CHONK extends OpMode {
         double idealPosition;
         double rightClosedPosition = .6;
         double leftClosedPosition = .4;
-        if (robot.primaryClawClosed == true)
+        if (chonkRobot.primaryClawClosed == true)
         {
             idealPosition = gamepad2.right_stick_x * 0.135;
-            robot.openAndCloseRightClaw(rightClosedPosition -= idealPosition);
-            robot.openAndCloseLeftClaw(leftClosedPosition -= idealPosition);
+            chonkRobot.openAndCloseRightClaw(rightClosedPosition -= idealPosition);
+            chonkRobot.openAndCloseLeftClaw(leftClosedPosition -= idealPosition);
         }
 
         //Moves the turntable based on the x-coordinate of the right joystick
@@ -140,12 +140,12 @@ public class REEEEEEEALLLY_Basic_TeleOp_CHONK extends OpMode {
         if (gamepad2.y){ // up
             //robot.armL.setPosition(1);
             //robot.rotateLeftArm(0.59); // good no change
-            robot.rotateArmUp();
+            chonkRobot.rotateArmUp();
 
         } else if (gamepad2.x) { //lower
             //robot.rotateLeftArm(0.85); // GOOD NO CHANGE
             //robot.rotateLeftArm(0.6);
-            robot.rotateArmDown();
+            chonkRobot.rotateArmDown();
         }
         /*else {
             robot.armR.setPosition(0);
@@ -156,9 +156,9 @@ public class REEEEEEEALLLY_Basic_TeleOp_CHONK extends OpMode {
 
         //other possible code is this without this
         if (this.gamepad2.b || this.gamepad2.left_trigger > 0.5) { // open
-            robot.openClaw();
+            chonkRobot.openClaw();
         } else if (this.gamepad2.a || this.gamepad2.right_trigger > 0.5) {//close
-            robot.closeClaw();
+            chonkRobot.closeClaw();
         }
 
 
@@ -182,10 +182,10 @@ public class REEEEEEEALLLY_Basic_TeleOp_CHONK extends OpMode {
         if (motorPowers.length != 4) {
             return;
         }
-        robot.frontLeftDrive.setPower(-motorPowers[0]);
-        robot.frontRightDrive.setPower(-motorPowers[1]);
-        robot.backLeftDrive.setPower(-motorPowers[2]);
-        robot.backRightDrive.setPower(-motorPowers[3]);
+        chonkRobot.frontLeftDrive.setPower(-motorPowers[0]);
+        chonkRobot.frontRightDrive.setPower(-motorPowers[1]);
+        chonkRobot.backLeftDrive.setPower(-motorPowers[2]);
+        chonkRobot.backRightDrive.setPower(-motorPowers[3]);
     }
 
     private void singleJoystickDrive () {
@@ -206,14 +206,14 @@ public class REEEEEEEALLLY_Basic_TeleOp_CHONK extends OpMode {
 
         float[] motorPowers = new float[4];
 
-        if (robot.controlMode == "Robot Centric") {
+        if (chonkRobot.controlMode == "Robot Centric") {
 
             motorPowers[0] = (leftY + leftX + rightX);
             motorPowers[1] = (leftY - leftX - rightX);
             motorPowers[2] = (leftY - leftX + rightX);
             motorPowers[3] = (leftY + leftX - rightX);
 
-        } else if (robot.controlMode == "Field Centric") {
+        } else if (chonkRobot.controlMode == "Field Centric") {
             /*
             motorPowers[0] = (float) (Math.sin(leftStickAngle + 45 - robotAngle) * leftStickMagnitude + rightX);
             motorPowers[1] = (float) (Math.sin(leftStickAngle - 45 - robotAngle) * leftStickMagnitude + rightX);

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autonomous;
+package org.firstinspires.ftc.teamcode.OLD.Autonomous;
 /* Copyright (c) 2017 FIRST. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -32,8 +32,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Robot;
-//import org.firstinspires.ftc.teamcode.Autonomous.AprilTags.MayFlowers;
+import org.firstinspires.ftc.teamcode.OLD.ChonkRobot;
+//import org.firstinspires.ftc.teamcode.OLD.Autonomous.AprilTags.MayFlowers;
 
 /**
  * This is the autonomous mode. It moves the robot without us having to touch the controller.
@@ -54,47 +54,47 @@ public class AutonomousPLUS extends LinearOpMode {
     public double slidePos;
 
     //DO NOT DELETE THIS LINE! CAPITALIZATION IS VERY IMPORTANT!!!
-    public Robot robot = null;
+    public ChonkRobot chonkRobot = null;
 
     @Override
     public void runOpMode() {
-        robot = new Robot(hardwareMap, telemetry, this);
+        chonkRobot = new ChonkRobot(hardwareMap, telemetry, this);
     }
 
     //These are the basic functions for mechnum movement during auto... Don't mess with these unless something is inverted
     // Remember Without ODO pods there will be some inconsistency due to mechnum slippage
     public void moveRobotForward(int ticks, long pause) {
         if (opModeIsActive()) {
-            robot.setTargets("Backward", ticks); // Inverted... Lol
-            robot.positionRunningMode();
+            chonkRobot.setTargets("Backward", ticks); // Inverted... Lol
+            chonkRobot.positionRunningMode();
         }
-        robot.powerSet(speed);
+        chonkRobot.powerSet(speed);
 
-        while (opModeIsActive() && robot.isWheelsBusy()) {
-            robot.tellMotorOutput();
+        while (opModeIsActive() && chonkRobot.isWheelsBusy()) {
+            chonkRobot.tellMotorOutput();
         }
 
-        robot.stopAllMotors();
-        robot.encoderRunningMode();
-        robot.stopAllMotors();
+        chonkRobot.stopAllMotors();
+        chonkRobot.encoderRunningMode();
+        chonkRobot.stopAllMotors();
         sleep(pause);
-        robot.encoderReset();
+        chonkRobot.encoderReset();
     }
 
     public void moveRobotBackward(int ticks, long pause) {
         if (opModeIsActive()) {
-            robot.setTargets("Forward", ticks);
-            robot.positionRunningMode();
-            robot.powerSet(speed);
+            chonkRobot.setTargets("Forward", ticks);
+            chonkRobot.positionRunningMode();
+            chonkRobot.powerSet(speed);
 
-            while (opModeIsActive() && robot.isWheelsBusy()) {
-                robot.tellMotorOutput();
+            while (opModeIsActive() && chonkRobot.isWheelsBusy()) {
+                chonkRobot.tellMotorOutput();
             }
 
-            robot.stopAllMotors();
-            robot.encoderRunningMode();
+            chonkRobot.stopAllMotors();
+            chonkRobot.encoderRunningMode();
             sleep(pause);
-            robot.encoderReset();
+            chonkRobot.encoderReset();
         }
 
     }
@@ -102,97 +102,97 @@ public class AutonomousPLUS extends LinearOpMode {
     public void moveRobotLeft(int ticks, long pause) {
 
         if (opModeIsActive()) {
-            robot.setTargets("Right", ticks);
-            robot.positionRunningMode();
-            robot.powerSet(speed);
+            chonkRobot.setTargets("Right", ticks);
+            chonkRobot.positionRunningMode();
+            chonkRobot.powerSet(speed);
 
-            while (opModeIsActive() && robot.isWheelsBusy()) {
-                robot.tellMotorOutput();
+            while (opModeIsActive() && chonkRobot.isWheelsBusy()) {
+                chonkRobot.tellMotorOutput();
             }
 
-            robot.stopAllMotors();
-            robot.encoderRunningMode();
+            chonkRobot.stopAllMotors();
+            chonkRobot.encoderRunningMode();
             sleep(pause);
-            robot.encoderReset();
+            chonkRobot.encoderReset();
         }
     }
 
     public void moveRobotRight(int ticks, long pause) {
 
         if (opModeIsActive()) {
-            robot.setTargets("Left", ticks);
-            robot.positionRunningMode();
-            robot.powerSet(speed);
+            chonkRobot.setTargets("Left", ticks);
+            chonkRobot.positionRunningMode();
+            chonkRobot.powerSet(speed);
 
-            while (opModeIsActive() && robot.isWheelsBusy()) {
-                robot.tellMotorOutput();
+            while (opModeIsActive() && chonkRobot.isWheelsBusy()) {
+                chonkRobot.tellMotorOutput();
             }
 
-            robot.stopAllMotors();
-            robot.encoderRunningMode();
+            chonkRobot.stopAllMotors();
+            chonkRobot.encoderRunningMode();
             sleep(pause);
-            robot.encoderReset();
+            chonkRobot.encoderReset();
         }
     }
 
     public void turnRobotRight(int ticks, long pause) {
 
         if (opModeIsActive()) {
-            robot.setTargets("Turn Right", ticks);
-            robot.positionRunningMode();
-            robot.powerSet(speed);
+            chonkRobot.setTargets("Turn Right", ticks);
+            chonkRobot.positionRunningMode();
+            chonkRobot.powerSet(speed);
 
-            while (opModeIsActive() && robot.isWheelsBusy()) {
-                robot.tellMotorOutput();
+            while (opModeIsActive() && chonkRobot.isWheelsBusy()) {
+                chonkRobot.tellMotorOutput();
             }
 
-            robot.stopAllMotors();
-            robot.encoderRunningMode();
+            chonkRobot.stopAllMotors();
+            chonkRobot.encoderRunningMode();
             sleep(pause);
-            robot.encoderReset();
+            chonkRobot.encoderReset();
         }
     }
 
     public void turnRobotLeft(int ticks, long pause) {
 
         if (opModeIsActive()) {
-            robot.setTargets("Turn Left", ticks);
-            robot.positionRunningMode();
-            robot.powerSet(speed);
+            chonkRobot.setTargets("Turn Left", ticks);
+            chonkRobot.positionRunningMode();
+            chonkRobot.powerSet(speed);
 
-            while (opModeIsActive() && robot.isWheelsBusy()) {
-                robot.tellMotorOutput();
+            while (opModeIsActive() && chonkRobot.isWheelsBusy()) {
+                chonkRobot.tellMotorOutput();
             }
 
-            robot.stopAllMotors();
-            robot.encoderRunningMode();
+            chonkRobot.stopAllMotors();
+            chonkRobot.encoderRunningMode();
             sleep(pause);
-            robot.encoderReset();
+            chonkRobot.encoderReset();
 
         }
     }
 
     public void prepareNextAction(long pause) {
         sleep(pause);
-        robot.encoderReset();
+        chonkRobot.encoderReset();
     }
 
     public void moveLift(String direction, double power) {
         if (direction == "Up") {
-            robot.slideL.setDirection(DcMotor.Direction.FORWARD);
-            robot.slideL.setPower(0.75);
+            chonkRobot.slideL.setDirection(DcMotor.Direction.FORWARD);
+            chonkRobot.slideL.setPower(0.75);
 
-            robot.slideR.setDirection(DcMotor.Direction.REVERSE);
-            robot.slideR.setPower(0.75);
+            chonkRobot.slideR.setDirection(DcMotor.Direction.REVERSE);
+            chonkRobot.slideR.setPower(0.75);
             sleep(sleepTime);
-            robot.slideL.setPower(0.1);
-            robot.slideR.setPower(0.1);
+            chonkRobot.slideL.setPower(0.1);
+            chonkRobot.slideR.setPower(0.1);
             sleep(500);
         } else if (direction == "Down") {
-            robot.slideL.setDirection(DcMotor.Direction.REVERSE);
-            robot.slideL.setPower(0.5);
-            robot.slideR.setDirection(DcMotor.Direction.FORWARD);
-            robot.slideR.setPower(0.5);
+            chonkRobot.slideL.setDirection(DcMotor.Direction.REVERSE);
+            chonkRobot.slideL.setPower(0.5);
+            chonkRobot.slideR.setDirection(DcMotor.Direction.FORWARD);
+            chonkRobot.slideR.setPower(0.5);
         }
     }
 
@@ -203,8 +203,8 @@ public class AutonomousPLUS extends LinearOpMode {
         double Kd = 0.2;
 
         double reference = slidePos;
-        float encoderPositionL = robot.slideL.getCurrentPosition();
-        float encoderPositionR = robot.slideR.getCurrentPosition();
+        float encoderPositionL = chonkRobot.slideL.getCurrentPosition();
+        float encoderPositionR = chonkRobot.slideR.getCurrentPosition();
         double integralSumL = 0;
         double integralSumR = 0;
         double lastErrorL = 0;
@@ -228,8 +228,8 @@ public class AutonomousPLUS extends LinearOpMode {
             double outL = (Kp * errorL) + (Ki * integralSumL) + (Kd * derivativeL);
             double outR = (Kp * errorR) + (Ki * integralSumR) + (Kd * derivativeR);
 
-            robot.slideL.setPower(outL);
-            robot.slideR.setPower(outR);
+            chonkRobot.slideL.setPower(outL);
+            chonkRobot.slideR.setPower(outR);
 
             lastErrorL = errorL;
             lastErrorR = errorR;

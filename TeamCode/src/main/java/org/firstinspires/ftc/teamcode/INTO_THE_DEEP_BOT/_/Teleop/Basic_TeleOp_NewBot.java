@@ -27,14 +27,13 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Teleop;
+package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Teleop;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Robot;
-
-import java.lang.Math;
+import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
 
 
 /**
@@ -55,7 +54,7 @@ import java.lang.Math;
  */
 
 @TeleOp(name="CHONK drive", group="CompBot")
-public class Basic_TeleOp_CHONK extends OpMode {
+public class Basic_TeleOp_NewBot extends OpMode {
 
     // This section tells the program all of the different pieces of hardware that are on our robot that we will use in the program.
     private ElapsedTime runtime = new ElapsedTime();
