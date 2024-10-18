@@ -53,7 +53,7 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
  * did a horrible job of doing that.
  */
 
-@TeleOp(name="CHONK drive", group="CompBot")
+@TeleOp(name=" drive", group="CompBot")
 public class Basic_TeleOp_NewBot extends OpMode {
 
     // This section tells the program all of the different pieces of hardware that are on our robot that we will use in the program.
@@ -140,31 +140,6 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
 
 
-
-        if(gamepad1.y)
-        {
-            robot.hookMotor.setPower(0.85);
-        }
-
-        if(gamepad1.back)
-        {
-            robot.hookMotor.setPower(-0.2);
-        }
-
-        if (!gamepad1.y && !gamepad1.back)
-        {
-            robot.hookMotor.setPower(0);
-        }
-
-        if (gamepad1.b)
-        {
-            robot.hookServo.setPosition(.5);
-        }
-        else if (gamepad1.a)
-        {
-            robot.hookServo.setPosition(0);
-        }
-
         //Beginning of fast turn
 
         if(gamepad1.right_trigger >= 0.5)
@@ -189,50 +164,13 @@ public class Basic_TeleOp_NewBot extends OpMode {
         //Driver 2 Starts here
         //Lift
         if (gamepad2.left_stick_y < -0.5){
-            robot.slideL.setPower(-armStickY * 0.75);
-            robot.slideR.setPower(-armStickY * 0.75);
+            robot.lifty.setPower(-armStickY * 0.75);
         } else if (gamepad2.left_stick_y > 0.5){
-            robot.slideL.setPower(-armStickY * 0.75);
-            robot.slideR.setPower(-armStickY * 0.75);
+            robot.lifty.setPower(-armStickY * 0.75);
         } else {
             robot.holdArm();
         }
-        //ServoArm
-        if (gamepad2.y){ // up
-            robot.rotateArmUp();
-        } else if (gamepad2.x) { //lower
-            robot.rotateArmDown();
-        }
 
-        //Drone Launcher
-        if(gamepad2.dpad_up)
-        {
-            gamepad2.rumble(800);
-            gamepad2.setLedColor(255, 0, 0, 10000);
-            gamepad1.rumble(800);
-            gamepad1.setLedColor(255, 0, 0, 10000);
-            robot.firePlane(400);
-        }
-        gamepad1.setLedColor(0, 0, 255, 100000000);
-        gamepad2.setLedColor(0, 0, 255, 100000000);
-
-        //Open and close claw
-        if (this.gamepad2.b || this.gamepad2.left_trigger > 0.5) { // open
-            robot.openClaw();
-        } else if (this.gamepad2.a || this.gamepad2.right_trigger > 0.5) {//close
-            robot.closeClaw();
-        }
-
-        //windshield wiper motion
-        double idealPosition;
-        double rightClosedPosition = .6;
-        double leftClosedPosition = .4;
-        if (robot.primaryClawClosed == true)
-        {
-            idealPosition = gamepad2.right_stick_x * 0.135;
-            robot.openAndCloseRightClaw(rightClosedPosition -= idealPosition);
-            robot.openAndCloseLeftClaw(leftClosedPosition -= idealPosition);
-        }
     }
 
     /*
