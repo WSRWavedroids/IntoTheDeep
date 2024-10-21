@@ -179,20 +179,16 @@ public class AutonomousPLUS extends LinearOpMode {
 
     public void moveLift(String direction, double power) {
         if (direction == "Up") {
-            robot.slideL.setDirection(DcMotor.Direction.FORWARD);
-            robot.slideL.setPower(0.75);
+            robot.lifty.setDirection(DcMotor.Direction.FORWARD);
+            robot.lifty.setPower(0.75);
 
-            robot.slideR.setDirection(DcMotor.Direction.REVERSE);
-            robot.slideR.setPower(0.75);
             sleep(sleepTime);
-            robot.slideL.setPower(0.1);
-            robot.slideR.setPower(0.1);
+            robot.lifty.setPower(0.1);
+
             sleep(500);
         } else if (direction == "Down") {
-            robot.slideL.setDirection(DcMotor.Direction.REVERSE);
-            robot.slideL.setPower(0.5);
-            robot.slideR.setDirection(DcMotor.Direction.FORWARD);
-            robot.slideR.setPower(0.5);
+            robot.lifty.setDirection(DcMotor.Direction.REVERSE);
+            robot.lifty.setPower(0.5);
         }
     }
 
@@ -203,8 +199,8 @@ public class AutonomousPLUS extends LinearOpMode {
         double Kd = 0.2;
 
         double reference = slidePos;
-        float encoderPositionL = robot.slideL.getCurrentPosition();
-        float encoderPositionR = robot.slideR.getCurrentPosition();
+        float encoderPositionL = robot.lifty.getCurrentPosition();
+        //float encoderPositionR = robot.waterslide.getCurrentPosition();
         double integralSumL = 0;
         double integralSumR = 0;
         double lastErrorL = 0;
@@ -216,23 +212,22 @@ public class AutonomousPLUS extends LinearOpMode {
 
             // calculate the error
             double errorL = reference - encoderPositionL;
-            double errorR = reference - encoderPositionR;
+            //double errorR = reference - encoderPositionR;
 
             // rate of change of the error
             double derivativeL = (errorL - lastErrorL) / timer.seconds();
-            double derivativeR = (errorR - lastErrorR) / timer.seconds();
+            //double derivativeR = (errorR - lastErrorR) / timer.seconds();
 
             // sum of all error over time
             integralSumL = integralSumL + (errorL * timer.seconds());
 
             double outL = (Kp * errorL) + (Ki * integralSumL) + (Kd * derivativeL);
-            double outR = (Kp * errorR) + (Ki * integralSumR) + (Kd * derivativeR);
+            //double outR = (Kp * errorR) + (Ki * integralSumR) + (Kd * derivativeR);
 
-            robot.slideL.setPower(outL);
-            robot.slideR.setPower(outR);
+            robot.lifty.setPower(outL);
 
             lastErrorL = errorL;
-            lastErrorR = errorR;
+            //lastErrorR = errorR;
 
             // reset the timer for next time
             timer.reset();

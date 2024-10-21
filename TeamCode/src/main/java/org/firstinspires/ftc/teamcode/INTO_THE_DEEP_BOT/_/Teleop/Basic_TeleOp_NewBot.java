@@ -53,7 +53,7 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
  * did a horrible job of doing that.
  */
 
-@TeleOp(name=" drive", group="CompBot")
+@TeleOp(name=" STEEVE", group="CompBot")
 public class Basic_TeleOp_NewBot extends OpMode {
 
     // This section tells the program all of the different pieces of hardware that are on our robot that we will use in the program.
@@ -171,6 +171,14 @@ public class Basic_TeleOp_NewBot extends OpMode {
             robot.holdArm();
         }
 
+        if(gamepad2.dpad_down)
+        {
+            robot.intake_outake(-1);
+        }
+        else if(gamepad2.dpad_up)
+        {
+            robot.intake_outake(1);
+        }
     }
 
     /*

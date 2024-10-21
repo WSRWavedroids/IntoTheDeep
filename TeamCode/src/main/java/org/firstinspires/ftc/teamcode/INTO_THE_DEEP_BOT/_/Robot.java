@@ -172,15 +172,15 @@ public class Robot {
         {
             leftIntake.setDirection(CRServo.Direction.FORWARD);
             rightIntake.setDirection(CRServo.Direction.REVERSE);//direction is forward... set speed to that val
-            leftIntake.setPower(direction);
-            rightIntake.setPower(direction);
+            leftIntake.setPower(Math.abs(direction));
+            rightIntake.setPower(Math.abs(direction));
         }
         else
         {
             leftIntake.setDirection(CRServo.Direction.REVERSE);
             rightIntake.setDirection(CRServo.Direction.FORWARD);//direction is forward... set speed to that val
-            leftIntake.setPower(direction);
-            rightIntake.setPower(direction);
+            leftIntake.setPower(Math.abs(direction));
+            rightIntake.setPower(Math.abs(direction));
         }
 
     }
