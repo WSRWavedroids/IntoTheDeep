@@ -2,11 +2,13 @@ package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._;
 
 import android.annotation.SuppressLint;
 
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -26,10 +28,10 @@ public class Robot {
 
 
 
-    public CRServo leftIntake;
-    public CRServo rightIntake;
+    //public CRServo leftIntake;
+    //public CRServo rightIntake;
 
-    public Servo intakeFlipper;
+    //public Servo intakeFlipper;
 
 
 
@@ -47,6 +49,7 @@ public class Robot {
     public static double parkingZone;
     public String startingPosition;
     public String controlMode = "Robot Centric";
+    public String intakeFlipperPos ="UP";
 
     //Initialize motors and servos
     public Robot(HardwareMap hardwareMap, Telemetry telemetry, OpMode opmode){
@@ -62,6 +65,7 @@ public class Robot {
         backRightDrive = hardwareMap.get(DcMotor.class, "backRightDrive");
         lifty = hardwareMap.get(DcMotor.class, "lifty");
         waterslide = hardwareMap.get(DcMotor.class, "waterslide");
+
 
 
         //add arms to map
@@ -84,6 +88,7 @@ public class Robot {
         frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        waterslide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //This is new..
         telemetry.addData("Status", "Initialized");
@@ -166,7 +171,7 @@ public class Robot {
 
     }
 
-    public void intake_outake (double direction){
+    /*public void intake_outake (double direction){
         //servos spin in thingy
         if(direction > 0)
         {
@@ -185,22 +190,18 @@ public class Robot {
 
     }
 
-    public void intakePosition (double go)
+    public void intakePosition (String intakeFlipperPos)
     {
-        if(go == 0)
+        if(intakeFlipperPos == "UP")
         {
-            //slide intake go to da in position
+            intakeFlipper.setPosition(.8);//guess position
         }
-        else if(go == 1)
+        else if(intakeFlipperPos == "Down")
         {
-            //OUT
-        }
-        else
-        {
-            //set position to go if those don't work
+            intakeFlipper.setPosition(.2);
         }
 
-    }
+    }*/
 
     public void encoderRunningMode(){
         frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -226,7 +227,7 @@ public class Robot {
         telemetry.addData("Motors", String.format("BR Power(%.2f) BR Location (%d) BR Target (%d)", backRightDrive.getPower(), backRightDrive.getCurrentPosition(), backRightDrive.getTargetPosition()));
         telemetry.addData("Motors", String.format("SlideL Power (%.2f) Arm Location (%d) Arm Target (%d)", lifty.getPower(), lifty.getCurrentPosition(), lifty.getTargetPosition()));
         telemetry.addData("Motors", String.format("Hook Motor Power (%.2f) Arm Location (%d) Arm Target (%d)", waterslide.getPower(), waterslide.getCurrentPosition(), waterslide.getTargetPosition()));
-        telemetry.addData("ArmL", intakeFlipper.getPosition());
+        //telemetry.addData("ArmL", intakeFlipper.getPosition());
         telemetry.update();
     }
 

@@ -29,10 +29,13 @@
 
 package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Teleop;
 
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
 
 
@@ -61,7 +64,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
     private double speed = 0.75;
     //private double storedSpeed;
     public Robot robot = null;
-
+    public IMU imu;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -73,6 +76,18 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
+
+        if (robot.controlMode=="Field Centric")
+        {
+              imu = hardwareMap.get(IMU.class, "imu");
+            IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                    RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                    RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
+            // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
+            imu.initialize(parameters);
+        }
+        //if using field centric youl need this lolzeez
+
     }
 
     /*
@@ -88,6 +103,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
         telemetry.addData("HYPE", "Let's do this!!!");
         gamepad1.setLedColor(0, 0, 255, 100000000);
         gamepad2.setLedColor(0, 0, 255, 100000000);
+        //robot.intakePosition("UP");
     }
 
     /*
@@ -163,12 +179,28 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
         //Driver 2 Starts here
         //Lift
-        if (gamepad2.left_stick_y < -0.5){
+        /*if (gamepad2.left_stick_y < -0.5){
             robot.lifty.setPower(-armStickY * 0.75);
         } else if (gamepad2.left_stick_y > 0.5){
             robot.lifty.setPower(-armStickY * 0.75);
         } else {
             robot.holdArm();
+        }
+
+        double slideSum = gamepad2.right_trigger - gamepad2.left_trigger;
+        if (Math.abs(slideSum) > 0)
+        {
+            robot.waterslide.setPower(slideSum);
+        }*/
+
+
+        /*if(gamepad2.triangle)
+        {
+            robot.intakePosition("UP");
+        }
+        else if (gamepad2.square)
+        {
+            robot.intakePosition("DOWN");
         }
 
         if(gamepad2.dpad_down)
@@ -178,7 +210,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
         else if(gamepad2.dpad_up)
         {
             robot.intake_outake(1);
-        }
+        }*/
     }
 
     /*
@@ -230,12 +262,27 @@ public class Basic_TeleOp_NewBot extends OpMode {
             motorPowers[3] = (leftY + leftX - rightX);
 
         } else if (robot.controlMode == "Field Centric") {
-            /*
-            motorPowers[0] = (float) (Math.sin(leftStickAngle + 45 - robotAngle) * leftStickMagnitude + rightX);
-            motorPowers[1] = (float) (Math.sin(leftStickAngle - 45 - robotAngle) * leftStickMagnitude + rightX);
-            motorPowers[2] = (float) (Math.sin(leftStickAngle - 45 - robotAngle) * leftStickMagnitude + rightX);
-            motorPowers[3] = (float) (Math.sin(leftStickAngle + 45 - robotAngle) * leftStickMagnitude + rightX);
-            */
+            double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+
+            // Rotate the movement direction counter to the bot's rotation
+            double rotX = leftX * Math.cos(-botHeading) - leftY * Math.sin(-botHeading);
+            double rotY = leftX * Math.sin(-botHeading) + leftY * Math.cos(-botHeading);
+
+            rotX = rotX * 1.1;  // Counteract imperfect strafing
+
+            // Denominator is the largest motor power (absolute value) or 1
+            // This ensures all the powers maintain the same ratio,
+            // but only if at least one is out of the range [-1, 1]
+            double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rightX), 1);
+            double frontLeftPower = (rotY + rotX + rightX) / denominator;
+            double backLeftPower = (rotY - rotX + rightX) / denominator;
+            double frontRightPower = (rotY - rotX - rightX) / denominator;
+            double backRightPower = (rotY + rotX - rightX) / denominator;
+
+            robot.frontLeftDrive.setPower(frontLeftPower);
+            robot.backLeftDrive.setPower(backLeftPower);
+            robot.frontRightDrive.setPower(frontRightPower);
+            robot.backRightDrive.setPower(backRightPower);
         }
 
         float max = getLargestAbsVal(motorPowers);

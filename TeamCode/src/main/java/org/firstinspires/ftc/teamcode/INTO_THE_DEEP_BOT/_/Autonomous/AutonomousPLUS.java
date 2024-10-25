@@ -177,6 +177,12 @@ public class AutonomousPLUS extends LinearOpMode {
         robot.encoderReset();
     }
 
+    public void dropdasample()
+    {
+
+        robot.intake_outake(-1);
+    }
+
     public void moveLift(String direction, double power) {
         if (direction == "Up") {
             robot.lifty.setDirection(DcMotor.Direction.FORWARD);
