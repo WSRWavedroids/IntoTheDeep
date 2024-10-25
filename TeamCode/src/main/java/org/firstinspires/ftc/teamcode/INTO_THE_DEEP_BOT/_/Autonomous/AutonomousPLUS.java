@@ -180,7 +180,7 @@ public class AutonomousPLUS extends LinearOpMode {
     public void dropdasample()
     {
 
-        robot.intake_outake(-1);
+        //robot.intake_outake(-1);
     }
 
     public void moveLift(String direction, double power) {
