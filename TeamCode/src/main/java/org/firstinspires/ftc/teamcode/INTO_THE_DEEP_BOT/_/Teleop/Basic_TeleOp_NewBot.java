@@ -82,7 +82,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
               imu = hardwareMap.get(IMU.class, "imu");
             IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                     RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                    RevHubOrientationOnRobot.UsbFacingDirection.LEFT));
+                    RevHubOrientationOnRobot.UsbFacingDirection.LEFT)); //Forward = left fsr
             // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
             imu.initialize(parameters);
         }
@@ -118,7 +118,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
         robot.tellMotorOutput();
 
         float armStickY = this.gamepad2.left_stick_y;
-        float turntableStickX = this.gamepad2.right_stick_x;
+
 
         // This section checks what buttons on the Dpad are being pressed and changes the speed accordingly.
         //So Begins the input chain. At least try a bit to organise by driver
@@ -134,11 +134,11 @@ public class Basic_TeleOp_NewBot extends OpMode {
             }
         }
 
-        if (gamepad1.dpad_up) {
+        if (gamepad1.dpad_up || gamepad1.right_trigger >= 0.5) {
             speed = 1;
         } else if (gamepad1.dpad_down) {
             speed = 0.25;
-        } else if (gamepad1.dpad_left) {
+        } else if (gamepad1.dpad_left || gamepad1.left_trigger >0.5) {
             speed = 0.5;
         } else if (gamepad1.dpad_right) {
             speed = 0.75;
@@ -154,25 +154,6 @@ public class Basic_TeleOp_NewBot extends OpMode {
             telemetry.addData("Speed", "Normal Boi");
         }
 
-
-
-        //Beginning of fast turn
-
-        if(gamepad1.right_trigger >= 0.5)
-        {
-            //storedSpeed = speed;
-            speed = 1;
-            //Do something
-            //speed = storedSpeed;
-
-        }
-        else if (gamepad1.left_trigger >0.5)
-        {
-            //storedSpeed = speed;
-            speed = 0.50;
-            //Do something
-            //speed = storedSpeed;
-        }
         //
 
 
@@ -239,10 +220,9 @@ public class Basic_TeleOp_NewBot extends OpMode {
     private void singleJoystickDrive () {
         // We don't really know how this function works, but it makes the wheels drive, so we don't question it.
         // Don't mess with this function unless you REALLY know what you're doing.
-
-        float rightX = -this.gamepad1.right_stick_x;
-        float leftY = this.gamepad1.left_stick_y;
-        float leftX = -this.gamepad1.left_stick_x;
+        float leftY = -this.gamepad1.left_stick_y;
+        float rightX = this.gamepad1.right_stick_x;
+        float leftX = this.gamepad1.left_stick_x;
 
         double leftStickAngle = Math.atan2(leftY, leftX);
         double leftStickMagnitude = Math.sqrt(leftX * 2.0 + leftY * 2.0);
@@ -256,10 +236,10 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
         if (robot.controlMode == "Robot Centric") {
 
-            motorPowers[0] = (leftY + leftX + rightX);
-            motorPowers[1] = (leftY - leftX - rightX);
-            motorPowers[2] = (leftY - leftX + rightX);
-            motorPowers[3] = (leftY + leftX - rightX);
+            motorPowers[0] = (leftY + leftX - rightX);//might need inverted back
+            motorPowers[1] = (leftY - leftX + rightX);
+            motorPowers[2] = (leftY - leftX - rightX);
+            motorPowers[3] = (leftY + leftX + rightX);
 
         } else if (robot.controlMode == "Field Centric") {
             double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
@@ -274,15 +254,17 @@ public class Basic_TeleOp_NewBot extends OpMode {
             // This ensures all the powers maintain the same ratio,
             // but only if at least one is out of the range [-1, 1]
             double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rightX), 1);
-            double frontLeftPower = (rotY + rotX + rightX) / denominator;
+            double frontLeftPower = (rotY + rotX - rightX) / denominator; //all of the right xs got inverted
             double backLeftPower = (rotY - rotX + rightX) / denominator;
             double frontRightPower = (rotY - rotX - rightX) / denominator;
-            double backRightPower = (rotY + rotX - rightX) / denominator;
+            double backRightPower = (rotY + rotX + rightX) / denominator;
 
-            robot.frontLeftDrive.setPower(frontLeftPower);
-            robot.backLeftDrive.setPower(backLeftPower);
-            robot.frontRightDrive.setPower(frontRightPower);
-            robot.backRightDrive.setPower(backRightPower);
+
+
+            motorPowers[0] = (float)frontLeftPower;
+            motorPowers[1] = (float) backLeftPower;
+            motorPowers[2] = (float)frontRightPower;
+            motorPowers[3] = (float) backRightPower;
         }
 
         float max = getLargestAbsVal(motorPowers);
