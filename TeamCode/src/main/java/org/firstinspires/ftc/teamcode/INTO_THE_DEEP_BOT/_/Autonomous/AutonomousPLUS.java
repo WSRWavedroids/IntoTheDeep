@@ -183,7 +183,7 @@ public class AutonomousPLUS extends LinearOpMode {
         //robot.intake_outake(-1);
     }
 
-    public void moveLift(String direction, double power) {
+    /*public void moveLift(String direction, double power) {
         if (direction == "Up") {
             robot.lifty.setDirection(DcMotor.Direction.FORWARD);
             robot.lifty.setPower(0.75);
@@ -196,9 +196,9 @@ public class AutonomousPLUS extends LinearOpMode {
             robot.lifty.setDirection(DcMotor.Direction.REVERSE);
             robot.lifty.setPower(0.5);
         }
-    }
+    }*/
 
-    public void armPID(){
+    /*public void armPID(){
 
         double Kp = 5;
         double Ki = 0;
@@ -239,5 +239,5 @@ public class AutonomousPLUS extends LinearOpMode {
             timer.reset();
 
         }
-    }
+    }*/
 }

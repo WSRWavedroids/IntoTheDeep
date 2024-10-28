@@ -23,13 +23,13 @@ public class Robot {
     public DcMotor frontRightDrive;
     public DcMotor backLeftDrive;
     public DcMotor backRightDrive;
-    public DcMotor lifty;
-    public DcMotor waterslide;
+    //public DcMotor lifty;
+    //public DcMotor waterslide;
 
 
 
-    //public CRServo leftIntake;
-    //public CRServo rightIntake;
+    public CRServo leftIntake;
+    public CRServo rightIntake;
 
     //public Servo intakeFlipper;
 
@@ -63,9 +63,11 @@ public class Robot {
         frontLeftDrive = hardwareMap.get(DcMotor.class, "frontLeftDrive");
         backLeftDrive = hardwareMap.get(DcMotor.class, "backLeftDrive");
         backRightDrive = hardwareMap.get(DcMotor.class, "backRightDrive");
-        lifty = hardwareMap.get(DcMotor.class, "lifty");
-        waterslide = hardwareMap.get(DcMotor.class, "waterslide");
-
+        //lifty = hardwareMap.get(DcMotor.class, "lifty");
+        //waterslide = hardwareMap.get(DcMotor.class, "waterslide");
+        leftIntake = hardwareMap.get(CRServo.class, "leftIntake");
+        rightIntake = hardwareMap.get(CRServo.class, "rightIntake");
+        //intakeFlipper = hardwareMap.get(Servo.class, "flipperServo");
 
 
         //add arms to map
@@ -80,15 +82,15 @@ public class Robot {
         frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
         backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         backRightDrive.setDirection(DcMotor.Direction.FORWARD); //Was inverted as forward
-        lifty.setDirection(DcMotor.Direction.REVERSE);//inverted
-        waterslide.setDirection(DcMotor.Direction.FORWARD);
+        //lifty.setDirection(DcMotor.Direction.REVERSE);//inverted
+        //waterslide.setDirection(DcMotor.Direction.FORWARD);
 
         // This tells the motors to chill when we're not powering them.
         frontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        waterslide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //waterslide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //This is new..
         telemetry.addData("Status", "Initialized");
@@ -145,13 +147,13 @@ public class Robot {
             backLeftDrive.setTargetPosition(-ticks - backLeftDrive.getCurrentPosition());
             backRightDrive.setTargetPosition(ticks - backRightDrive.getCurrentPosition());
 
-        } else if (direction == "Lift"){
+        } /*else if (direction == "Lift"){
             lifty.setTargetPosition(ticks + lifty.getCurrentPosition());
         }
         else if (direction == "Slide")//new remove if no work
         {
             waterslide.setTargetPosition(ticks + waterslide.getCurrentPosition());
-        }
+        }*/
 
 
     }
@@ -171,7 +173,7 @@ public class Robot {
 
     }
 
-    /*public void intake_outake (double direction){
+    public void intake_outake (double direction){
         //servos spin in thingy
         if(direction > 0)
         {
@@ -190,7 +192,7 @@ public class Robot {
 
     }
 
-    public void intakePosition (String intakeFlipperPos)
+   /* public void intakePosition (String intakeFlipperPos)
     {
         if(intakeFlipperPos == "UP")
         {
@@ -225,9 +227,9 @@ public class Robot {
         telemetry.addData("Motors", String.format("FR Power(%.2f) FR Location (%d) FR Target (%d)", frontRightDrive.getPower(), frontRightDrive.getCurrentPosition(), frontRightDrive.getTargetPosition()));
         telemetry.addData("Motors", String.format("BL Power(%.2f) BL Location (%d) BL Target (%d)", backLeftDrive.getPower(), backLeftDrive.getCurrentPosition(), backLeftDrive.getTargetPosition()));
         telemetry.addData("Motors", String.format("BR Power(%.2f) BR Location (%d) BR Target (%d)", backRightDrive.getPower(), backRightDrive.getCurrentPosition(), backRightDrive.getTargetPosition()));
-        telemetry.addData("Motors", String.format("SlideL Power (%.2f) Arm Location (%d) Arm Target (%d)", lifty.getPower(), lifty.getCurrentPosition(), lifty.getTargetPosition()));
-        telemetry.addData("Motors", String.format("Hook Motor Power (%.2f) Arm Location (%d) Arm Target (%d)", waterslide.getPower(), waterslide.getCurrentPosition(), waterslide.getTargetPosition()));
-        //telemetry.addData("ArmL", intakeFlipper.getPosition());
+        //telemetry.addData("Motors", String.format("SlideL Power (%.2f) Arm Location (%d) Arm Target (%d)", lifty.getPower(), lifty.getCurrentPosition(), lifty.getTargetPosition()));
+        //telemetry.addData("Motors", String.format("Hook Motor Power (%.2f) Arm Location (%d) Arm Target (%d)", waterslide.getPower(), waterslide.getCurrentPosition(), waterslide.getTargetPosition()));
+        //telemetry.addData("Flipper", intakeFlipper.getPosition());
         telemetry.update();
     }
 
@@ -237,7 +239,7 @@ public class Robot {
         //todo Reference that 1 inch ~= 50 ticks
     }
     // one side may be backwards due to the direction that the motor was faced
-    public void moveArm(String direction){
+    /*public void moveArm(String direction){
         if (direction == "Up"){
             lifty.setPower(1);
             lifty.setDirection(DcMotor.Direction.FORWARD);//inverted
@@ -245,14 +247,14 @@ public class Robot {
             lifty.setPower(0.25);
             lifty.setDirection(DcMotor.Direction.REVERSE);//Inverted
         }
-    }
+    }*/
 
     ElapsedTime timer = new ElapsedTime();
 
-    public void holdArm(){
+    /*public void holdArm(){
         lifty.setDirection(DcMotor.Direction.FORWARD);//
         lifty.setPower(0.05);
-    }
+    }*/
 
 
     public boolean primaryClawClosed = false;

@@ -167,13 +167,13 @@ public class Basic_TeleOp_NewBot extends OpMode {
         } else {
             robot.holdArm();
         }
-
-        double slideSum = gamepad2.right_trigger - gamepad2.left_trigger;
+        */
+        /*double slideSum = gamepad2.right_trigger - gamepad2.left_trigger;
         if (Math.abs(slideSum) > 0)
         {
             robot.waterslide.setPower(slideSum);
-        }*/
-
+        }
+        */
 
         /*if(gamepad2.triangle)
         {
@@ -182,7 +182,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
         else if (gamepad2.square)
         {
             robot.intakePosition("DOWN");
-        }
+        }*/
 
         if(gamepad2.dpad_down)
         {
@@ -191,7 +191,15 @@ public class Basic_TeleOp_NewBot extends OpMode {
         else if(gamepad2.dpad_up)
         {
             robot.intake_outake(1);
-        }*/
+        }
+        else if(gamepad2.dpad_left)
+        {
+            robot.intake_outake(.02);
+        }
+        else if(gamepad2.dpad_right)
+        {
+            robot.intake_outake(0);
+        }
     }
 
     /*
