@@ -31,7 +31,11 @@ public class Robot {
     public CRServo leftIntake;
     public CRServo rightIntake;
 
-    //public Servo intakeFlipper;
+    public Servo intakeFlipper;
+
+    public Servo flippyOutakeServo;
+
+    public Servo grabbyOutakeServo;
 
 
 
@@ -67,7 +71,9 @@ public class Robot {
         //waterslide = hardwareMap.get(DcMotor.class, "waterslide");
         leftIntake = hardwareMap.get(CRServo.class, "leftIntake");
         rightIntake = hardwareMap.get(CRServo.class, "rightIntake");
-        //intakeFlipper = hardwareMap.get(Servo.class, "flipperServo");
+        intakeFlipper = hardwareMap.get(Servo.class, "flipperServo");
+        flippyOutakeServo = hardwareMap.get(Servo.class, "flippyOutakeServo");
+        grabbyOutakeServo = hardwareMap.get(Servo.class, "grabbyOutakeServo");
 
 
         //add arms to map
@@ -148,7 +154,23 @@ public class Robot {
             backRightDrive.setTargetPosition(ticks - backRightDrive.getCurrentPosition());
 
         } /*else if (direction == "Lift"){
-            lifty.setTargetPosition(ticks + lifty.getCurrentPosition());
+            //testing starts here
+            if(ticks + lifty.getCurrentPosition() > maxExpansion)
+            {
+                lifty.setTargetPosition(maxExpansion);
+            }
+            else if (ticks + lifty.getCurrentPosition() > minExpansion)
+            {
+                lifty.setTargetPosition(minExpansion);
+            }
+            else
+            {
+                lifty.setTargetPosition(ticks + lifty.getCurrentPosition());
+            }
+           //testing ends here
+            lifty.setTargetPosition(ticks + lifty.getCurrentPosition());/
+
+
         }
         else if (direction == "Slide")//new remove if no work
         {
@@ -173,7 +195,7 @@ public class Robot {
 
     }
 
-    public void intake_outake (double direction){
+    public void intake_spin (double direction){
         //servos spin in thingy
         if(direction > 0)
         {
@@ -191,19 +213,45 @@ public class Robot {
         }
 
     }
-
-   /* public void intakePosition (String intakeFlipperPos)
+    public boolean canWiggle = true;
+    public void intakePosition (String intakeFlipperPos)
     {
         if(intakeFlipperPos == "UP")
         {
-            intakeFlipper.setPosition(.8);//guess position
+            intakeFlipper.setPosition(1);//guess position
+            canWiggle = true;
         }
         else if(intakeFlipperPos == "Down")
         {
-            intakeFlipper.setPosition(.2);
+            intakeFlipper.setPosition(0);
+            canWiggle = true;
         }
 
-    }*/
+    }
+
+    public void outakeclawOpenClose(String state)
+    {
+        if(state == "OPEN")
+        {
+           grabbyOutakeServo.setPosition(.2);
+        }
+        else if (state == "CLOSED")
+        {
+            grabbyOutakeServo.setPosition(0);
+        }
+    }
+
+    public void tempOutakePos(String pos)
+    {
+        if (pos == "DOWN")
+        {
+            flippyOutakeServo.setPosition(.5);
+        }
+        if (pos == "UP")
+        {
+            flippyOutakeServo.setPosition(1);
+        }
+    }
 
     public void encoderRunningMode(){
         frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

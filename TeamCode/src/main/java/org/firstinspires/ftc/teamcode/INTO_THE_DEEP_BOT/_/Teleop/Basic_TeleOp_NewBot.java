@@ -37,6 +37,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
+import org.opencv.core.Mat;
 
 
 /**
@@ -104,6 +105,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
         gamepad1.setLedColor(0, 0, 255, 100000000);
         gamepad2.setLedColor(0, 0, 255, 100000000);
         //robot.intakePosition("UP");
+        //robot.tempOutakePos("UP");
     }
 
     /*
@@ -167,6 +169,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
         } else {
             robot.holdArm();
         }
+
         */
         /*double slideSum = gamepad2.right_trigger - gamepad2.left_trigger;
         if (Math.abs(slideSum) > 0)
@@ -175,30 +178,66 @@ public class Basic_TeleOp_NewBot extends OpMode {
         }
         */
 
-        /*if(gamepad2.triangle)
+
+        //intake
+        if(gamepad2.b)
+        {
+            robot.intake_spin(-1);
+        }
+        else if(gamepad2.a)
+        {
+            robot.intake_spin(1);
+        }
+        else
+        {
+            robot.intake_spin(0);
+        }
+
+
+        if(gamepad2.x)
+        {
+            robot.intakePosition("DOWN");
+        }
+        else if (gamepad2.y)
         {
             robot.intakePosition("UP");
         }
-        else if (gamepad2.square)
-        {
-            robot.intakePosition("DOWN");
-        }*/
 
-        if(gamepad2.dpad_down)
+        double lowMax = 0;
+        double highMax = 1;
+        if (robot.canWiggle == true && Math.abs(gamepad2.right_stick_y) > 0)
         {
-            robot.intake_outake(-1);
+            double movedistance;
+            if(gamepad2.right_stick_y > 0)
+            {
+                movedistance = -gamepad2.right_stick_y;
+            } else
+            {
+                movedistance = 0;
+            }
+            if(movedistance >= highMax)
+            {
+                robot.intakeFlipper.setPosition(highMax);
+            }
+            else if (movedistance <= lowMax)
+            {
+                robot.intakeFlipper.setPosition(lowMax);
+            }
+            else
+            {
+                robot.intakeFlipper.setPosition(movedistance);
+            }
         }
-        else if(gamepad2.dpad_up)
+
+        //outake
+
+        if(gamepad2.dpad_left)
         {
-            robot.intake_outake(1);
+            robot.outakeclawOpenClose("CLOSED");
         }
-        else if(gamepad2.dpad_left)
+        else if (gamepad2.dpad_down)
         {
-            robot.intake_outake(.02);
-        }
-        else if(gamepad2.dpad_right)
-        {
-            robot.intake_outake(0);
+            robot.outakeclawOpenClose("OPEN");
         }
     }
 
