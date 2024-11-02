@@ -104,8 +104,8 @@ public class Basic_TeleOp_NewBot extends OpMode {
         telemetry.addData("HYPE", "Let's do this!!!");
         gamepad1.setLedColor(0, 0, 255, 100000000);
         gamepad2.setLedColor(0, 0, 255, 100000000);
-        //robot.intakePosition("UP");
-        //robot.tempOutakePos("UP");
+        robot.intakePosition("UP");
+        robot.tempOutakePos("UP");
     }
 
     /*
@@ -162,7 +162,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
         //Driver 2 Starts here
         //Lift
-        /*if (gamepad2.left_stick_y < -0.5){
+        if (gamepad2.left_stick_y < -0.5){
             robot.lifty.setPower(-armStickY * 0.75);
         } else if (gamepad2.left_stick_y > 0.5){
             robot.lifty.setPower(-armStickY * 0.75);
@@ -170,13 +170,13 @@ public class Basic_TeleOp_NewBot extends OpMode {
             robot.holdArm();
         }
 
-        */
-        /*double slideSum = gamepad2.right_trigger - gamepad2.left_trigger;
+
+        double slideSum = gamepad2.right_trigger - gamepad2.left_trigger;
         if (Math.abs(slideSum) > 0)
         {
             robot.waterslide.setPower(slideSum);
         }
-        */
+
 
 
         //intake
@@ -203,30 +203,17 @@ public class Basic_TeleOp_NewBot extends OpMode {
             robot.intakePosition("UP");
         }
 
-        double lowMax = 0;
-        double highMax = 1;
         if (robot.canWiggle == true && Math.abs(gamepad2.right_stick_y) > 0)
         {
-            double movedistance;
-            if(gamepad2.right_stick_y > 0)
+            if(gamepad2.right_stick_y >= 0.05)
             {
-                movedistance = -gamepad2.right_stick_y;
-            } else
-            {
-                movedistance = 0;
+                robot.intakeFlipper.setPosition(robot.intakeFlipper.getPosition() + 0.01 * -gamepad2.right_stick_y);
             }
-            if(movedistance >= highMax)
+            else if (gamepad2.right_stick_y <= 0.05)
             {
-                robot.intakeFlipper.setPosition(highMax);
+                robot.intakeFlipper.setPosition(robot.intakeFlipper.getPosition() - 0.01 * gamepad2.right_stick_y);
             }
-            else if (movedistance <= lowMax)
-            {
-                robot.intakeFlipper.setPosition(lowMax);
-            }
-            else
-            {
-                robot.intakeFlipper.setPosition(movedistance);
-            }
+
         }
 
         //outake
