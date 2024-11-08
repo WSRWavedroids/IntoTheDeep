@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Teleop;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.IMU;
 
@@ -160,22 +161,79 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
 
 
-        //Driver 2 Starts here
+        /*//Driver 2 Starts here
         //Lift
         if (gamepad2.left_stick_y < -0.5){
-            robot.lifty.setPower(-armStickY * 0.75);
+            robot.lifty.setPower(armStickY);
         } else if (gamepad2.left_stick_y > 0.5){
-            robot.lifty.setPower(-armStickY * 0.75);
+            robot.lifty.setPower(armStickY * 0.75);
         } else {
             robot.holdArm();
+        }*/
+
+        int liftyTopLimit = 2100;//temp value
+        int liftyBottomLimit = 0;//temp value
+        int liftyGoControlerVal = robot.lifty.getCurrentPosition() - ((int)armStickY * 360);
+        robot.lifty.setPower(1);
+        /*if (liftyGoControlerVal > liftyBottomLimit && liftyGoControlerVal < liftyTopLimit)
+        {
+            robot.lifty.setTargetPosition(liftyGoControlerVal);
+            robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+        else if (liftyGoControlerVal < liftyBottomLimit)
+        {
+            robot.lifty.setTargetPosition(liftyBottomLimit);
+            robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+        else if(liftyGoControlerVal > liftyTopLimit)
+        {
+            robot.lifty.setTargetPosition(liftyTopLimit);
+            robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+        else
+        {
+            robot.lifty.setTargetPosition(robot.lifty.getCurrentPosition());
         }
 
+*/
+        robot.lifty.setTargetPosition(liftyGoControlerVal);
 
+
+        if(robot.lifty.getCurrentPosition() > liftyTopLimit || liftyGoControlerVal > liftyTopLimit)
+        {
+            robot.lifty.setTargetPosition(liftyTopLimit);
+        }
+        if(robot.lifty.getCurrentPosition() < liftyBottomLimit || liftyGoControlerVal < liftyBottomLimit)
+        {
+            robot.lifty.setTargetPosition(liftyBottomLimit);
+        }
+        robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        /*
         double slideSum = gamepad2.right_trigger - gamepad2.left_trigger;
-        if (Math.abs(slideSum) > 0)
+        if (Math.abs(slideSum) > .3)
         {
             robot.waterslide.setPower(slideSum);
         }
+        else robot.waterslide.setPower(0);
+        */
+
+
+        int slideInLimit = 4;
+        int slideOutLimit = 4655;
+        int slideSum =  robot.waterslide.getCurrentPosition() + (((int)gamepad2.right_trigger - (int)gamepad2.left_trigger) * 360);
+        robot.waterslide.setPower(1);
+        robot.waterslide.setTargetPosition(slideSum);
+
+        if(robot.waterslide.getCurrentPosition() > slideOutLimit || slideSum > slideOutLimit)
+        {
+            robot.waterslide.setTargetPosition(slideOutLimit);
+        }
+        if(robot.waterslide.getCurrentPosition() < slideInLimit || slideSum < slideInLimit)
+        {
+            robot.waterslide.setTargetPosition(slideInLimit);
+        }
+        robot.waterslide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
 
@@ -207,11 +265,11 @@ public class Basic_TeleOp_NewBot extends OpMode {
         {
             if(gamepad2.right_stick_y >= 0.05)
             {
-                robot.intakeFlipper.setPosition(robot.intakeFlipper.getPosition() + 0.01 * -gamepad2.right_stick_y);
+                robot.intakeFlipper.setPosition(robot.intakeFlipper.getPosition() + 0.05 * -gamepad2.right_stick_y);
             }
             else if (gamepad2.right_stick_y <= 0.05)
             {
-                robot.intakeFlipper.setPosition(robot.intakeFlipper.getPosition() - 0.01 * gamepad2.right_stick_y);
+                robot.intakeFlipper.setPosition(robot.intakeFlipper.getPosition() - 0.05 * gamepad2.right_stick_y);
             }
 
         }

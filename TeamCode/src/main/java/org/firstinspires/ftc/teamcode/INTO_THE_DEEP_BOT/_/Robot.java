@@ -154,10 +154,11 @@ public class Robot {
             backRightDrive.setTargetPosition(ticks - backRightDrive.getCurrentPosition());
 
         }
-        else if (direction == "Arm")//new remove if no work
+        else if (direction == "Slide")//new remove if no work
         {
             waterslide.setTargetPosition(ticks + waterslide.getCurrentPosition());
         }
+
 
 
     }
@@ -262,8 +263,8 @@ public class Robot {
         telemetry.addData("Motors", String.format("FR Power(%.2f) FR Location (%d) FR Target (%d)", frontRightDrive.getPower(), frontRightDrive.getCurrentPosition(), frontRightDrive.getTargetPosition()));
         telemetry.addData("Motors", String.format("BL Power(%.2f) BL Location (%d) BL Target (%d)", backLeftDrive.getPower(), backLeftDrive.getCurrentPosition(), backLeftDrive.getTargetPosition()));
         telemetry.addData("Motors", String.format("BR Power(%.2f) BR Location (%d) BR Target (%d)", backRightDrive.getPower(), backRightDrive.getCurrentPosition(), backRightDrive.getTargetPosition()));
-        telemetry.addData("Motors", String.format("SlideL Power (%.2f) Arm Location (%d) Arm Target (%d)", lifty.getPower(), lifty.getCurrentPosition(), lifty.getTargetPosition()));
-        telemetry.addData("Motors", String.format("Hook Motor Power (%.2f) Arm Location (%d) Arm Target (%d)", waterslide.getPower(), waterslide.getCurrentPosition(), waterslide.getTargetPosition()));
+        telemetry.addData("Motors", String.format("Lifty Power (%.2f) Lifty Location (%d) Lifty Target (%d)", lifty.getPower(), lifty.getCurrentPosition(), lifty.getTargetPosition()));
+        telemetry.addData("Motors", String.format("WaterSlide Motor Power (%.2f) WaterSlide Location (%d) WaterSlide Target (%d)", waterslide.getPower(), waterslide.getCurrentPosition(), waterslide.getTargetPosition()));
         telemetry.addData("Flipper", intakeFlipper.getPosition());
         telemetry.update();
     }
