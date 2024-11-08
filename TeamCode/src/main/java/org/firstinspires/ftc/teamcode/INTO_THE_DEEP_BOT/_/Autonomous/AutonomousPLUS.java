@@ -183,6 +183,11 @@ public class AutonomousPLUS extends LinearOpMode {
         //robot.intake_outake(-1);
     }
 
+    public int convertInchesToTicks(int inches){
+        int ticks = (int) ((537.6 * inches) / (3.77953 * 3.1415926535));
+        return ticks;
+    }
+
     /*public void moveLift(String direction, double power) {
         if (direction == "Up") {
             robot.lifty.setDirection(DcMotor.Direction.FORWARD);
