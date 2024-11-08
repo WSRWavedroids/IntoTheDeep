@@ -18,9 +18,11 @@ public class BlueBasicNetZone extends AutonomousPLUS {
         waitForStart();
         telemetry.addData(currentPosition,"Start position");
 
-        moveRobotLeft(convertInchesToTicks(22), 2);
+        moveRobotForward(convertInchesToTicks(2), 2);
+        telemetry.addData(currentPosition,"Booped forward");
+        moveRobotLeft(convertInchesToTicks(18), 2);
         telemetry.addData(currentPosition,"Moved to net zone");
-        moveRobotRight(convertInchesToTicks(114), 2);
+        moveRobotRight(convertInchesToTicks(96), 2);
         telemetry.addData(currentPosition,"Moved to parking spot");
 
 

@@ -18,7 +18,7 @@ public class RedBasicObservationZone extends AutonomousPLUS {
         waitForStart();
         telemetry.addData(currentPosition,"Start position");
 
-        moveRobotRight(convertInchesToTicks(42), 2);
+        moveRobotRight(convertInchesToTicks(40), 2);
         telemetry.addData(currentPosition,"Moved to parking spot");
 
 
