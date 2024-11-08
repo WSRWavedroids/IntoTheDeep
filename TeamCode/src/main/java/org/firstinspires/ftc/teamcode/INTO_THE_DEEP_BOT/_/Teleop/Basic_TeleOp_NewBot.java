@@ -172,7 +172,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
         }*/
 
         int liftyTopLimit = 2100;//temp value
-        int liftyBottomLimit = 0;//temp value
+        int liftyBottomLimit = -20;//temp value
         int liftyGoControlerVal = robot.lifty.getCurrentPosition() - ((int)armStickY * 360);
         robot.lifty.setPower(1);
         /*if (liftyGoControlerVal > liftyBottomLimit && liftyGoControlerVal < liftyTopLimit)
@@ -203,10 +203,11 @@ public class Basic_TeleOp_NewBot extends OpMode {
         {
             robot.lifty.setTargetPosition(liftyTopLimit);
         }
-        if(robot.lifty.getCurrentPosition() < liftyBottomLimit || liftyGoControlerVal < liftyBottomLimit)
+        else if(robot.lifty.getCurrentPosition() < liftyBottomLimit || liftyGoControlerVal < liftyBottomLimit)
         {
             robot.lifty.setTargetPosition(liftyBottomLimit);
         }
+
         robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         /*
@@ -223,26 +224,29 @@ public class Basic_TeleOp_NewBot extends OpMode {
         int slideOutLimit = 4655;
         int slideSum =  robot.waterslide.getCurrentPosition() + (((int)gamepad2.right_trigger - (int)gamepad2.left_trigger) * 360);
         robot.waterslide.setPower(1);
-        robot.waterslide.setTargetPosition(slideSum);
+        //robot.waterslide.setTargetPosition(slideSum);
 
         if(robot.waterslide.getCurrentPosition() > slideOutLimit || slideSum > slideOutLimit)
         {
             robot.waterslide.setTargetPosition(slideOutLimit);
         }
-        if(robot.waterslide.getCurrentPosition() < slideInLimit || slideSum < slideInLimit)
+        else if(robot.waterslide.getCurrentPosition() < slideInLimit || slideSum < slideInLimit)
         {
             robot.waterslide.setTargetPosition(slideInLimit);
+        }
+        else {
+            robot.waterslide.setTargetPosition(slideSum);
         }
         robot.waterslide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
 
         //intake
-        if(gamepad2.b)
+        if(gamepad2.dpad_down)
         {
             robot.intake_spin(-1);
         }
-        else if(gamepad2.a)
+        else if(gamepad2.dpad_left)
         {
             robot.intake_spin(1);
         }
@@ -276,11 +280,11 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
         //outake
 
-        if(gamepad2.dpad_left)
+        if(gamepad2.cross)
         {
             robot.outakeclawOpenClose("CLOSED");
         }
-        else if (gamepad2.dpad_down)
+        else if (gamepad2.circle)
         {
             robot.outakeclawOpenClose("OPEN");
         }

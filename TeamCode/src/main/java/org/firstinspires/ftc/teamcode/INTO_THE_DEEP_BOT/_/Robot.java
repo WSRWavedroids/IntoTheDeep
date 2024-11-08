@@ -52,7 +52,7 @@ public class Robot {
     public HardwareMap hardwareMap;
     public static double parkingZone;
     public String startingPosition;
-    public String controlMode = "Field Centric";// Robot Centric
+    public String controlMode = "Robot Centric";// Robot Centric
     public String intakeFlipperPos ="UP";
 
     //Initialize motors and servos
@@ -218,11 +218,11 @@ public class Robot {
     {
         if(state == "OPEN")
         {
-           grabbyOutakeServo.setPosition(.93);
+           grabbyOutakeServo.setPosition(.83);
         }
         else if (state == "CLOSED")
         {
-            grabbyOutakeServo.setPosition(1);
+            grabbyOutakeServo.setPosition(.95);
         }
     }
 
@@ -234,7 +234,7 @@ public class Robot {
         }
         if (pos == "UP")
         {
-            flippyOutakeServo.setPosition(1);
+            flippyOutakeServo.setPosition(.8);
         }
     }
 
