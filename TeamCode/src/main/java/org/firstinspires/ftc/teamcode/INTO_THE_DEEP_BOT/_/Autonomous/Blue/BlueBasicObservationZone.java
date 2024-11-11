@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.Blue;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPLUS;
 
@@ -16,10 +17,17 @@ public class BlueBasicObservationZone extends AutonomousPLUS {
 
 
         waitForStart();
-        telemetry.addData(currentPosition,"Start position");
+        //telemetry.addData(currentPosition,"Start position");
+        robot.waterslide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.lifty.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.lifty.setPower(0);
+        robot.waterslide.setPower(0);
+        robot.outakeclawOpenClose("CLOSED");
+        moveRobotForward(80, 2);
+        moveRobotRight(1200, 2);
+        //telemetry.addData(currentPosition,"Moved to parking spot");
 
-        moveRobotRight(convertInchesToTicks(40), 2);
-        telemetry.addData(currentPosition,"Moved to parking spot");
+
 
 
     }

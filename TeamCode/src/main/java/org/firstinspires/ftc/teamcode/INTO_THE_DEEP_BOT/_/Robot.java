@@ -155,10 +155,7 @@ public class Robot {
             backRightDrive.setTargetPosition(ticks - backRightDrive.getCurrentPosition());
 
         }
-        else if (direction == "Slide")//new remove if no work
-        {
-            waterslide.setTargetPosition(ticks + waterslide.getCurrentPosition());
-        }
+
 
 
 
@@ -244,8 +241,8 @@ public class Robot {
         frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        lifty.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        waterslide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //lifty.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //waterslide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void encoderReset(){

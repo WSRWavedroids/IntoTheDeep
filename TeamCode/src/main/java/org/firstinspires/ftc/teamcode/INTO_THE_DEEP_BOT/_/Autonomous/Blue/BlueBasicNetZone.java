@@ -22,7 +22,7 @@ public class BlueBasicNetZone extends AutonomousPLUS {
         telemetry.addData(currentPosition,"Booped forward");
         moveRobotLeft(convertInchesToTicks(18), 2);
         telemetry.addData(currentPosition,"Moved to net zone");
-        moveRobotRight(convertInchesToTicks(96), 2);
+        //moveRobotRight(convertInchesToTicks(96), 2);
         telemetry.addData(currentPosition,"Moved to parking spot");
 
 

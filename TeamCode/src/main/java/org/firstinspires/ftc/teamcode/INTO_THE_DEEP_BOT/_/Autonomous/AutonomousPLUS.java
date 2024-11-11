@@ -65,7 +65,7 @@ public class AutonomousPLUS extends LinearOpMode {
     // Remember Without ODO pods there will be some inconsistency due to mechnum slippage
     public void moveRobotForward(int ticks, long pause) {
         if (opModeIsActive()) {
-            robot.setTargets("Backward", ticks); // Inverted... Lol
+            robot.setTargets("Forward", ticks); // Inverted... Lol
             robot.positionRunningMode();
         }
         robot.powerSet(speed);
@@ -83,7 +83,7 @@ public class AutonomousPLUS extends LinearOpMode {
 
     public void moveRobotBackward(int ticks, long pause) {
         if (opModeIsActive()) {
-            robot.setTargets("Forward", ticks);
+            robot.setTargets("Backward", ticks);
             robot.positionRunningMode();
             robot.powerSet(speed);
 
@@ -102,7 +102,7 @@ public class AutonomousPLUS extends LinearOpMode {
     public void moveRobotLeft(int ticks, long pause) {
 
         if (opModeIsActive()) {
-            robot.setTargets("Right", ticks);
+            robot.setTargets("Left", ticks);
             robot.positionRunningMode();
             robot.powerSet(speed);
 
@@ -120,7 +120,7 @@ public class AutonomousPLUS extends LinearOpMode {
     public void moveRobotRight(int ticks, long pause) {
 
         if (opModeIsActive()) {
-            robot.setTargets("Left", ticks);
+            robot.setTargets("Right", ticks);
             robot.positionRunningMode();
             robot.powerSet(speed);
 
