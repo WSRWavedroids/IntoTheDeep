@@ -56,7 +56,12 @@ public class Robot {
     public String controlMode = "Robot Centric";// Robot Centric
     public String intakeFlipperPos ="UP";
 
+    public int FLCorrectionTarget;
+    public int FRCorrectionTarget;
+    public int BLCorrectionTarget;
+    public int BRCorrectionTarget;
     //Initialize motors and servos
+
     public Robot(HardwareMap hardwareMap, Telemetry telemetry, OpMode opmode){
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
@@ -102,6 +107,7 @@ public class Robot {
         //This is new..
         telemetry.addData("Status", "Initialized");
 
+
     }
 
 
@@ -116,43 +122,66 @@ public class Robot {
         backRightDrive.setPower(0);
     }
 
+
     public void setTargets(String direction, int ticks) {
+
 
         if (Objects.equals(direction, "Right")){
             frontLeftDrive.setTargetPosition(-ticks + frontLeftDrive.getCurrentPosition());
-            frontLeftDrive.getTargetPosition();
-            frontRightDrive.setTargetPosition(ticks + frontRightDrive.getCurrentPosition());
-            backLeftDrive.setTargetPosition(ticks + backLeftDrive.getCurrentPosition());
-            backRightDrive.setTargetPosition(-ticks + backRightDrive.getCurrentPosition());
+            FLCorrectionTarget = frontLeftDrive.getTargetPosition();
 
+            frontRightDrive.setTargetPosition(ticks + frontRightDrive.getCurrentPosition());
+            FRCorrectionTarget = frontRightDrive.getTargetPosition();
+
+            backLeftDrive.setTargetPosition(ticks + backLeftDrive.getCurrentPosition());
+            BLCorrectionTarget = frontLeftDrive.getTargetPosition();
+
+            backRightDrive.setTargetPosition(-ticks + backRightDrive.getCurrentPosition());
+            BRCorrectionTarget = frontLeftDrive.getTargetPosition();
         } else if (direction == "Left"){
             frontLeftDrive.setTargetPosition(ticks + frontLeftDrive.getCurrentPosition());
+             FLTarget = frontLeftDrive.getTargetPosition();
             frontRightDrive.setTargetPosition(-ticks + frontRightDrive.getCurrentPosition());
+            int FRTarget = frontRightDrive.getTargetPosition();
             backLeftDrive.setTargetPosition(-ticks + backLeftDrive.getCurrentPosition());
+            int BLTarget = frontLeftDrive.getTargetPosition();
             backRightDrive.setTargetPosition(ticks + backRightDrive.getCurrentPosition());
+
 
         } else if (direction == "Forward"){
             frontLeftDrive.setTargetPosition(-ticks + frontLeftDrive.getCurrentPosition());
+             FLTarget = frontLeftDrive.getTargetPosition();
             frontRightDrive.setTargetPosition(-ticks + frontRightDrive.getCurrentPosition());
+            int FRTarget = frontRightDrive.getTargetPosition();
             backLeftDrive.setTargetPosition(-ticks - backLeftDrive.getCurrentPosition());
+            int BLTarget = frontLeftDrive.getTargetPosition();
             backRightDrive.setTargetPosition(-ticks - backRightDrive.getCurrentPosition());
 
         } else if (direction == "Backward") {
             frontLeftDrive.setTargetPosition(ticks - frontLeftDrive.getCurrentPosition());
+             FLTarget = frontLeftDrive.getTargetPosition();
             frontRightDrive.setTargetPosition(ticks - frontRightDrive.getCurrentPosition());
+            int FRTarget = frontRightDrive.getTargetPosition();
             backLeftDrive.setTargetPosition(ticks - backLeftDrive.getCurrentPosition());
+            int BLTarget = frontLeftDrive.getTargetPosition();
             backRightDrive.setTargetPosition(ticks - backRightDrive.getCurrentPosition());
 
         } else if (direction == "Turn Right") {
             frontLeftDrive.setTargetPosition(ticks + frontLeftDrive.getCurrentPosition());
+             FLTarget = frontLeftDrive.getTargetPosition();
             frontRightDrive.setTargetPosition(-ticks - frontRightDrive.getCurrentPosition());
+            int FRTarget = frontRightDrive.getTargetPosition();
             backLeftDrive.setTargetPosition(ticks - backLeftDrive.getCurrentPosition());
+            int BLTarget = frontLeftDrive.getTargetPosition();
             backRightDrive.setTargetPosition(-ticks - backRightDrive.getCurrentPosition());
 
         } else if (direction == "Turn Left") {
             frontLeftDrive.setTargetPosition(-ticks - frontLeftDrive.getCurrentPosition());
+             FLTarget = frontLeftDrive.getTargetPosition();
             frontRightDrive.setTargetPosition(ticks + frontRightDrive.getCurrentPosition());
+            int FRTarget = frontRightDrive.getTargetPosition();
             backLeftDrive.setTargetPosition(-ticks - backLeftDrive.getCurrentPosition());
+            int BLTarget = frontLeftDrive.getTargetPosition();
             backRightDrive.setTargetPosition(ticks - backRightDrive.getCurrentPosition());
 
         }
@@ -160,6 +189,11 @@ public class Robot {
 
 
 
+    }
+
+    public void correctMovement()
+    {
+        frontLeftDrive.setTargetPosition(FlTarget);
     }
 
     public void positionRunningMode(){
