@@ -120,6 +120,7 @@ public class Robot {
 
         if (Objects.equals(direction, "Right")){
             frontLeftDrive.setTargetPosition(-ticks + frontLeftDrive.getCurrentPosition());
+            frontLeftDrive.getTargetPosition();
             frontRightDrive.setTargetPosition(ticks + frontRightDrive.getCurrentPosition());
             backLeftDrive.setTargetPosition(ticks + backLeftDrive.getCurrentPosition());
             backRightDrive.setTargetPosition(-ticks + backRightDrive.getCurrentPosition());
@@ -241,8 +242,7 @@ public class Robot {
         frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //lifty.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //waterslide.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
     }
 
     public void encoderReset(){
@@ -250,8 +250,6 @@ public class Robot {
         frontRightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backLeftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         backRightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        lifty.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        lifty.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     @SuppressLint("DefaultLocale")

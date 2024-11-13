@@ -22,9 +22,12 @@ public class BlueBasicObservationZone extends AutonomousPLUS {
         robot.lifty.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.lifty.setPower(0);
         robot.waterslide.setPower(0);
+        robot.tempOutakePos("UP");
+        robot.intakePosition("UP");
+
         robot.outakeclawOpenClose("CLOSED");
         moveRobotForward(80, 2);
-        moveRobotRight(1200, 2);
+        moveRobotLeft(-1200, 2);
         //telemetry.addData(currentPosition,"Moved to parking spot");
 
 

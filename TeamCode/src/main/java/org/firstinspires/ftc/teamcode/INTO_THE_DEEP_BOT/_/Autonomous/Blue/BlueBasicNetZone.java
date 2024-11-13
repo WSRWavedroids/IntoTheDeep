@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.Blue;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPLUS;
 
@@ -18,13 +19,17 @@ public class BlueBasicNetZone extends AutonomousPLUS {
         waitForStart();
         telemetry.addData(currentPosition,"Start position");
 
-        moveRobotForward(convertInchesToTicks(2), 2);
-        telemetry.addData(currentPosition,"Booped forward");
-        moveRobotLeft(convertInchesToTicks(18), 2);
-        telemetry.addData(currentPosition,"Moved to net zone");
-        //moveRobotRight(convertInchesToTicks(96), 2);
-        telemetry.addData(currentPosition,"Moved to parking spot");
-
+        robot.waterslide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.lifty.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.lifty.setPower(0);
+        robot.waterslide.setPower(0);
+        robot.tempOutakePos("UP");
+        robot.intakePosition("UP");
+        speed = .5;
+        robot.outakeclawOpenClose("CLOSED");
+        moveRobotForward(80, 2);
+        moveRobotLeft(600, 2);
+        moveRobotRight(350, 2);
 
     }
 }
