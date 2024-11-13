@@ -1,14 +1,20 @@
 package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 
+import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
+import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -38,10 +44,8 @@ public class Robot {
 
     public Servo grabbyOutakeServo;
 
-
-
-    //public DistanceSensor distanceSensor;
-
+    public NormalizedColorSensor colorSens;
+    public SparkFunOTOS sparky;
 
     //public WebcamName CamCam;
 
@@ -75,6 +79,8 @@ public class Robot {
         intakeFlipper = hardwareMap.get(Servo.class, "flipperServo");
         flippyOutakeServo = hardwareMap.get(Servo.class, "flippyOutakeServo");
         grabbyOutakeServo = hardwareMap.get(Servo.class, "grabbyOutakeServo");
+        colorSens = hardwareMap.get(NormalizedColorSensor.class,"colorSens");
+        sparky = hardwareMap.get(SparkFunOTOS.class,"sparkFunSparkJoy");
 
 
         //add arms to map
@@ -237,12 +243,30 @@ public class Robot {
         }
     }
 
+    public void getColors(){
+
+        colorSens.setGain(2);   //This can be tuned in order to get more useful values
+        final float[] hsvValues = new float[3];
+        NormalizedRGBA colors = colorSens.getNormalizedColors();
+
+        Color.colorToHSV(colors.toColor(), hsvValues);
+
+        telemetry.addLine()
+                .addData("Red", "%.3f", colors.red)
+                .addData("Green", "%.3f", colors.green)
+                .addData("Blue", "%.3f", colors.blue);
+        telemetry.addLine()
+                .addData("Hue", "%.3f", hsvValues[0])
+                .addData("Saturation", "%.3f", hsvValues[1])
+                .addData("Value", "%.3f", hsvValues[2]);
+        telemetry.addData("Alpha", "%.3f", colors.alpha);
+    }
+
     public void encoderRunningMode(){
         frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
     }
 
     public void encoderReset(){
