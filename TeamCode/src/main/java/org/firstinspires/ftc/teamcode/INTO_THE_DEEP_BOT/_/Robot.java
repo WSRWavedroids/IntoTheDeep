@@ -169,8 +169,6 @@ public class Robot {
         frontRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        waterslide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
     public void powerSet(double speed) {
@@ -219,11 +217,11 @@ public class Robot {
     {
         if(state == "OPEN")
         {
-           grabbyOutakeServo.setPosition(.83);
+           grabbyOutakeServo.setPosition(.9);
         }
         else if (state == "CLOSED")
         {
-            grabbyOutakeServo.setPosition(.95);
+            grabbyOutakeServo.setPosition(1);
         }
     }
 
