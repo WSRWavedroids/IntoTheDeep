@@ -157,6 +157,11 @@ public class Basic_TeleOp_NewBot extends OpMode {
             telemetry.addData("Speed", "Normal Boi");
         }
 
+        if (gamepad1.right_bumper){
+            robot.identifyColor(robot.getColors(), robot.getHSV());
+            telemetry.addData("Color", robot.color);
+        }
+
         //
 
 

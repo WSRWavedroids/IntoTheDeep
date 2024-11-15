@@ -3,25 +3,18 @@ package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 
-import com.qualcomm.hardware.rev.RevColorSensorV3;
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
-import java.lang.reflect.Array;
 import java.util.Objects;
 
 public class Robot {
@@ -59,6 +52,7 @@ public class Robot {
     public String startingPosition;
     public String controlMode = "Robot Centric";// Robot Centric
     public String intakeFlipperPos ="UP";
+    public String color = "";
 
     //Initialize motors and servos
     public Robot(HardwareMap hardwareMap, Telemetry telemetry, OpMode opmode){
@@ -243,7 +237,7 @@ public class Robot {
         }
     }
 
-    public void getColors(){
+    public NormalizedRGBA getColors(){
 
         colorSens.setGain(2);   //This can be tuned in order to get more useful values
         final float[] hsvValues = new float[3];
@@ -255,11 +249,41 @@ public class Robot {
                 .addData("Red", "%.3f", colors.red)
                 .addData("Green", "%.3f", colors.green)
                 .addData("Blue", "%.3f", colors.blue);
+
+        return colors;
+
+    }
+
+    public float[] getHSV(){
+
+        colorSens.setGain(2);   //This can be tuned in order to get more useful values
+        final float[] hsvValues = new float[3];
+        NormalizedRGBA colors = colorSens.getNormalizedColors();
+
+        Color.colorToHSV(colors.toColor(), hsvValues);
+
         telemetry.addLine()
                 .addData("Hue", "%.3f", hsvValues[0])
                 .addData("Saturation", "%.3f", hsvValues[1])
                 .addData("Value", "%.3f", hsvValues[2]);
         telemetry.addData("Alpha", "%.3f", colors.alpha);
+
+        return hsvValues;
+
+    }
+
+    public String identifyColor(NormalizedRGBA colors, float[] hsvValues){
+        color = "NONE";
+
+        if (colors.blue > colors.green && colors.blue > colors.red){
+            color = "blue";
+        } else if (hsvValues[0] > 50){
+            color = "yellow";
+        } else {
+            color = "red";
+        }
+
+        return color;
     }
 
     public void encoderRunningMode(){
