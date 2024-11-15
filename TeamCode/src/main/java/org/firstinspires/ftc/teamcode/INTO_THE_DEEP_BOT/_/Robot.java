@@ -272,8 +272,7 @@ public class Robot {
 
     }
 
-    public String identifyColor(NormalizedRGBA colors, float[] hsvValues){
-        color = "NONE";
+    public void identifyColor(NormalizedRGBA colors, float[] hsvValues){
 
         if (colors.blue > colors.green && colors.blue > colors.red){
             color = "blue";
@@ -283,7 +282,6 @@ public class Robot {
             color = "red";
         }
 
-        return color;
     }
 
     public void encoderRunningMode(){

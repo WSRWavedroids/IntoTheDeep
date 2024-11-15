@@ -14,6 +14,7 @@ import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
 
 /*
@@ -31,6 +32,7 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
 public class SparkFunSparkJoy extends LinearOpMode {
 
     public Robot robot = null;
+    SparkFunOTOS.Pose2D defaultStartPos = new SparkFunOTOS.Pose2D(0,0,0);
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -38,7 +40,7 @@ public class SparkFunSparkJoy extends LinearOpMode {
         robot = new Robot(hardwareMap, telemetry, this);
 
         // All the configuration for the OTOS is done in this helper method, check it out!
-        configureOtos();
+        configureOtos(defaultStartPos);
 
         // Wait for the start button to be pressed
         waitForStart();
@@ -69,9 +71,9 @@ public class SparkFunSparkJoy extends LinearOpMode {
         }
     }
 
-    public void startUpSparky(){
+    public void startUpSparky(SparkFunOTOS.Pose2D currentPos){
         // All the configuration for the OTOS is done in this helper method, check it out!
-        configureOtos();
+        configureOtos(currentPos);
     }
 
     public SparkFunOTOS.Pose2D findCurrentPose(){
@@ -89,7 +91,7 @@ public class SparkFunSparkJoy extends LinearOpMode {
         return pos;
     }
 
-    public void configureOtos() {
+    public void configureOtos(SparkFunOTOS.Pose2D startPos) {
         telemetry.addLine("Configuring OTOS...");
         telemetry.update();
 
@@ -114,7 +116,7 @@ public class SparkFunSparkJoy extends LinearOpMode {
         // clockwise (negative rotation) from the robot's orientation, the offset
         // would be {-5, 10, -90}. These can be any value, even the angle can be
         // tweaked slightly to compensate for imperfect mounting (eg. 1.3 degrees).
-        SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(0, 0, 0);
+        SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(-0.75, 0, 0);
         robot.sparky.setOffset(offset);
 
         // Here we can set the linear and angular scalars, which can compensate for
@@ -133,8 +135,8 @@ public class SparkFunSparkJoy extends LinearOpMode {
         // multiple speeds to get an average, then set the linear scalar to the
         // inverse of the error. For example, if you move the robot 100 inches and
         // the sensor reports 103 inches, set the linear scalar to 100/103 = 0.971
-        robot.sparky.setLinearScalar(1.0);
-        robot.sparky.setAngularScalar(1.0);
+        robot.sparky.setLinearScalar(1.039904427);
+        robot.sparky.setAngularScalar(0.9918584088);
 
         // The IMU on the OTOS includes a gyroscope and accelerometer, which could
         // have an offset. Note that as of firmware version 1.0, the calibration
@@ -156,8 +158,7 @@ public class SparkFunSparkJoy extends LinearOpMode {
         // the origin. If your robot does not start at the origin, or you have
         // another source of location information (eg. vision odometry), you can set
         // the OTOS location to match and it will continue to track from there.
-        SparkFunOTOS.Pose2D currentPosition = new SparkFunOTOS.Pose2D(0, 0, 0);
-        robot.sparky.setPosition(currentPosition);
+        robot.sparky.setPosition(startPos);
 
         // Get the hardware and firmware version
         SparkFunOTOS.Version hwVersion = new SparkFunOTOS.Version();
