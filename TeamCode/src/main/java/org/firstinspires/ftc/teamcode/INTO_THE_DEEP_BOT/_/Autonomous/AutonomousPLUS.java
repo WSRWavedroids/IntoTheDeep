@@ -64,105 +64,115 @@ public class AutonomousPLUS extends LinearOpMode {
     //These are the basic functions for mechnum movement during auto... Don't mess with these unless something is inverted
     // Remember Without ODO pods there will be some inconsistency due to mechnum slippage
 
+
+    public void lockWheels()
+    {
+        robot.frontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.backLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        robot.backRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        robot.frontLeftDrive.setPower(0);
+        robot.backLeftDrive.setPower(0);
+        robot.frontRightDrive.setPower(0);
+        robot.backRightDrive.setPower(0);
+    }
+
     public void timeDriveForward(long time, long pause)
     {
-        double timeTarget = getRuntime() + time;
-        while (getRuntime() < timeTarget)
+        ElapsedTime timer = new ElapsedTime();
+        timer.reset();
+        while (opModeIsActive() && timer.milliseconds() < time)
         {
             robot.frontLeftDrive.setPower(speed);
             robot.backLeftDrive.setPower(speed);
             robot.frontRightDrive.setPower(speed);
             robot.backRightDrive.setPower(speed);
         }
-            robot.frontLeftDrive.setPower(0);
-            robot.backLeftDrive.setPower(0);
-            robot.frontRightDrive.setPower(0);
-            robot.backRightDrive.setPower(0);
+            lockWheels();
             sleep(pause);
     }
 
     public void timeDriveBackward(long time, long pause)
     {
-        double timeTarget = getRuntime() + time;
-        while (getRuntime() < timeTarget)
+        ElapsedTime timer = new ElapsedTime();
+        timer.reset();
+        while (opModeIsActive() && timer.milliseconds() < time)
         {
             robot.frontLeftDrive.setPower(-speed);
             robot.backLeftDrive.setPower(-speed);
             robot.frontRightDrive.setPower(-speed);
             robot.backRightDrive.setPower(-speed);
         }
-        robot.frontLeftDrive.setPower(0);
-        robot.backLeftDrive.setPower(0);
-        robot.frontRightDrive.setPower(0);
-        robot.backRightDrive.setPower(0);
+        lockWheels();
         sleep(pause);
     }
 
     public void timeDriveRight(long time, long pause)
     {
-        double timeTarget = getRuntime() + time;
-        while (getRuntime() < timeTarget)
+        ElapsedTime timer = new ElapsedTime();
+        timer.reset();
+        while (opModeIsActive() && timer.milliseconds() < time)
         {
             robot.frontLeftDrive.setPower(speed);
             robot.backLeftDrive.setPower(-speed);
             robot.frontRightDrive.setPower(-speed);
             robot.backRightDrive.setPower(speed);
         }
-        robot.frontLeftDrive.setPower(0);
-        robot.backLeftDrive.setPower(0);
-        robot.frontRightDrive.setPower(0);
-        robot.backRightDrive.setPower(0);
+        lockWheels();
         sleep(pause);
     }
 
     public void timeDriveLeft(long time, long pause)
     {
-        double timeTarget = getRuntime() + time;
-        while (getRuntime() < timeTarget)
+        ElapsedTime timer = new ElapsedTime();
+        timer.reset();
+        while (opModeIsActive() && timer.milliseconds() < time)
         {
             robot.frontLeftDrive.setPower(-speed);
             robot.backLeftDrive.setPower(speed);
             robot.frontRightDrive.setPower(speed);
             robot.backRightDrive.setPower(-speed);
         }
-        robot.frontLeftDrive.setPower(0);
-        robot.backLeftDrive.setPower(0);
-        robot.frontRightDrive.setPower(0);
-        robot.backRightDrive.setPower(0);
+        lockWheels();
         sleep(pause);
     }
 
     public void timeTurnleft(long time, long pause)
     {
-        double timeTarget = getRuntime() + time;
-        while (getRuntime() < timeTarget)
+        ElapsedTime timer = new ElapsedTime();
+        timer.reset();
+        while (opModeIsActive() && timer.milliseconds() < time)
         {
             robot.frontLeftDrive.setPower(-speed);
             robot.backLeftDrive.setPower(-speed);
             robot.frontRightDrive.setPower(speed);
             robot.backRightDrive.setPower(speed);
         }
-        robot.frontLeftDrive.setPower(0);
-        robot.backLeftDrive.setPower(0);
-        robot.frontRightDrive.setPower(0);
-        robot.backRightDrive.setPower(0);
+        lockWheels();
         sleep(pause);
     }
 
     public void timeTurnRight(long time, long pause)
     {
-        double timeTarget = getRuntime() + time;
-        while (getRuntime() < timeTarget)
+        ElapsedTime timer = new ElapsedTime();
+        timer.reset();
+        while (opModeIsActive() && timer.milliseconds() < time)
         {
             robot.frontLeftDrive.setPower(speed);
             robot.backLeftDrive.setPower(speed);
             robot.frontRightDrive.setPower(-speed);
             robot.backRightDrive.setPower(-speed);
         }
-        robot.frontLeftDrive.setPower(0);
-        robot.backLeftDrive.setPower(0);
-        robot.frontRightDrive.setPower(0);
-        robot.backRightDrive.setPower(0);
+        lockWheels();
+        sleep(pause);
+    }
+
+    public void MoveLift(int ticks, double power, long pause)
+    {
+        robot.lifty.setPower(power);
+        robot.lifty.setTargetPosition(ticks);
+        robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         sleep(pause);
     }
 
