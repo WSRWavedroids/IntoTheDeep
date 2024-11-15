@@ -64,6 +64,110 @@ public class AutonomousPLUS extends LinearOpMode {
     //These are the basic functions for mechnum movement during auto... Don't mess with these unless something is inverted
     // Remember Without ODO pods there will be some inconsistency due to mechnum slippage
 
+    public void timeDriveForward(long time, long pause)
+    {
+        double timeTarget = getRuntime() + time;
+        while (getRuntime() < timeTarget)
+        {
+            robot.frontLeftDrive.setPower(speed);
+            robot.backLeftDrive.setPower(speed);
+            robot.frontRightDrive.setPower(speed);
+            robot.backRightDrive.setPower(speed);
+        }
+            robot.frontLeftDrive.setPower(0);
+            robot.backLeftDrive.setPower(0);
+            robot.frontRightDrive.setPower(0);
+            robot.backRightDrive.setPower(0);
+            sleep(pause);
+    }
+
+    public void timeDriveBackward(long time, long pause)
+    {
+        double timeTarget = getRuntime() + time;
+        while (getRuntime() < timeTarget)
+        {
+            robot.frontLeftDrive.setPower(-speed);
+            robot.backLeftDrive.setPower(-speed);
+            robot.frontRightDrive.setPower(-speed);
+            robot.backRightDrive.setPower(-speed);
+        }
+        robot.frontLeftDrive.setPower(0);
+        robot.backLeftDrive.setPower(0);
+        robot.frontRightDrive.setPower(0);
+        robot.backRightDrive.setPower(0);
+        sleep(pause);
+    }
+
+    public void timeDriveRight(long time, long pause)
+    {
+        double timeTarget = getRuntime() + time;
+        while (getRuntime() < timeTarget)
+        {
+            robot.frontLeftDrive.setPower(speed);
+            robot.backLeftDrive.setPower(-speed);
+            robot.frontRightDrive.setPower(-speed);
+            robot.backRightDrive.setPower(speed);
+        }
+        robot.frontLeftDrive.setPower(0);
+        robot.backLeftDrive.setPower(0);
+        robot.frontRightDrive.setPower(0);
+        robot.backRightDrive.setPower(0);
+        sleep(pause);
+    }
+
+    public void timeDriveLeft(long time, long pause)
+    {
+        double timeTarget = getRuntime() + time;
+        while (getRuntime() < timeTarget)
+        {
+            robot.frontLeftDrive.setPower(-speed);
+            robot.backLeftDrive.setPower(speed);
+            robot.frontRightDrive.setPower(speed);
+            robot.backRightDrive.setPower(-speed);
+        }
+        robot.frontLeftDrive.setPower(0);
+        robot.backLeftDrive.setPower(0);
+        robot.frontRightDrive.setPower(0);
+        robot.backRightDrive.setPower(0);
+        sleep(pause);
+    }
+
+    public void timeTurnleft(long time, long pause)
+    {
+        double timeTarget = getRuntime() + time;
+        while (getRuntime() < timeTarget)
+        {
+            robot.frontLeftDrive.setPower(-speed);
+            robot.backLeftDrive.setPower(-speed);
+            robot.frontRightDrive.setPower(speed);
+            robot.backRightDrive.setPower(speed);
+        }
+        robot.frontLeftDrive.setPower(0);
+        robot.backLeftDrive.setPower(0);
+        robot.frontRightDrive.setPower(0);
+        robot.backRightDrive.setPower(0);
+        sleep(pause);
+    }
+
+    public void timeTurnRight(long time, long pause)
+    {
+        double timeTarget = getRuntime() + time;
+        while (getRuntime() < timeTarget)
+        {
+            robot.frontLeftDrive.setPower(speed);
+            robot.backLeftDrive.setPower(speed);
+            robot.frontRightDrive.setPower(-speed);
+            robot.backRightDrive.setPower(-speed);
+        }
+        robot.frontLeftDrive.setPower(0);
+        robot.backLeftDrive.setPower(0);
+        robot.frontRightDrive.setPower(0);
+        robot.backRightDrive.setPower(0);
+        sleep(pause);
+    }
+
+
+
     public void moveRobotForward(int ticks, long pause) {
         if (opModeIsActive()) {
             robot.setTargets("Forward", ticks); // Inverted... Lol
