@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPLUS;
-@Disabled
 @Autonomous(group = "Basic", name = "Blue Basic Net Zone")
 public class BlueBasicNetZone extends AutonomousPLUS {
 
@@ -29,12 +28,11 @@ public class BlueBasicNetZone extends AutonomousPLUS {
         robot.outakeclawOpenClose("CLOSED");
         moveRobotForward(500, 0);
         moveRobotRight(1000, 0);
-        turnRobotRight(75, 0);
         robot.lifty.setPower(1);
         robot.lifty.setTargetPosition(1500);
         robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         sleep(1000);
-        moveRobotForward(475, 2);
+        moveRobotForward(500, 2);
         robot.lifty.setPower(1);
         robot.lifty.setTargetPosition(2500);
         robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -42,5 +40,11 @@ public class BlueBasicNetZone extends AutonomousPLUS {
         robot.outakeclawOpenClose("OPEN");
         prepareNextAction(2);
         moveRobotBackward(200,2);
+        /*robot.lifty.setTargetPosition(1228);
+        robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        moveRobotLeft(1000, 2);
+        turnRobotRight(900, 2);
+        moveRobotLeft(900, 2);
+        moveRobotForward(200, 2);*/
     }
 }

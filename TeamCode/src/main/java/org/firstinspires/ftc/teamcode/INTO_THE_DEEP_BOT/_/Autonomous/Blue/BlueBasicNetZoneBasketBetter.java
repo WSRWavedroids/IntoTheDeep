@@ -24,7 +24,7 @@ public class BlueBasicNetZoneBasketBetter extends AutonomousPLUS {
         robot.waterslide.setPower(0);
         robot.tempOutakePos("UP");
         robot.intakePosition("UP");
-        speed = .5;
+        speed = .4;
         robot.outakeclawOpenClose("CLOSED");
         //Movement Starts
         moveRobotForward(900,2);
@@ -33,10 +33,12 @@ public class BlueBasicNetZoneBasketBetter extends AutonomousPLUS {
         robot.lifty.setPower(1);
         robot.lifty.setTargetPosition(2500);
         robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        sleep(4000);
+        sleep(3000);
         moveRobotForward(150,2);
         robot.outakeclawOpenClose("OPEN");
         sleep(1000);
+        speed = 1;
+        turnRobotLeft(15,2);
 
     }
 }
