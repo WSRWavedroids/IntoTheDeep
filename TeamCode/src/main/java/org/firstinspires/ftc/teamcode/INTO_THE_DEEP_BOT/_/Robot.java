@@ -163,28 +163,10 @@ public class Robot {
     }
 
     public void positionRunningMode(){
-        int tolerance = 20;
-
-        while (
-                        (Math.abs(frontLeftDrive.getCurrentPosition() - frontLeftDrive.getTargetPosition()) > tolerance ||
-                        Math.abs(frontRightDrive.getCurrentPosition() - frontRightDrive.getTargetPosition()) > tolerance ||
-                        Math.abs(backLeftDrive.getCurrentPosition() - backLeftDrive.getTargetPosition()) > tolerance ||
-                        Math.abs(backRightDrive.getCurrentPosition() - backRightDrive.getTargetPosition()) > tolerance))
-        {
             frontLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             frontRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             backLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             backRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
-
-        if(Math.abs(frontLeftDrive.getCurrentPosition() - frontLeftDrive.getTargetPosition()) < tolerance ||
-                Math.abs(frontRightDrive.getCurrentPosition() - frontRightDrive.getTargetPosition()) < tolerance ||
-                Math.abs(backLeftDrive.getCurrentPosition() - backLeftDrive.getTargetPosition()) < tolerance ||
-                Math.abs(backRightDrive.getCurrentPosition() - backRightDrive.getTargetPosition()) < tolerance)
-        {
-            stopAllMotors();
-        }
-
     }
 
     public void powerSet(double speed) {
