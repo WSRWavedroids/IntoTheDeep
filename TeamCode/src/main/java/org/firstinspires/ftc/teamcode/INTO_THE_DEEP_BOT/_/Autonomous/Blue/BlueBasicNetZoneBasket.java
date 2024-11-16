@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.Blue;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPLUS;
-
+@Disabled
 @Autonomous(group = "Basic", name = "Blue Basic Net Zone (Basket)")
 public class BlueBasicNetZoneBasket extends AutonomousPLUS {
 
@@ -40,7 +41,7 @@ public class BlueBasicNetZoneBasket extends AutonomousPLUS {
         robot.lifty.setTargetPosition(2500);
         robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         sleep(1500);
-        moveRobotForward(450,2);
+        moveRobotForward(360,2);
         robot.outakeclawOpenClose("OPEN");
         sleep(4000);
     }
