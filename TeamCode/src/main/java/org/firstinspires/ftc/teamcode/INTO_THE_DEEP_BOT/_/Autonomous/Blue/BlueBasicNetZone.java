@@ -14,8 +14,6 @@ public class BlueBasicNetZone extends AutonomousPLUS {
     public void runOpMode() {
 
         super.runOpMode();
-
-
         waitForStart();
         telemetry.addData(currentPosition,"Start position");
 

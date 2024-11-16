@@ -157,12 +157,7 @@ public class Robot {
             frontRightDrive.setTargetPosition(ticks + frontRightDrive.getCurrentPosition());
             backLeftDrive.setTargetPosition(-ticks - backLeftDrive.getCurrentPosition());
             backRightDrive.setTargetPosition(ticks - backRightDrive.getCurrentPosition());
-
         }
-
-
-
-
     }
 
     public void positionRunningMode(){
