@@ -27,7 +27,6 @@ public class Robot {
     public DcMotor backLeftDrive;
     public DcMotor backRightDrive;
     public DcMotor lifty;
-    public DcMotor waterslide;
 
 
 
@@ -37,9 +36,10 @@ public class Robot {
     public Servo intakeFlipper;
 
     public Servo flippyOutakeServo;
-
     public Servo grabbyOutakeServo;
 
+    public Servo leftSlide;
+    public Servo rightSlide;
 
 
     //public DistanceSensor distanceSensor;
@@ -72,12 +72,14 @@ public class Robot {
         backLeftDrive = hardwareMap.get(DcMotor.class, "backLeftDrive");
         backRightDrive = hardwareMap.get(DcMotor.class, "backRightDrive");
         lifty = hardwareMap.get(DcMotor.class, "lifty");
-        waterslide = hardwareMap.get(DcMotor.class, "waterslide");
         leftIntake = hardwareMap.get(CRServo.class, "leftIntake");
         rightIntake = hardwareMap.get(CRServo.class, "rightIntake");
         intakeFlipper = hardwareMap.get(Servo.class, "flipperServo");
         flippyOutakeServo = hardwareMap.get(Servo.class, "flippyOutakeServo");
         grabbyOutakeServo = hardwareMap.get(Servo.class, "grabbyOutakeServo");
+        leftSlide = hardwareMap.get(Servo.class, "leftSlide");
+        rightSlide = hardwareMap.get(Servo.class, "rightSlide");
+
 
         imuParameters = new IMU.Parameters(
                 new RevHubOrientationOnRobot(
@@ -92,14 +94,12 @@ public class Robot {
         backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         backRightDrive.setDirection(DcMotor.Direction.FORWARD); //Was inverted as forward
         lifty.setDirection(DcMotor.Direction.REVERSE);//inverted
-        waterslide.setDirection(DcMotor.Direction.FORWARD);
 
         // This tells the motors to chill when we're not powering them.
         frontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        waterslide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //This is new..
         telemetry.addData("Status", "Initialized");
@@ -179,6 +179,19 @@ public class Robot {
 
     }
 
+    public void slidesIn()
+    {
+        //leftSlide.setPosition(0); guess value... DO NOT TRUST
+        //rightSlide.setPosition(1); guess value... DO NOT TRUST
+        intakePosition("UP");
+    }
+
+    public void collapseExpansion()
+    {
+        slidesIn();
+        lifty.setTargetPosition(-20);
+    }
+
     public void intake_spin (double direction){
         //servos spin in thingy
         if(direction > 0)
@@ -237,6 +250,8 @@ public class Robot {
         }
     }
 
+
+
     public void encoderRunningMode(){
         frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -260,7 +275,6 @@ public class Robot {
         telemetry.addData("Motors", String.format("BL Power(%.2f) BL Location (%d) BL Target (%d)", backLeftDrive.getPower(), backLeftDrive.getCurrentPosition(), backLeftDrive.getTargetPosition()));
         telemetry.addData("Motors", String.format("BR Power(%.2f) BR Location (%d) BR Target (%d)", backRightDrive.getPower(), backRightDrive.getCurrentPosition(), backRightDrive.getTargetPosition()));
         telemetry.addData("Motors", String.format("Lifty Power (%.2f) Lifty Location (%d) Lifty Target (%d)", lifty.getPower(), lifty.getCurrentPosition(), lifty.getTargetPosition()));
-        telemetry.addData("Motors", String.format("WaterSlide Motor Power (%.2f) WaterSlide Location (%d) WaterSlide Target (%d)", waterslide.getPower(), waterslide.getCurrentPosition(), waterslide.getTargetPosition()));
         telemetry.addData("Flipper", intakeFlipper.getPosition());
         telemetry.update();
     }
