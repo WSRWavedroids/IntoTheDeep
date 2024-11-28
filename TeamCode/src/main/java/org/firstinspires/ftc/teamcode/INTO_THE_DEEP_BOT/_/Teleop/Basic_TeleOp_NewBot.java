@@ -207,7 +207,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
         }
         else if (gamepad2.y)
         {
-            robot.intakePosition("UP");
+           robot.collapseExpansion();
         }
 
         if (robot.canWiggle == true && Math.abs(gamepad2.right_stick_y) > 0)
