@@ -179,15 +179,15 @@ public class Robot {
 
     public void slidesIn()
     {
-        //leftSlide.setPosition(0); guess value... DO NOT TRUST
-        //rightSlide.setPosition(1); guess value... DO NOT TRUST
+        leftSlide.setPosition(0); //guess value... DO NOT TRUST
+        rightSlide.setPosition(1); //guess value... DO NOT TRUST
         intakePosition("UP");
     }
 
     public void collapseExpansion()
     {
         slidesIn();
-        lifty.setTargetPosition(-20);
+        //lifty.setTargetPosition(-20);
     }
 
     public void intake_spin (double direction){
