@@ -9,9 +9,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.ImuOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.ftccommon.internal.manualcontrol.parameters.ImuParameters;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
@@ -55,6 +57,7 @@ public class Robot {
     public String startingPosition;
     public String controlMode = "Robot Centric";// Robot Centric
     public String intakeFlipperPos ="UP";
+    public IMU.Parameters imuParameters;
 
     //Initialize motors and servos
 
@@ -77,14 +80,13 @@ public class Robot {
         flippyOutakeServo = hardwareMap.get(Servo.class, "flippyOutakeServo");
         grabbyOutakeServo = hardwareMap.get(Servo.class, "grabbyOutakeServo");
 
+        imuParameters = new IMU.Parameters(
+                new RevHubOrientationOnRobot(
+                        RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                        RevHubOrientationOnRobot.UsbFacingDirection.RIGHT
+                )
+        );
 
-        //add arms to map
-        /*
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        imu.initialize(parameters);
-        */
         // This section sets the direction of all of the motors. Depending on the motor, this may change later in the program.
         frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
