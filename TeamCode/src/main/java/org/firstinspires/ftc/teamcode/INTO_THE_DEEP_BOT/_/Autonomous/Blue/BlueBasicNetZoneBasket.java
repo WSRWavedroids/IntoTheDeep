@@ -5,8 +5,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPLUS;
-@Autonomous(group = "Basic", name = "Blue Basic Net Zone")
-public class BlueBasicNetZone extends AutonomousPLUS {
+@Disabled
+@Autonomous(group = "Basic", name = "Blue Basic Net Zone (Basket)")
+public class BlueBasicNetZoneBasket extends AutonomousPLUS {
 
     public String currentPosition;
     public String target;
@@ -22,27 +23,24 @@ public class BlueBasicNetZone extends AutonomousPLUS {
         robot.lifty.setPower(0);
         robot.tempOutakePos("UP");
         robot.intakePosition("UP");
-        speed = .3;
+        speed = .65;
         robot.outakeclawOpenClose("CLOSED");
-        moveRobotForward(500, 0);
-        moveRobotRight(1000, 0);
+        //Movement Starts
+        moveRobotForward(200,2);
+        turnRobotLeft(850,2);
         robot.lifty.setPower(1);
         robot.lifty.setTargetPosition(1500);
         robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        sleep(1000);
-        moveRobotForward(500, 2);
+        sleep(1500);
+        moveRobotForward(550,2);
+        moveRobotRight(450,2);
+        turnRobotLeft(400,2);
         robot.lifty.setPower(1);
         robot.lifty.setTargetPosition(2500);
         robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        prepareNextAction(1000);
+        sleep(1500);
+        moveRobotForward(360,2);
         robot.outakeclawOpenClose("OPEN");
-        prepareNextAction(2);
-        moveRobotBackward(200,2);
-        /*robot.lifty.setTargetPosition(1228);
-        robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        moveRobotLeft(1000, 2);
-        turnRobotRight(900, 2);
-        moveRobotLeft(900, 2);
-        moveRobotForward(200, 2);*/
+        sleep(4000);
     }
 }

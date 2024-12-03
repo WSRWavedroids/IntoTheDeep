@@ -157,10 +157,6 @@ public class Basic_TeleOp_NewBot extends OpMode {
             telemetry.addData("Speed", "Normal Boi");
         }
 
-        //
-
-
-
         /*//Driver 2 Starts here
         //Lift
         if (gamepad2.left_stick_y < -0.5){
@@ -175,27 +171,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
         int liftyBottomLimit = -20;//temp value
         int liftyGoControlerVal = robot.lifty.getCurrentPosition() - ((int)armStickY * 360);
         robot.lifty.setPower(1);
-        /*if (liftyGoControlerVal > liftyBottomLimit && liftyGoControlerVal < liftyTopLimit)
-        {
-            robot.lifty.setTargetPosition(liftyGoControlerVal);
-            robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
-        else if (liftyGoControlerVal < liftyBottomLimit)
-        {
-            robot.lifty.setTargetPosition(liftyBottomLimit);
-            robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
-        else if(liftyGoControlerVal > liftyTopLimit)
-        {
-            robot.lifty.setTargetPosition(liftyTopLimit);
-            robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
-        else
-        {
-            robot.lifty.setTargetPosition(robot.lifty.getCurrentPosition());
-        }
 
-*/
         robot.lifty.setTargetPosition(liftyGoControlerVal);
 
 
@@ -209,37 +185,6 @@ public class Basic_TeleOp_NewBot extends OpMode {
         }
 
         robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        /*
-        double slideSum = gamepad2.right_trigger - gamepad2.left_trigger;
-        if (Math.abs(slideSum) > .3)
-        {
-            robot.waterslide.setPower(slideSum);
-        }
-        else robot.waterslide.setPower(0);
-        */
-
-
-        int slideInLimit = 4;
-        int slideOutLimit = 4655;
-        int slideSum =  robot.waterslide.getCurrentPosition() + (((int)gamepad2.right_trigger - (int)gamepad2.left_trigger) * 360);
-        robot.waterslide.setPower(1);
-        //robot.waterslide.setTargetPosition(slideSum);
-
-        if(robot.waterslide.getCurrentPosition() > slideOutLimit || slideSum > slideOutLimit)
-        {
-            robot.waterslide.setTargetPosition(slideOutLimit);
-        }
-        else if(robot.waterslide.getCurrentPosition() < slideInLimit || slideSum < slideInLimit)
-        {
-            robot.waterslide.setTargetPosition(slideInLimit);
-        }
-        else {
-            robot.waterslide.setTargetPosition(slideSum);
-        }
-        robot.waterslide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-
 
         //intake
         if(gamepad2.dpad_down)
@@ -262,7 +207,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
         }
         else if (gamepad2.y)
         {
-            robot.intakePosition("UP");
+           robot.collapseExpansion();
         }
 
         if (robot.canWiggle == true && Math.abs(gamepad2.right_stick_y) > 0)
@@ -276,6 +221,18 @@ public class Basic_TeleOp_NewBot extends OpMode {
                 robot.intakeFlipper.setPosition(robot.intakeFlipper.getPosition() - 0.05 * gamepad2.right_stick_y);
             }
 
+        }
+
+        float slideSum = gamepad2.right_trigger - gamepad2.left_trigger;
+        float sensModifier = .1f;
+        if(slideSum <= -0.1)
+        {
+            robot.leftSlide.setPosition(robot.leftSlide.getPosition() - (slideSum * sensModifier));
+            robot.rightSlide.setPosition(robot.rightSlide.getPosition() + (slideSum * sensModifier));
+        }else if (slideSum >= .1)
+        {
+            robot.leftSlide.setPosition(robot.leftSlide.getPosition() + (slideSum * sensModifier));
+            robot.rightSlide.setPosition(robot.rightSlide.getPosition() - (slideSum * sensModifier));
         }
 
         //outake
