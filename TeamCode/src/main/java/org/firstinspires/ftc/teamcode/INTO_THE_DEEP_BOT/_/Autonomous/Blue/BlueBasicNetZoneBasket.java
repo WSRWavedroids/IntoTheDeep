@@ -22,7 +22,7 @@ public class BlueBasicNetZoneBasket extends AutonomousPLUS {
 
         robot.lifty.setPower(0);
         robot.tempOutakePos("UP");
-        robot.intakePosition("UP");
+        robot.slidesIn();
         speed = .65;
         robot.outakeclawOpenClose("CLOSED");
         //Movement Starts
