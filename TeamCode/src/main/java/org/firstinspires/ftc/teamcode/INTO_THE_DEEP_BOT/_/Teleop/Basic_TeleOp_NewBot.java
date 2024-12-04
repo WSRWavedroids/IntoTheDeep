@@ -225,11 +225,23 @@ public class Basic_TeleOp_NewBot extends OpMode {
         }
 
         float slideSum = gamepad2.right_trigger - gamepad2.left_trigger;
-        double sensModifier = .3f;
+        double sensModifier = .05f;
         if(Math.abs(slideSum) > .1)
         {
-            robot.leftSlide.setPosition(robot.leftSlide.getPosition() + ((double)slideSum * sensModifier));
-            robot.rightSlide.setPosition(robot.rightSlide.getPosition() - ((double)slideSum * sensModifier));
+            double left = (robot.leftSlide.getPosition() + ((double)slideSum * sensModifier));
+            double right = (robot.rightSlide.getPosition() - ((double)slideSum * sensModifier));
+
+            if(left < .15)
+            {
+                left = .15;
+            }
+            if (right > .85)
+            {
+                right = .85;
+            }
+
+            robot.rightSlide.setPosition(right);
+            robot.leftSlide.setPosition(left);
         }
 
 
@@ -271,9 +283,9 @@ public class Basic_TeleOp_NewBot extends OpMode {
     private void singleJoystickDrive () {
         // We don't really know how this function works, but it makes the wheels drive, so we don't question it.
         // Don't mess with this function unless you REALLY know what you're doing.
-        float leftY = -this.gamepad1.left_stick_y;
+        float leftY = this.gamepad1.left_stick_y;
         float rightX = this.gamepad1.right_stick_x;
-        float leftX = this.gamepad1.left_stick_x;
+        float leftX = -this.gamepad1.left_stick_x;
 
         double leftStickAngle = Math.atan2(leftY, leftX);
         double leftStickMagnitude = Math.sqrt(leftX * 2.0 + leftY * 2.0);
