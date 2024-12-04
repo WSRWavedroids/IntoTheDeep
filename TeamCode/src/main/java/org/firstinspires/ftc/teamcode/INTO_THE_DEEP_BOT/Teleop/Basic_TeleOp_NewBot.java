@@ -107,6 +107,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
         gamepad2.setLedColor(0, 0, 255, 100000000);
         robot.intakePosition("UP");
         robot.tempOutakePos("UP");
+        robot.collapseExpansion();
     }
 
     /*
@@ -224,16 +225,13 @@ public class Basic_TeleOp_NewBot extends OpMode {
         }
 
         float slideSum = gamepad2.right_trigger - gamepad2.left_trigger;
-        float sensModifier = .1f;
-        if(slideSum <= -0.1)
+        double sensModifier = .3f;
+        if(Math.abs(slideSum) > .1)
         {
-            robot.leftSlide.setPosition(robot.leftSlide.getPosition() - (slideSum * sensModifier));
-            robot.rightSlide.setPosition(robot.rightSlide.getPosition() + (slideSum * sensModifier));
-        }else if (slideSum >= .1)
-        {
-            robot.leftSlide.setPosition(robot.leftSlide.getPosition() + (slideSum * sensModifier));
-            robot.rightSlide.setPosition(robot.rightSlide.getPosition() - (slideSum * sensModifier));
+            robot.leftSlide.setPosition(robot.leftSlide.getPosition() + ((double)slideSum * sensModifier));
+            robot.rightSlide.setPosition(robot.rightSlide.getPosition() - ((double)slideSum * sensModifier));
         }
+
 
         //outake
 
