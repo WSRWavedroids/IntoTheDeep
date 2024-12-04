@@ -168,8 +168,8 @@ public class Basic_TeleOp_NewBot extends OpMode {
             robot.holdArm();
         }*/
 
-        int liftyTopLimit = 2100;//temp value
-        int liftyBottomLimit = -20;//temp value
+        int liftyTopLimit = 4100;//temp value
+        int liftyBottomLimit = -5;//temp value
         int liftyGoControlerVal = robot.lifty.getCurrentPosition() - ((int)armStickY * 360);
         robot.lifty.setPower(1);
 
@@ -225,19 +225,19 @@ public class Basic_TeleOp_NewBot extends OpMode {
         }
 
         float slideSum = gamepad2.right_trigger - gamepad2.left_trigger;
-        double sensModifier = .05f;
+        double sensModifier = .035f;
         if(Math.abs(slideSum) > .1)
         {
             double left = (robot.leftSlide.getPosition() + ((double)slideSum * sensModifier));
             double right = (robot.rightSlide.getPosition() - ((double)slideSum * sensModifier));
 
-            if(left < .15)
+            if(left < .05)
             {
-                left = .15;
+                left = .05;
             }
-            if (right > .85)
+            if (right > .95)
             {
-                right = .85;
+                right = .95;
             }
 
             robot.rightSlide.setPosition(right);
