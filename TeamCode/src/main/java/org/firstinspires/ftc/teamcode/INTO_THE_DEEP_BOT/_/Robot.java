@@ -179,8 +179,8 @@ public class Robot {
 
     public void slidesIn()
     {
-        leftSlide.setPosition(0); //guess value... DO NOT TRUST
-        rightSlide.setPosition(1); //guess value... DO NOT TRUST
+        leftSlide.setPosition(1); //guess value... DO NOT TRUST
+        rightSlide.setPosition(0); //guess value... DO NOT TRUST
         intakePosition("UP");
     }
 
@@ -218,7 +218,7 @@ public class Robot {
         }
         else if(intakeFlipperPos == "DOWN")
         {
-            intakeFlipper.setPosition(0);
+            intakeFlipper.setPosition(.15);
             canWiggle = true;
         }
 
