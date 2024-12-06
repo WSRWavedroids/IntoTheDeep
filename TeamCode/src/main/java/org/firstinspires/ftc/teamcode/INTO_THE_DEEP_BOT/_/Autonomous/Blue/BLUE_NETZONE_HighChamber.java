@@ -1,13 +1,12 @@
 package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.Blue;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPLUS;
-@Disabled
-@Autonomous(group = "Basic", name = "Blue Basic Net Zone (Basket)")
-public class BlueBasicNetZoneBasket extends AutonomousPLUS {
+
+@Autonomous(group = "Basic", name = "Net Zone High Chamber")
+public class BLUE_NETZONE_HighChamber extends AutonomousPLUS {
 
     public String currentPosition;
     public String target;
@@ -15,32 +14,33 @@ public class BlueBasicNetZoneBasket extends AutonomousPLUS {
     public void runOpMode() {
 
         super.runOpMode();
-
-
         waitForStart();
         telemetry.addData(currentPosition,"Start position");
 
         robot.lifty.setPower(0);
         robot.tempOutakePos("UP");
-        robot.slidesIn();
-        speed = .65;
+        robot.intakePosition("UP");
+        speed = .3;
         robot.outakeclawOpenClose("CLOSED");
-        //Movement Starts
-        moveRobotForward(200,2);
-        turnRobotLeft(850,2);
+        moveRobotForward(500, 0);
+        moveRobotRight(1000, 0);
         robot.lifty.setPower(1);
         robot.lifty.setTargetPosition(1500);
         robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        sleep(1500);
-        moveRobotForward(550,2);
-        moveRobotRight(450,2);
-        turnRobotLeft(400,2);
+        sleep(1000);
+        moveRobotForward(500, 2);
         robot.lifty.setPower(1);
         robot.lifty.setTargetPosition(2500);
         robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        sleep(1500);
-        moveRobotForward(360,2);
+        prepareNextAction(1000);
         robot.outakeclawOpenClose("OPEN");
-        sleep(4000);
+        prepareNextAction(2);
+        moveRobotBackward(200,2);
+        /*robot.lifty.setTargetPosition(1228);
+        robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        moveRobotLeft(1000, 2);
+        turnRobotRight(900, 2);
+        moveRobotLeft(900, 2);
+        moveRobotForward(200, 2);*/
     }
 }
