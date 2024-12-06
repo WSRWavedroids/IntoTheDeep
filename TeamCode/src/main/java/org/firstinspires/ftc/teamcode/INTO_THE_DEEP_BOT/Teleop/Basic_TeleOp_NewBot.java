@@ -169,7 +169,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
         }*/
 
         int liftyTopLimit = 4100;//temp value
-        int liftyBottomLimit = -5;//temp value
+        int liftyBottomLimit = -20;//temp value
         int liftyGoControlerVal = robot.lifty.getCurrentPosition() - ((int)armStickY * 360);
         robot.lifty.setPower(1);
 
