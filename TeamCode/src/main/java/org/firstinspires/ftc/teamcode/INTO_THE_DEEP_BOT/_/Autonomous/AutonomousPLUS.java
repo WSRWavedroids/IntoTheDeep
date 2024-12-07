@@ -191,7 +191,6 @@ public class AutonomousPLUS extends LinearOpMode {
 
         robot.stopAllMotors();
         robot.encoderRunningMode();
-        robot.stopAllMotors();
         sleep(pause);
         robot.encoderReset();
     }
