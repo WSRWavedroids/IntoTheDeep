@@ -13,7 +13,8 @@ public class BLUE_OBSZONE_HighChamber extends AutonomousPLUS {
 
     public void runOpMode() {
 
-
+        waitForStart();
+        robot.encoderReset();
         robot.lifty.setPower(0);
         robot.tempOutakePos("UP");
         robot.intakePosition("UP");

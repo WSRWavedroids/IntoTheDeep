@@ -17,6 +17,7 @@ public class BLUE_NETZONE_LowBasket extends AutonomousPLUS {
 
 
         waitForStart();
+        robot.encoderReset();
         telemetry.addData(currentPosition,"Start position");
         robot.lifty.setPower(0);
         robot.tempOutakePos("UP");

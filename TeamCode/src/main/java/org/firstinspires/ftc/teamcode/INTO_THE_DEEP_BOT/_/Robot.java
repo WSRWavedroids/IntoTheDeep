@@ -122,7 +122,6 @@ public class Robot {
 
         if (Objects.equals(direction, "Right")){
             frontLeftDrive.setTargetPosition(-ticks + frontLeftDrive.getCurrentPosition());
-            frontLeftDrive.getTargetPosition();
             frontRightDrive.setTargetPosition(ticks + frontRightDrive.getCurrentPosition());
             backLeftDrive.setTargetPosition(ticks + backLeftDrive.getCurrentPosition());
             backRightDrive.setTargetPosition(-ticks + backRightDrive.getCurrentPosition());
