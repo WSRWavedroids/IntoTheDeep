@@ -134,10 +134,10 @@ public class Robot {
             backRightDrive.setTargetPosition(ticks + backRightDrive.getCurrentPosition());
 
         } else if (direction == "Forward"){
-            frontLeftDrive.setTargetPosition(-ticks + frontLeftDrive.getCurrentPosition());
-            frontRightDrive.setTargetPosition(-ticks + frontRightDrive.getCurrentPosition());
-            backLeftDrive.setTargetPosition(-ticks - backLeftDrive.getCurrentPosition());
-            backRightDrive.setTargetPosition(-ticks - backRightDrive.getCurrentPosition());
+            frontLeftDrive.setTargetPosition(ticks + frontLeftDrive.getCurrentPosition());
+            frontRightDrive.setTargetPosition(ticks + frontRightDrive.getCurrentPosition());
+            backLeftDrive.setTargetPosition(ticks - backLeftDrive.getCurrentPosition());
+            backRightDrive.setTargetPosition(ticks - backRightDrive.getCurrentPosition());
 
         } else if (direction == "Backward") {
             frontLeftDrive.setTargetPosition(ticks - frontLeftDrive.getCurrentPosition());

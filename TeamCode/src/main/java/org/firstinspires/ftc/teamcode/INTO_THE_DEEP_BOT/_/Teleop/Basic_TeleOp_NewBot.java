@@ -264,17 +264,17 @@ public class Basic_TeleOp_NewBot extends OpMode {
         if (motorPowers.length != 4) {
             return;
         }
-        robot.frontLeftDrive.setPower(-motorPowers[0]);
-        robot.frontRightDrive.setPower(-motorPowers[1]);
-        robot.backLeftDrive.setPower(-motorPowers[2]);
-        robot.backRightDrive.setPower(-motorPowers[3]);
+        robot.frontLeftDrive.setPower(motorPowers[0]);
+        robot.frontRightDrive.setPower(motorPowers[1]);
+        robot.backLeftDrive.setPower(motorPowers[2]);
+        robot.backRightDrive.setPower(motorPowers[3]);
     }
 
     private void singleJoystickDrive () {
         // We don't really know how this function works, but it makes the wheels drive, so we don't question it.
         // Don't mess with this function unless you REALLY know what you're doing.
-        float leftY = -this.gamepad1.left_stick_y;
-        float rightX = this.gamepad1.right_stick_x;
+        float leftY = this.gamepad1.left_stick_y;
+        float rightX = -this.gamepad1.right_stick_x;
         float leftX = this.gamepad1.left_stick_x;
 
         double leftStickAngle = Math.atan2(leftY, leftX);
@@ -289,10 +289,10 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
         if (robot.controlMode == "Robot Centric") {
 
-            motorPowers[0] = (leftY + leftX - rightX);//might need inverted back
-            motorPowers[1] = (leftY - leftX + rightX);
-            motorPowers[2] = (leftY - leftX - rightX);
-            motorPowers[3] = (leftY + leftX + rightX);
+            motorPowers[0] = (leftY + leftX + rightX);//might need inverted back
+            motorPowers[1] = (leftY - leftX - rightX);
+            motorPowers[2] = (leftY - leftX + rightX);
+            motorPowers[3] = (leftY + leftX - rightX);
 
         } else if (robot.controlMode == "Field Centric") {
             double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
