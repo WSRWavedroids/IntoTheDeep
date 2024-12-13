@@ -1,12 +1,12 @@
 package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.Blue;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPLUS;
-@Autonomous(group = "Basic", name = "Blue Basic Net Zone")
-public class BlueBasicNetZone extends AutonomousPLUS {
+
+@Autonomous(group = "Basic", name = "Net Zone High Chamber")
+public class BLUE_NETZONE_HighChamber extends AutonomousPLUS {
 
     public String currentPosition;
     public String target;
@@ -18,14 +18,14 @@ public class BlueBasicNetZone extends AutonomousPLUS {
 
         waitForStart();
         telemetry.addData(currentPosition,"Start position");
-
+        robot.encoderReset();
         robot.lifty.setPower(0);
         robot.tempOutakePos("UP");
         robot.intakePosition("UP");
         speed = .3;
         robot.outakeclawOpenClose("CLOSED");
-        moveRobotForward(500, 0);
-        moveRobotRight(1000, 0);
+        moveRobotForward(500, 2);
+        moveRobotRight(1000, 2);
         robot.lifty.setPower(1);
         robot.lifty.setTargetPosition(1500);
         robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
