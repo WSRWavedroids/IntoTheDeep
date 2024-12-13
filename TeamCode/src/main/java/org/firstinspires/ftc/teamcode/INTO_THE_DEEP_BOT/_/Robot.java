@@ -120,6 +120,8 @@ public class Robot {
 
     public void setTargets(String direction, int ticks) {
 
+        //This is all inverted (big sigh)
+
         if (Objects.equals(direction, "Right")){
             frontLeftDrive.setTargetPosition(-ticks + frontLeftDrive.getCurrentPosition());
             frontRightDrive.setTargetPosition(ticks + frontRightDrive.getCurrentPosition());
@@ -133,28 +135,28 @@ public class Robot {
             backRightDrive.setTargetPosition(ticks + backRightDrive.getCurrentPosition());
 
         } else if (direction == "Forward"){
-            frontLeftDrive.setTargetPosition(ticks + frontLeftDrive.getCurrentPosition());
-            frontRightDrive.setTargetPosition(ticks + frontRightDrive.getCurrentPosition());
-            backLeftDrive.setTargetPosition(ticks - backLeftDrive.getCurrentPosition());
-            backRightDrive.setTargetPosition(ticks - backRightDrive.getCurrentPosition());
+            frontLeftDrive.setTargetPosition(-ticks + frontLeftDrive.getCurrentPosition());
+            frontRightDrive.setTargetPosition(-ticks + frontRightDrive.getCurrentPosition());
+            backLeftDrive.setTargetPosition(-ticks + backLeftDrive.getCurrentPosition());
+            backRightDrive.setTargetPosition(-ticks + backRightDrive.getCurrentPosition());
 
         } else if (direction == "Backward") {
-            frontLeftDrive.setTargetPosition(ticks - frontLeftDrive.getCurrentPosition());
-            frontRightDrive.setTargetPosition(ticks - frontRightDrive.getCurrentPosition());
-            backLeftDrive.setTargetPosition(ticks - backLeftDrive.getCurrentPosition());
-            backRightDrive.setTargetPosition(ticks - backRightDrive.getCurrentPosition());
+            frontLeftDrive.setTargetPosition(ticks + frontLeftDrive.getCurrentPosition());
+            frontRightDrive.setTargetPosition(ticks + frontRightDrive.getCurrentPosition());
+            backLeftDrive.setTargetPosition(ticks + backLeftDrive.getCurrentPosition());
+            backRightDrive.setTargetPosition(ticks + backRightDrive.getCurrentPosition());
 
         } else if (direction == "Turn Right") {
-            frontLeftDrive.setTargetPosition(ticks + frontLeftDrive.getCurrentPosition());
-            frontRightDrive.setTargetPosition(-ticks - frontRightDrive.getCurrentPosition());
-            backLeftDrive.setTargetPosition(ticks - backLeftDrive.getCurrentPosition());
-            backRightDrive.setTargetPosition(-ticks - backRightDrive.getCurrentPosition());
+            frontLeftDrive.setTargetPosition(-ticks + frontLeftDrive.getCurrentPosition());
+            frontRightDrive.setTargetPosition(ticks + frontRightDrive.getCurrentPosition());
+            backLeftDrive.setTargetPosition(-ticks + backLeftDrive.getCurrentPosition());
+            backRightDrive.setTargetPosition(ticks + backRightDrive.getCurrentPosition());
 
         } else if (direction == "Turn Left") {
-            frontLeftDrive.setTargetPosition(-ticks - frontLeftDrive.getCurrentPosition());
-            frontRightDrive.setTargetPosition(ticks + frontRightDrive.getCurrentPosition());
-            backLeftDrive.setTargetPosition(-ticks - backLeftDrive.getCurrentPosition());
-            backRightDrive.setTargetPosition(ticks - backRightDrive.getCurrentPosition());
+            frontLeftDrive.setTargetPosition(ticks + frontLeftDrive.getCurrentPosition());
+            frontRightDrive.setTargetPosition(-ticks + frontRightDrive.getCurrentPosition());
+            backLeftDrive.setTargetPosition(ticks + backLeftDrive.getCurrentPosition());
+            backRightDrive.setTargetPosition(-ticks + backRightDrive.getCurrentPosition());
 
         }
 
