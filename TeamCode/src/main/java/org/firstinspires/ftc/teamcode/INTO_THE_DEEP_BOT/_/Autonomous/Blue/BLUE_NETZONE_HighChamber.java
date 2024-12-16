@@ -17,8 +17,8 @@ public class BLUE_NETZONE_HighChamber extends AutonomousPLUS {
 
 
         waitForStart();
-        telemetry.addData(currentPosition,"Start position");
         robot.encoderReset();
+        telemetry.addData(currentPosition,"Start position");
         robot.lifty.setPower(0);
         robot.tempOutakePos("UP");
         robot.intakePosition("UP");
@@ -30,7 +30,7 @@ public class BLUE_NETZONE_HighChamber extends AutonomousPLUS {
         robot.lifty.setTargetPosition(1500);
         robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         sleep(1000);
-        moveRobotForward(500, 2);
+        moveRobotForward(400, 2);
         robot.lifty.setPower(1);
         robot.lifty.setTargetPosition(2500);
         robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -38,6 +38,8 @@ public class BLUE_NETZONE_HighChamber extends AutonomousPLUS {
         robot.outakeclawOpenClose("OPEN");
         prepareNextAction(2);
         moveRobotBackward(200,2);
+        moveRobotLeft(800, 2);
+        prepareNextAction(2000);
         /*robot.lifty.setTargetPosition(1228);
         robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         moveRobotLeft(1000, 2);

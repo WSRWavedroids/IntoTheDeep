@@ -225,7 +225,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
         }
 
         float slideSum = gamepad2.right_trigger - gamepad2.left_trigger;
-        double sensModifier = .035f;
+        double sensModifier = .045f;
         if(Math.abs(slideSum) > .1)
         {
             double left = (robot.leftSlide.getPosition() + ((double)slideSum * sensModifier));
