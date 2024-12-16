@@ -249,6 +249,12 @@ public class Robot {
         {
             flippyOutakeServo.setPosition(.8);
         }
+        if (pos == "MOREUP")
+        {
+            flippyOutakeServo.setPosition(1);
+        }
+
+
     }
 
 
