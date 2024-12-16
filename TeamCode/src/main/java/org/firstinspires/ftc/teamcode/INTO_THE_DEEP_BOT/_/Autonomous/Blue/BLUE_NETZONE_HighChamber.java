@@ -25,12 +25,12 @@ public class BLUE_NETZONE_HighChamber extends AutonomousPLUS {
         speed = .3;
         robot.outakeclawOpenClose("CLOSED");
         moveRobotForward(500, 2);
-        moveRobotRight(1000, 2);
+        moveRobotRight(1100, 2);
         robot.lifty.setPower(1);
         robot.lifty.setTargetPosition(1500);
         robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         sleep(1000);
-        moveRobotForward(400, 2);
+        moveRobotForward(415, 2);
         robot.lifty.setPower(1);
         robot.lifty.setTargetPosition(2500);
         robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -38,13 +38,15 @@ public class BLUE_NETZONE_HighChamber extends AutonomousPLUS {
         robot.outakeclawOpenClose("OPEN");
         prepareNextAction(2);
         moveRobotBackward(200,2);
-        moveRobotLeft(800, 2);
-        prepareNextAction(2000);
+        moveRobotLeft(900, 2);
         /*robot.lifty.setTargetPosition(1228);
         robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         moveRobotLeft(1000, 2);
         turnRobotRight(900, 2);
         moveRobotLeft(900, 2);
         moveRobotForward(200, 2);*/
+        robot.tempOutakePos("MOREUP");
+        prepareNextAction(2000);
+
     }
 }

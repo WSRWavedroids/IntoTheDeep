@@ -24,7 +24,7 @@ public class BLUE_OBSZONE_HighChamber extends AutonomousPLUS {
         speed = .3;
         robot.outakeclawOpenClose("CLOSED");
         moveRobotForward(500, 1000);
-        moveRobotLeft(250, 1000);
+        moveRobotLeft(200, 1000);
         speed = .3;
         robot.lifty.setPower(1);
         robot.lifty.setTargetPosition(1500);
