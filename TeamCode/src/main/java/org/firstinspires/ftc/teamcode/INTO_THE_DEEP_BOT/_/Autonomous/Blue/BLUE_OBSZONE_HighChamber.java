@@ -13,32 +13,40 @@ public class BLUE_OBSZONE_HighChamber extends AutonomousPLUS {
 
     public void runOpMode() {
 
+        super.runOpMode();
+
         waitForStart();
         robot.encoderReset();
         robot.lifty.setPower(0);
         robot.tempOutakePos("UP");
         robot.intakePosition("UP");
+        robot.slidesIn();
         speed = .3;
         robot.outakeclawOpenClose("CLOSED");
-        moveRobotForward(500, 2);
-        moveRobotLeft(1000, 2);
+        moveRobotForward(500, 1000);
+        moveRobotLeft(250, 1000);
+        speed = .3;
         robot.lifty.setPower(1);
         robot.lifty.setTargetPosition(1500);
         robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         sleep(1000);
-        moveRobotForward(500, 2);
+        moveRobotForward(450, 2);
         robot.lifty.setPower(1);
         robot.lifty.setTargetPosition(2500);
         robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         prepareNextAction(1000);
         robot.outakeclawOpenClose("OPEN");
         prepareNextAction(2);
-        moveRobotBackward(250,500);
-        robot.lifty.setPower(1);
+        moveRobotBackward(750,500);
+        moveRobotRight(2000, 2);
+        /*robot.lifty.setPower(1);
         robot.lifty.setTargetPosition(0);
         robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         prepareNextAction(1000);
-        moveRobotBackward(600, 2);
-        moveRobotRight(2000, 2);
+        moveRobotBackward(500, 2);
+        turnRobotRight(1550, 2);//not tested
+        moveRobotLeft(1500, 2);*/
+
+
     }
 }
