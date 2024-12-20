@@ -16,37 +16,38 @@ public class BLUE_OBSZONE_HighChamber extends AutonomousPLUS {
         super.runOpMode();
 
         waitForStart();
+        robot.lifty.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.encoderReset();
         robot.lifty.setPower(0);
         robot.tempOutakePos("UP");
         robot.intakePosition("UP");
         robot.slidesIn();
-        speed = .3;
+        speed = .65;
         robot.outakeclawOpenClose("CLOSED");
-        moveRobotForward(500, 1000);
-        moveRobotLeft(200, 1000);
+        moveRobotForward(500, 2);
+        moveRobotLeft(350, 2);
+        moveArm(1500, 1, 2);
+        speed=.4;
+        moveRobotForward(350, 2);
+
+        moveArm(2500, 1, 2); //Places the starting specimen on the bar*/
+        robot.outakeclawOpenClose("OPEN"); //Releases said specimen
+
+        speed = .6;
+        moveRobotBackward(500,500);
+        speed = 1;
+        moveArm(0, 1, 2);
+        moveRobotRight(1575, 2);
+        speed = .5;
+        turnRobotRight(1530, 2);
         speed = .3;
-        robot.lifty.setPower(1);
-        robot.lifty.setTargetPosition(1500);
-        robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        sleep(1000);
-        moveRobotForward(450, 2);
-        robot.lifty.setPower(1);
-        robot.lifty.setTargetPosition(2500);
-        robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        prepareNextAction(1000);
-        robot.outakeclawOpenClose("OPEN");
-        prepareNextAction(2);
-        moveRobotBackward(750,500);
-        moveRobotRight(2000, 2);
-        /*robot.lifty.setPower(1);
-        robot.lifty.setTargetPosition(0);
-        robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        prepareNextAction(1000);
-        moveRobotBackward(500, 2);
-        turnRobotRight(1550, 2);//not tested
-        moveRobotLeft(1500, 2);*/
-
-
+        moveRobotForward(400, 2);
+        robot.outakeclawOpenClose("CLOSED"); //This is the line that picks up the specimen from the field wall
+        prepareNextAction(500);
+        moveArm(230, 1, 2);
+        speed = 1;
+        moveRobotBackward(400, 2);
+        moveRobotRight(1575, 2);
+        turnRobotLeft(1525, 2);
     }
 }
