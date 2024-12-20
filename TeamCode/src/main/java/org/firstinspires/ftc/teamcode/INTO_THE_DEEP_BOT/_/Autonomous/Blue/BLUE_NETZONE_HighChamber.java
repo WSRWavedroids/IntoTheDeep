@@ -24,6 +24,8 @@ public class BLUE_NETZONE_HighChamber extends AutonomousPLUS {
         robot.outakeclawOpenClose("CLOSED");
         moveRobotForward(500, 2);
         moveRobotRight(1100, 2);
+
+
         robot.lifty.setPower(1);
         robot.lifty.setTargetPosition(1500);
         robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -43,7 +45,7 @@ public class BLUE_NETZONE_HighChamber extends AutonomousPLUS {
         turnRobotRight(900, 2);
         moveRobotLeft(900, 2);
         moveRobotForward(200, 2);*/
-        robot.tempOutakePos("MOREUP");
+        //robot.tempOutakePos("MOREUP");
         prepareNextAction(2000);
 
     }
