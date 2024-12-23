@@ -26,8 +26,11 @@ public class ImprovedDrivetrainMovementsTest extends AutonomousPLUS {
         robot.outakeclawOpenClose("CLOSED");
 
 
-        timeTurnRight(2500, 2000);
-        timeTurnleft(2500, 2000);
+        moveDiagonalRight(1000, 2);
+        moveDiagonalRight(-1000, 2);
+
+        moveDiagonalLeft(1000, 2);
+        moveDiagonalLeft(-1000, 2);
 
 
 
