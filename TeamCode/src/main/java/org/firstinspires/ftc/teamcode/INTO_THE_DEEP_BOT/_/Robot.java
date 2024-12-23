@@ -8,12 +8,14 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Trajectory;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -29,13 +31,14 @@ public class Robot {
     public DcMotor frontRightDrive;
     public DcMotor backLeftDrive;
     public DcMotor backRightDrive;
-    public DcMotor lifty;
-    public DcMotor waterslide;
-
-
+    public DcMotor lifty; //vertical extension
+    public DcMotor waterslide; //horizontal extension
 
     public CRServo leftIntake;
     public CRServo rightIntake;
+
+    public Servo leftSlide;
+    public Servo rightSlide;
 
     public Servo intakeFlipper;
 
@@ -46,19 +49,15 @@ public class Robot {
     public NormalizedColorSensor colorSens;
     public SparkFunOTOS sparky;
 
-    //public WebcamName CamCam;
-
     public Telemetry telemetry;
-    //public BNO055IMU imu;
 
     //init and declare war
     public OpMode opmode;
     public HardwareMap hardwareMap;
-    public static double parkingZone;
-    public String startingPosition;
     public String controlMode = "Robot Centric";// Robot Centric
     public String intakeFlipperPos ="UP";
     public String color = "";
+    public IMU.Parameters imuParameters;
 
     //Initialize motors and servos
     public Robot(HardwareMap hardwareMap, Telemetry telemetry, OpMode opmode){
@@ -79,17 +78,20 @@ public class Robot {
         intakeFlipper = hardwareMap.get(Servo.class, "flipperServo");
         flippyOutakeServo = hardwareMap.get(Servo.class, "flippyOutakeServo");
         grabbyOutakeServo = hardwareMap.get(Servo.class, "grabbyOutakeServo");
+
+        leftSlide = hardwareMap.get(Servo.class, "leftSlide");
+        rightSlide = hardwareMap.get(Servo.class, "rightSlide");
         colorSens = hardwareMap.get(NormalizedColorSensor.class,"colorSens");
         sparky = hardwareMap.get(SparkFunOTOS.class,"sparkFunSparkJoy");
 
 
-        //add arms to map
-        /*
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        imu.initialize(parameters);
-        */
+        imuParameters = new IMU.Parameters(
+                new RevHubOrientationOnRobot(
+                        RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                        RevHubOrientationOnRobot.UsbFacingDirection.RIGHT
+                )
+        );
+
         // This section sets the direction of all of the motors. Depending on the motor, this may change later in the program.
         frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -124,9 +126,10 @@ public class Robot {
 
     public void setTargets(String direction, int ticks) {
 
+        //This is all inverted (big sigh)
+
         if (Objects.equals(direction, "Right")){
             frontLeftDrive.setTargetPosition(-ticks + frontLeftDrive.getCurrentPosition());
-            frontLeftDrive.getTargetPosition();
             frontRightDrive.setTargetPosition(ticks + frontRightDrive.getCurrentPosition());
             backLeftDrive.setTargetPosition(ticks + backLeftDrive.getCurrentPosition());
             backRightDrive.setTargetPosition(-ticks + backRightDrive.getCurrentPosition());
@@ -140,26 +143,26 @@ public class Robot {
         } else if (direction == "Forward"){
             frontLeftDrive.setTargetPosition(-ticks + frontLeftDrive.getCurrentPosition());
             frontRightDrive.setTargetPosition(-ticks + frontRightDrive.getCurrentPosition());
-            backLeftDrive.setTargetPosition(-ticks - backLeftDrive.getCurrentPosition());
-            backRightDrive.setTargetPosition(-ticks - backRightDrive.getCurrentPosition());
+            backLeftDrive.setTargetPosition(-ticks + backLeftDrive.getCurrentPosition());
+            backRightDrive.setTargetPosition(-ticks + backRightDrive.getCurrentPosition());
 
         } else if (direction == "Backward") {
-            frontLeftDrive.setTargetPosition(ticks - frontLeftDrive.getCurrentPosition());
-            frontRightDrive.setTargetPosition(ticks - frontRightDrive.getCurrentPosition());
-            backLeftDrive.setTargetPosition(ticks - backLeftDrive.getCurrentPosition());
-            backRightDrive.setTargetPosition(ticks - backRightDrive.getCurrentPosition());
+            frontLeftDrive.setTargetPosition(ticks + frontLeftDrive.getCurrentPosition());
+            frontRightDrive.setTargetPosition(ticks + frontRightDrive.getCurrentPosition());
+            backLeftDrive.setTargetPosition(ticks + backLeftDrive.getCurrentPosition());
+            backRightDrive.setTargetPosition(ticks + backRightDrive.getCurrentPosition());
 
         } else if (direction == "Turn Right") {
-            frontLeftDrive.setTargetPosition(ticks + frontLeftDrive.getCurrentPosition());
-            frontRightDrive.setTargetPosition(-ticks - frontRightDrive.getCurrentPosition());
-            backLeftDrive.setTargetPosition(ticks - backLeftDrive.getCurrentPosition());
-            backRightDrive.setTargetPosition(-ticks - backRightDrive.getCurrentPosition());
+            frontLeftDrive.setTargetPosition(-ticks + frontLeftDrive.getCurrentPosition());
+            frontRightDrive.setTargetPosition(ticks + frontRightDrive.getCurrentPosition());
+            backLeftDrive.setTargetPosition(-ticks + backLeftDrive.getCurrentPosition());
+            backRightDrive.setTargetPosition(ticks + backRightDrive.getCurrentPosition());
 
         } else if (direction == "Turn Left") {
-            frontLeftDrive.setTargetPosition(-ticks - frontLeftDrive.getCurrentPosition());
-            frontRightDrive.setTargetPosition(ticks + frontRightDrive.getCurrentPosition());
-            backLeftDrive.setTargetPosition(-ticks - backLeftDrive.getCurrentPosition());
-            backRightDrive.setTargetPosition(ticks - backRightDrive.getCurrentPosition());
+            frontLeftDrive.setTargetPosition(ticks + frontLeftDrive.getCurrentPosition());
+            frontRightDrive.setTargetPosition(-ticks + frontRightDrive.getCurrentPosition());
+            backLeftDrive.setTargetPosition(ticks + backLeftDrive.getCurrentPosition());
+            backRightDrive.setTargetPosition(-ticks + backRightDrive.getCurrentPosition());
 
         }
 
@@ -185,6 +188,19 @@ public class Robot {
 
     }
 
+    public void slidesIn()
+    {
+        leftSlide.setPosition(1); //guess value... DO NOT TRUST
+        rightSlide.setPosition(0); //guess value... DO NOT TRUST
+        intakePosition("UP");
+    }
+
+    public void collapseExpansion()
+    {
+        slidesIn();
+        //lifty.setTargetPosition(-20);
+    }
+
     public void intake_spin (double direction){
         //servos spin in thingy
         if(direction > 0)
@@ -203,6 +219,7 @@ public class Robot {
         }
 
     }
+
     public boolean canWiggle = true;
     public void intakePosition (String intakeFlipperPos)
     {
@@ -213,7 +230,7 @@ public class Robot {
         }
         else if(intakeFlipperPos == "DOWN")
         {
-            intakeFlipper.setPosition(0);
+            intakeFlipper.setPosition(.15);
             canWiggle = true;
         }
 
@@ -223,11 +240,11 @@ public class Robot {
     {
         if(state == "OPEN")
         {
-           grabbyOutakeServo.setPosition(.83);
+            grabbyOutakeServo.setPosition(.9);
         }
         else if (state == "CLOSED")
         {
-            grabbyOutakeServo.setPosition(.95);
+            grabbyOutakeServo.setPosition(1);
         }
     }
 
@@ -241,6 +258,12 @@ public class Robot {
         {
             flippyOutakeServo.setPosition(.8);
         }
+        if (pos == "MOREUP")
+        {
+            flippyOutakeServo.setPosition(1);
+        }
+
+
     }
 
     public NormalizedRGBA getColors(){
@@ -322,6 +345,7 @@ public class Robot {
         return ((inches/12.25) * 537.6 / .5);
         //todo Reference that 1 inch ~= 50 ticks
     }
+
     // one side may be backwards due to the direction that the motor was faced
     public void moveArm(String direction){
         if (direction == "Up"){
@@ -340,76 +364,6 @@ public class Robot {
         lifty.setPower(0.05);
     }
 
-
     public boolean primaryClawClosed = false;
-
-
-
-  /*  Some April Tag and tensorflow stuff
-
-    public void showersAndFlowers(){
-
-        AprilTagProcessor OSHAmobile;
-
-        OSHAmobile = new AprilTagProcessor.Builder()
-                .setTagLibrary(AprilTagGameDatabase.getCurrentGameTagLibrary())
-                .setDrawTagID(true)
-                .setDrawTagOutline(true)
-                .setDrawAxes(true)
-                .setDrawCubeProjection(true)
-                .build();
-    }
-
-    public void tensorFlowDetection(){
-
-        TfodProcessor safetyGlasses;
-
-        safetyGlasses = new TfodProcessor.Builder()
-                .setMaxNumRecognitions(10)
-                .setUseObjectTracker(true)
-                .setTrackerMaxOverlap((float) 0.2)
-                .setTrackerMinSize(16)
-                .build();
-    }
-
-    public void visionPortal(AprilTagProcessor aprilTagProcessor, TfodProcessor tfodProcessor){
-        VisionPortal Oracle;
-
-
-        myVisionPortal = new VisionPortal.Builder()
-                .setCamera(hardwareMap.get(WebcamName.class, "Cam Cam"))
-                .addProcessor(aprilTagProcessor)
-                .setCameraResolution(new Size(640, 480))
-                .setStreamFormat(VisionPortal.StreamFormat.YUY2)
-                .enableCameraMonitoring(true)
-                .setAutoStopLiveView(true)
-                .build();
-
-
-    }
-
-    public void retrieveAprilTags(AprilTagProcessor ATP){
-        List<AprilTagDetection> ATDS;         // list of all detections // current detection in for() loop
-        int SPOTnum;                           // ID code of current detection, in for() loop
-
-        // Get a list of AprilTag detections.
-        ATDS = ATP.getDetections();
-
-        // Cycle through through the list and process each AprilTag.
-        for (AprilTagDetection SPOT : ATDS) {
-
-            if (SPOT.metadata != null) {  // This check for non-null Metadata is not needed for reading only ID code.
-                SPOTnum = SPOT.id;
-
-                // Now take action based on this tag's ID code, or store info for later action.
-
-            }
-        }
-    }
-
-
-   */
-
-
 
 }

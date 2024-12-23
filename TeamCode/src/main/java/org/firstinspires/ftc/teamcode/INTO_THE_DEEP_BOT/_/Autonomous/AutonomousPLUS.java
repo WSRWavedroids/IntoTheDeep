@@ -33,7 +33,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
-//import org.firstinspires.ftc.teamcode.OLD.Autonomous.AprilTags.MayFlowers;
 
 /**
  * This is the autonomous mode. It moves the robot without us having to touch the controller.
@@ -45,7 +44,6 @@ public class AutonomousPLUS extends LinearOpMode {
 
     // This section tells the program all of the different pieces of hardware that are on our robot that we will use in the program.
     private ElapsedTime runtime = new ElapsedTime();
-
 
     public double speed = 0.6;
     public int sleepTime;
@@ -171,6 +169,17 @@ public class AutonomousPLUS extends LinearOpMode {
             robot.encoderReset();
 
         }
+    }
+
+    public void moveArm(int ticks, double power, long pause) {
+        robot.lifty.setPower(power);
+        robot.lifty.setTargetPosition(ticks);
+        robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        while (!(robot.lifty.getCurrentPosition() > (ticks - 10) && robot.lifty.getCurrentPosition() < (ticks + 10)))
+        {
+            robot.tellMotorOutput();
+        }
+        sleep(pause);
     }
 
     public void prepareNextAction(long pause) {

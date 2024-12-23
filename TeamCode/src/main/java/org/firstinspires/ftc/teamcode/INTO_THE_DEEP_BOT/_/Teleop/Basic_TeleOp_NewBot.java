@@ -81,7 +81,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
         if (robot.controlMode=="Field Centric")
         {
-              imu = hardwareMap.get(IMU.class, "imu");
+            imu = hardwareMap.get(IMU.class, "imu");
             IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                     RevHubOrientationOnRobot.LogoFacingDirection.UP,
                     RevHubOrientationOnRobot.UsbFacingDirection.LEFT)); //Forward = left fsr
@@ -107,6 +107,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
         gamepad2.setLedColor(0, 0, 255, 100000000);
         robot.intakePosition("UP");
         robot.tempOutakePos("UP");
+        robot.collapseExpansion();
     }
 
     /*
@@ -157,15 +158,6 @@ public class Basic_TeleOp_NewBot extends OpMode {
             telemetry.addData("Speed", "Normal Boi");
         }
 
-        if (gamepad1.right_bumper){
-            robot.identifyColor(robot.getColors(), robot.getHSV());
-            telemetry.addData("Color", robot.color);
-        }
-
-        //
-
-
-
         /*//Driver 2 Starts here
         //Lift
         if (gamepad2.left_stick_y < -0.5){
@@ -176,31 +168,11 @@ public class Basic_TeleOp_NewBot extends OpMode {
             robot.holdArm();
         }*/
 
-        int liftyTopLimit = 2100;//temp value
+        int liftyTopLimit = 4100;//temp value
         int liftyBottomLimit = -20;//temp value
         int liftyGoControlerVal = robot.lifty.getCurrentPosition() - ((int)armStickY * 360);
         robot.lifty.setPower(1);
-        /*if (liftyGoControlerVal > liftyBottomLimit && liftyGoControlerVal < liftyTopLimit)
-        {
-            robot.lifty.setTargetPosition(liftyGoControlerVal);
-            robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
-        else if (liftyGoControlerVal < liftyBottomLimit)
-        {
-            robot.lifty.setTargetPosition(liftyBottomLimit);
-            robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
-        else if(liftyGoControlerVal > liftyTopLimit)
-        {
-            robot.lifty.setTargetPosition(liftyTopLimit);
-            robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
-        else
-        {
-            robot.lifty.setTargetPosition(robot.lifty.getCurrentPosition());
-        }
 
-*/
         robot.lifty.setTargetPosition(liftyGoControlerVal);
 
 
@@ -214,37 +186,6 @@ public class Basic_TeleOp_NewBot extends OpMode {
         }
 
         robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        /*
-        double slideSum = gamepad2.right_trigger - gamepad2.left_trigger;
-        if (Math.abs(slideSum) > .3)
-        {
-            robot.waterslide.setPower(slideSum);
-        }
-        else robot.waterslide.setPower(0);
-        */
-
-
-        int slideInLimit = 4;
-        int slideOutLimit = 4655;
-        int slideSum =  robot.waterslide.getCurrentPosition() + (((int)gamepad2.right_trigger - (int)gamepad2.left_trigger) * 360);
-        robot.waterslide.setPower(1);
-        //robot.waterslide.setTargetPosition(slideSum);
-
-        if(robot.waterslide.getCurrentPosition() > slideOutLimit || slideSum > slideOutLimit)
-        {
-            robot.waterslide.setTargetPosition(slideOutLimit);
-        }
-        else if(robot.waterslide.getCurrentPosition() < slideInLimit || slideSum < slideInLimit)
-        {
-            robot.waterslide.setTargetPosition(slideInLimit);
-        }
-        else {
-            robot.waterslide.setTargetPosition(slideSum);
-        }
-        robot.waterslide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-
 
         //intake
         if(gamepad2.dpad_down)
@@ -267,7 +208,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
         }
         else if (gamepad2.y)
         {
-            robot.intakePosition("UP");
+            robot.collapseExpansion();
         }
 
         if (robot.canWiggle == true && Math.abs(gamepad2.right_stick_y) > 0)
@@ -282,6 +223,27 @@ public class Basic_TeleOp_NewBot extends OpMode {
             }
 
         }
+
+        float slideSum = gamepad2.right_trigger - gamepad2.left_trigger;
+        double sensModifier = .045f;
+        if(Math.abs(slideSum) > .1)
+        {
+            double left = (robot.leftSlide.getPosition() + ((double)slideSum * sensModifier));
+            double right = (robot.rightSlide.getPosition() - ((double)slideSum * sensModifier));
+
+            if(left < .05)
+            {
+                left = .05;
+            }
+            if (right > .95)
+            {
+                right = .95;
+            }
+
+            robot.rightSlide.setPosition(right);
+            robot.leftSlide.setPosition(left);
+        }
+
 
         //outake
 
@@ -337,10 +299,10 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
         if (robot.controlMode == "Robot Centric") {
 
-            motorPowers[0] = (leftY + leftX - rightX);//might need inverted back
-            motorPowers[1] = (leftY - leftX + rightX);
-            motorPowers[2] = (leftY - leftX - rightX);
-            motorPowers[3] = (leftY + leftX + rightX);
+            motorPowers[0] = (leftY + leftX + rightX);//might need inverted back
+            motorPowers[1] = (leftY - leftX - rightX);
+            motorPowers[2] = (leftY - leftX + rightX);
+            motorPowers[3] = (leftY + leftX - rightX);
 
         } else if (robot.controlMode == "Field Centric") {
             double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
