@@ -84,7 +84,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
               imu = hardwareMap.get(IMU.class, "imu");
             IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                     RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                    RevHubOrientationOnRobot.UsbFacingDirection.LEFT)); //Forward = left fsr
+                    RevHubOrientationOnRobot.UsbFacingDirection.RIGHT)); //Forward = left fsr
             // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
             imu.initialize(parameters);
         }
@@ -317,10 +317,10 @@ public class Basic_TeleOp_NewBot extends OpMode {
             // This ensures all the powers maintain the same ratio,
             // but only if at least one is out of the range [-1, 1]
             double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rightX), 1);
-            double frontLeftPower = (rotY + rotX - rightX) / denominator; //all of the right xs got inverted
-            double backLeftPower = (rotY - rotX + rightX) / denominator;
-            double frontRightPower = (rotY - rotX - rightX) / denominator;
-            double backRightPower = (rotY + rotX + rightX) / denominator;
+            double frontLeftPower = (rotY + rotX + rightX) / denominator; //all of the right xs got inverted
+            double backLeftPower = (rotY - rotX - rightX) / denominator;
+            double frontRightPower = (rotY - rotX + rightX) / denominator;
+            double backRightPower = (rotY + rotX - rightX) / denominator;
 
 
 
