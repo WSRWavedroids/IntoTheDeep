@@ -79,7 +79,7 @@ public class AutonomousPlatinum extends LinearOpMode {
 
         public Action slideUp(double distance){
             Action inst = null;
-            return new slideUp;
+            return new slideUp();
         }
 
         public Action slideDown(double distance){
