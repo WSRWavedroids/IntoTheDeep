@@ -157,7 +157,18 @@ public class Robot {
             frontRightDrive.setTargetPosition(-ticks + frontRightDrive.getCurrentPosition());
             backLeftDrive.setTargetPosition(ticks + backLeftDrive.getCurrentPosition());
             backRightDrive.setTargetPosition(-ticks + backRightDrive.getCurrentPosition());
-
+        }
+        else if (direction == "Diagonal Right") {
+            frontLeftDrive.setTargetPosition(-ticks + frontLeftDrive.getCurrentPosition());
+            frontRightDrive.setPower(0);
+            backLeftDrive.setPower(0);
+            backRightDrive.setTargetPosition(-ticks + backRightDrive.getCurrentPosition());
+        }
+        else if (direction == "Diagonal Left") {
+            frontLeftDrive.setPower(0);
+            frontRightDrive.setTargetPosition(-ticks + frontRightDrive.getCurrentPosition());
+            backLeftDrive.setTargetPosition(-ticks + backLeftDrive.getCurrentPosition());
+            backRightDrive.setPower(0);
         }
 
 
@@ -172,6 +183,13 @@ public class Robot {
             backRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
+    public void powerRunningMode()
+    {
+        frontLeftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        frontRightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backLeftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        backRightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
     public void powerSet(double speed) {
         frontLeftDrive.setPower(speed);
         frontRightDrive.setPower(speed);
