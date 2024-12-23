@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._;
 import android.annotation.SuppressLint;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -44,6 +45,7 @@ public class Robot {
 
     //public DistanceSensor distanceSensor;
 
+    SparkFunOTOS myOtos;
 
     //public WebcamName CamCam;
 
@@ -79,6 +81,7 @@ public class Robot {
         grabbyOutakeServo = hardwareMap.get(Servo.class, "grabbyOutakeServo");
         leftSlide = hardwareMap.get(Servo.class, "leftSlide");
         rightSlide = hardwareMap.get(Servo.class, "rightSlide");
+        myOtos = hardwareMap.get(SparkFunOTOS.class, "sensor_otos");
 
 
         imuParameters = new IMU.Parameters(
