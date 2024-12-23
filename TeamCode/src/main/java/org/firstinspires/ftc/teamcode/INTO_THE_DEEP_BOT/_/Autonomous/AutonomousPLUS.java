@@ -286,7 +286,177 @@ public class AutonomousPLUS extends LinearOpMode {
         }
     }
 
+    public void moveDiagonalRight(int ticks, long pause) {
+        //This moves along the 45/225 axis, Positive ticks move forward and negative move back
+        if (opModeIsActive()) {
+            robot.setTargets("Diagonal Right", ticks);
+            robot.frontLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.backRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.powerSet(speed);
+
+            while (opModeIsActive() && robot.isWheelsBusy()) {
+                robot.tellMotorOutput();
+            }
+
+            robot.stopAllMotors();
+            robot.encoderRunningMode();
+            sleep(pause);
+            robot.encoderReset();
+        }
+    }
+
+    public void moveDiagonalLeft(int ticks, long pause) {
+        //moves along the 135/315 axis, positive ticks move forward and negative ticks move back
+        if (opModeIsActive()) {
+            robot.setTargets("Diagonal Left", ticks);
+            robot.frontRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.backLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.powerSet(speed);
+
+            while (opModeIsActive() && robot.isWheelsBusy()) {
+                robot.tellMotorOutput();
+            }
+
+            robot.stopAllMotors();
+            robot.encoderRunningMode();
+            sleep(pause);
+            robot.encoderReset();
+        }
+    }
+
+
+    public void timeDriveForward(long time, long pause)
+    {//time is in milliseconds
+        ElapsedTime timer = new ElapsedTime();
+        robot.encoderRunningMode();
+        timer.reset();
+        while (timer.milliseconds() < time)
+        {
+            robot.frontLeftDrive.setPower(-speed);
+            robot.backLeftDrive.setPower(-speed);
+            robot.frontRightDrive.setPower(-speed);
+            robot.backRightDrive.setPower(-speed);
+        }
+        robot.stopAllMotors();
+        sleep(pause);
+    }
+
+    public void timeDriveBackward(long time, long pause)
+    {//time is in milliseconds
+        ElapsedTime timer = new ElapsedTime();
+        robot.encoderRunningMode();
+        timer.reset();
+        while (opModeIsActive() && timer.milliseconds() < time)
+        {
+            robot.frontLeftDrive.setPower(speed);
+            robot.backLeftDrive.setPower(speed);
+            robot.frontRightDrive.setPower(speed);
+            robot.backRightDrive.setPower(speed);
+        }
+        robot.stopAllMotors();
+        sleep(pause);
+    }
+
+    public void timeDriveRight(long time, long pause)
+    {//time is in milliseconds
+        ElapsedTime timer = new ElapsedTime();
+        robot.encoderRunningMode();
+        timer.reset();
+        while (opModeIsActive() && timer.milliseconds() < time)
+        {
+            robot.frontLeftDrive.setPower(-speed);
+            robot.backLeftDrive.setPower(speed);
+            robot.frontRightDrive.setPower(speed);
+            robot.backRightDrive.setPower(-speed);
+        }
+        robot.stopAllMotors();
+        sleep(pause);
+    }
+
+    public void timeDriveLeft(long time, long pause)
+    {//time is in milliseconds
+        ElapsedTime timer = new ElapsedTime();
+        robot.encoderRunningMode();
+        timer.reset();
+        while (opModeIsActive() && timer.milliseconds() < time)
+        {
+            robot.frontLeftDrive.setPower(speed);
+            robot.backLeftDrive.setPower(-speed);
+            robot.frontRightDrive.setPower(-speed);
+            robot.backRightDrive.setPower(speed);
+        }
+        robot.stopAllMotors();
+        sleep(pause);
+    }
+
+    public void timeTurnleft(long time, long pause)
+    {//time is in milliseconds
+        ElapsedTime timer = new ElapsedTime();
+        robot.encoderRunningMode();
+        timer.reset();
+        while (opModeIsActive() && timer.milliseconds() < time)
+        {
+            robot.frontLeftDrive.setPower(speed);
+            robot.backLeftDrive.setPower(speed);
+            robot.frontRightDrive.setPower(-speed);
+            robot.backRightDrive.setPower(-speed);
+        }
+        robot.stopAllMotors();
+        sleep(pause);
+    }
+
+    public void timeTurnRight(long time, long pause)
+    {//time is in milliseconds
+        ElapsedTime timer = new ElapsedTime();
+        robot.encoderRunningMode();
+        timer.reset();
+        while (opModeIsActive() && timer.milliseconds() < time)
+        {
+            robot.frontLeftDrive.setPower(-speed);
+            robot.backLeftDrive.setPower(-speed);
+            robot.frontRightDrive.setPower(speed);
+            robot.backRightDrive.setPower(speed);
+        }
+        robot.stopAllMotors();
+        sleep(pause);
+    }
+
+    public void timeDiagonalRight(long time, long pause, int PosOneForward_MinusOneBack)
+    {// This moves along the 45/225 axis. Changing the last int to -1 will make it go back, pos 1 will go forward
+        ElapsedTime timer = new ElapsedTime();
+        robot.encoderRunningMode();
+        timer.reset();
+        while (opModeIsActive() && timer.milliseconds() < time)
+        {
+            robot.frontLeftDrive.setPower(-speed *  PosOneForward_MinusOneBack);
+            robot.backLeftDrive.setPower(0);
+            robot.frontRightDrive.setPower(0);
+            robot.backRightDrive.setPower(-speed * PosOneForward_MinusOneBack);
+        }
+        robot.stopAllMotors();
+        sleep(pause);
+    }
+
+    public void timeDiagonalLeft(long time, long pause, int PosOneForward_MinusOneBack)
+    {//Moves along the 135/315 degree axis. Changing the last int to -1 will make it go back, pos 1 will go forward
+        ElapsedTime timer = new ElapsedTime();
+        robot.encoderRunningMode();
+        timer.reset();
+        while (opModeIsActive() && timer.milliseconds() < time)
+        {
+            robot.frontLeftDrive.setPower(0);
+            robot.backLeftDrive.setPower(-speed * PosOneForward_MinusOneBack);
+            robot.frontRightDrive.setPower(-speed * PosOneForward_MinusOneBack);
+            robot.backRightDrive.setPower(0);
+        }
+        robot.stopAllMotors();
+        sleep(pause);
+    }
+
+
     public void moveArm(int ticks, double power, long pause) {
+        //Moves the lift to the specified position...
+        // Doesn't move it by the number of ticks given as the drivetrain functions expect.
         robot.lifty.setPower(power);
         robot.lifty.setTargetPosition(ticks);
         robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
