@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
 public class AutonomousPlatinum extends LinearOpMode {
 
     //DO NOT DELETE THIS LINE! CAPITALIZATION IS VERY IMPORTANT!!!
-    public Robot robot = null;
+    public static Robot robot = null;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -20,34 +20,12 @@ public class AutonomousPlatinum extends LinearOpMode {
     }
 
     /*******************************************************************************
-     * ROADRUNNER ACTIONS STUFF
+     * SLIDES ACTIONS (INCLUDES SPECIMEN CLAW)
      *******************************************************************************/
 
-    public class Drivetrain implements Action {
-        public Action followTrajectory(Trajectory t) {
-            Action inst = null;
-            return inst;
-        }
+    public static class Slides {
 
-        public Action turn(double angle) {
-            Action inst = null;
-            return inst;
-        }
-
-        public Action moveToPoint(double x, double y) {
-            Action inst = null;
-            return inst;
-        }
-
-        @Override
-        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            return false;
-        }
-    }
-
-    public class Slides implements Action {
-
-        public class slideUp implements Action {
+        public static class slideUpToMidPos implements Action {
             // checks if the lift motor has been powered on
             private boolean initialized = false;
 
@@ -63,7 +41,7 @@ public class AutonomousPlatinum extends LinearOpMode {
                 // checks lift's current position
                 double pos = robot.lifty.getCurrentPosition();
                 packet.put("liftPos", pos);
-                if (pos < 3000.0) {
+                if (pos < 1500) { //todo Find a way to make this customizable because this is annoying af
                     // true causes the action to rerun
                     return true;
                 } else {
@@ -72,58 +50,183 @@ public class AutonomousPlatinum extends LinearOpMode {
                     return false;
                 }
                 // overall, the action powers the lift until it surpasses
-                // 3000 encoder ticks, then powers it off
+                // 1500 encoder ticks, then powers it off
             }
         }
 
+        public static class slideUpToHighPos implements Action {
+            // checks if the lift motor has been powered on
+            private boolean initialized = false;
 
-        public Action slideUp(double distance){
-            Action inst = null;
-            return new slideUp();
+            // actions are formatted via telemetry packets as below
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                // powers on motor, if it is not on
+                if (!initialized) {
+                    robot.lifty.setPower(0.8);
+                    initialized = true;
+                }
+
+                // checks lift's current position
+                double pos = robot.lifty.getCurrentPosition();
+                packet.put("liftPos", pos);
+                if (pos < 2500) { //todo Find a way to make this customizable because this is annoying af
+                    // true causes the action to rerun
+                    return true;
+                } else {
+                    // false stops action rerun
+                    robot.lifty.setPower(0);
+                    return false;
+                }
+                // overall, the action powers the lift until it surpasses
+                // 2500 encoder ticks, then powers it off
+            }
         }
 
-        public Action slideDown(double distance){
+        public static class slideUpToWallPos implements Action {
+            // checks if the lift motor has been powered on
+            private boolean initialized = false;
+
+            // actions are formatted via telemetry packets as below
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                // powers on motor, if it is not on
+                if (!initialized) {
+                    robot.lifty.setPower(0.8);
+                    initialized = true;
+                }
+
+                // checks lift's current position
+                double pos = robot.lifty.getCurrentPosition();
+                packet.put("liftPos", pos);
+                if (pos < 230) { //todo Find a way to make this customizable because this is annoying af
+                    // true causes the action to rerun
+                    return true;
+                } else {
+                    // false stops action rerun
+                    robot.lifty.setPower(0);
+                    return false;
+                }
+                // overall, the action powers the lift until it surpasses
+                // 230 encoder ticks, then powers it off
+            }
+        }
+
+        public static class slideDownToNoPos implements Action {
+            // checks if the lift motor has been powered on
+            private boolean initialized = false;
+
+            // actions are formatted via telemetry packets as below
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                // powers on motor, if it is not on
+                if (!initialized) {
+                    robot.lifty.setPower(0.8);
+                    initialized = true;
+                }
+
+                // checks lift's current position
+                double pos = robot.lifty.getCurrentPosition();
+                packet.put("liftPos", pos);
+                if (pos > 5) { //todo Find a way to make this customizable because this is annoying af
+                    // true causes the action to rerun
+                    return true;
+                } else {
+                    // false stops action rerun
+                    robot.lifty.setPower(0);
+                    return false;
+                }
+                // overall, the action powers the lift until it goes down to
+                // 5 encoder ticks, then powers it off
+            }
+        }
+
+        public static class closeClaw implements Action {
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                robot.outakeclawOpenClose("CLOSED");
+                return false;
+            }
+        }
+
+        public static class openClaw implements Action{
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                robot.outakeclawOpenClose("OPEN");
+                return false;
+            }
+        }
+
+        public static Action slideUpToMidPos(double distance){
+            return new slideUpToMidPos();
+        }
+
+        public static Action slideUpToHighPos(double distance){
+            return new slideUpToHighPos();
+        }
+
+        public static Action slideUpToWallPos(double distance){
+            return new slideUpToWallPos();
+        }
+
+        public static Action slideDownToNoPos(double distance){
+            return new slideDownToNoPos();
+        }
+
+        public static Action closeClaw(double position){
+            return new closeClaw();
+        }
+
+        public static Action openClaw(double position){
+            return new openClaw();
+        }
+
+        public static Action moveWrist(double position){
             Action inst = null;
             return inst;
+
+            //I'm dealing with this nonsense later...
         }
 
-        public Action openCloseClaw(double position){
-            Action inst = null;
-            return inst;
-        }
-
-        public Action moveWrist(double position){
-            Action inst = null;
-            return inst;
-        }
-
-        @Override
-        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            return false;
-        }
     }
 
-    public class GroundIntake implements Action {
+    /*******************************************************************************
+     * GROUND INTAKE ACTIONS
+     *******************************************************************************/
 
-        public Action spinIntake(){
+    public static class GroundIntake {
+
+        public static class spinHawk implements Action{
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                robot.intake_spin(1);
+                return false;
+            }
+        }
+
+        public static class spinTuah implements Action{
+            @Override
+            public boolean run(@NonNull TelemetryPacket packet) {
+                robot.intake_spin(-1);
+                return false;
+            }
+        }
+
+        public static Action spinIntake(){
+            return new spinHawk();
+        }
+
+        public static Action spinOuttake(){
+            return new spinTuah();
+        }
+
+        public static Action flipWrist(double position){
             Action inst = null;
             return inst;
+
+            //Also dealing with this nonsense later...
         }
 
-        public Action spinOuttake(){
-            Action inst = null;
-            return inst;
-        }
-
-        public Action flipWrist(double position){
-            Action inst = null;
-            return inst;
-        }
-
-        @Override
-        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            return false;
-        }
     }
 
 }
