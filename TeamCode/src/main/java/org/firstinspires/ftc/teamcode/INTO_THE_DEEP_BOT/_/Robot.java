@@ -3,10 +3,16 @@ package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.Trajectory;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
@@ -336,6 +342,7 @@ public class Robot {
 
 
     public boolean primaryClawClosed = false;
+
 
 
   /*  Some April Tag and tensorflow stuff
