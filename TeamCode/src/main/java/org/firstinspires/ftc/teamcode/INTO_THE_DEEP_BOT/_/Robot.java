@@ -177,7 +177,7 @@ public class Robot {
         backLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        waterslide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //waterslide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
     public void powerSet(double speed) {
