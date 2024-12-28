@@ -81,7 +81,7 @@ public class Robot {
         grabbyOutakeServo = hardwareMap.get(Servo.class, "grabbyOutakeServo");
         leftSlide = hardwareMap.get(Servo.class, "leftSlide");
         rightSlide = hardwareMap.get(Servo.class, "rightSlide");
-        myOtos = hardwareMap.get(SparkFunOTOS.class, "sensor_otos");
+        myOtos = hardwareMap.get(SparkFunOTOS.class, "sparkFunSparkJoy");
 
 
         imuParameters = new IMU.Parameters(
@@ -216,14 +216,14 @@ public class Robot {
 
     public void intake_spin (double direction){
         //servos spin in thingy
-        if(direction > 0)
+        if(direction > 0) // >0 is out
         {
             leftIntake.setDirection(CRServo.Direction.FORWARD);
             rightIntake.setDirection(CRServo.Direction.REVERSE);//direction is forward... set speed to that val
             leftIntake.setPower(Math.abs(direction));
             rightIntake.setPower(Math.abs(direction));
         }
-        else
+        else // <0 is in
         {
             leftIntake.setDirection(CRServo.Direction.REVERSE);
             rightIntake.setDirection(CRServo.Direction.FORWARD);//direction is forward... set speed to that val
