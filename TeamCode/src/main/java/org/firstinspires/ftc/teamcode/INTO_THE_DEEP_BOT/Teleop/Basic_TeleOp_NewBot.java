@@ -170,22 +170,28 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
         int liftyTopLimit = 4100;//temp value
         int liftyBottomLimit = -20;//temp value
-        int liftyGoControlerVal = robot.lifty.getCurrentPosition() - ((int)armStickY * 360);
-        robot.lifty.setPower(1);
+        int liftyGoControlerVal = robot.liftyL.getCurrentPosition() - ((int)armStickY * 360);
+        robot.liftyL.setPower(1);
+        robot.liftyR.setPower(1);
 
-        robot.lifty.setTargetPosition(liftyGoControlerVal);
+        robot.liftyL.setTargetPosition(liftyGoControlerVal);
+        robot.liftyR.setTargetPosition(liftyGoControlerVal);
 
 
-        if(robot.lifty.getCurrentPosition() > liftyTopLimit || liftyGoControlerVal > liftyTopLimit)
+        if(robot.liftyL.getCurrentPosition() > liftyTopLimit || liftyGoControlerVal > liftyTopLimit)
         {
-            robot.lifty.setTargetPosition(liftyTopLimit);
+            robot.liftyL.setTargetPosition(liftyTopLimit);
+            robot.liftyR.setTargetPosition(liftyTopLimit);
         }
-        else if(robot.lifty.getCurrentPosition() < liftyBottomLimit || liftyGoControlerVal < liftyBottomLimit)
+        else if(robot.liftyL.getCurrentPosition() < liftyBottomLimit || liftyGoControlerVal < liftyBottomLimit)
         {
-            robot.lifty.setTargetPosition(liftyBottomLimit);
+            robot.liftyL.setTargetPosition(liftyBottomLimit);
+            robot.liftyR.setTargetPosition(liftyBottomLimit);
         }
 
-        robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
 
         //intake
         if(gamepad2.dpad_down)
