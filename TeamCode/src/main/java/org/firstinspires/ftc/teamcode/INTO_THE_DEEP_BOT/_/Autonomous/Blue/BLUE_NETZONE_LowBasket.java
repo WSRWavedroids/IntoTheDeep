@@ -21,7 +21,7 @@ public class BLUE_NETZONE_LowBasket extends AutonomousPLUS {
         telemetry.addData(currentPosition,"Start position");
         robot.lifty.setPower(0);
         robot.tempOutakePos("UP");
-        robot.intakePosition("UP");
+        robot.intakePosition("IN");
         speed = .4;
         robot.outakeclawOpenClose("CLOSED");
         //Movement Starts
