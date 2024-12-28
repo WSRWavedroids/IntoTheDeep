@@ -211,7 +211,8 @@ public class Robot {
     public void collapseExpansion()
     {
         slidesIn();
-        //lifty.setTargetPosition(-20);
+        lifty.setTargetPosition(-20);
+        lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
     public void intake_spin (double direction){
@@ -235,14 +236,19 @@ public class Robot {
     public boolean canWiggle = true;
     public void intakePosition (String intakeFlipperPos)
     {
-        if(intakeFlipperPos == "UP")
+        if(intakeFlipperPos == "IN")
         {
             intakeFlipper.setPosition(1);//guess position
-            canWiggle = true;
+            canWiggle = false;
         }
         else if(intakeFlipperPos == "DOWN")
         {
             intakeFlipper.setPosition(.15);
+            canWiggle = true;
+        }
+        else if(intakeFlipperPos == "UP")
+        {
+            intakeFlipper.setPosition(.75);//testing value DO NOT TRUST
             canWiggle = true;
         }
 
@@ -276,6 +282,21 @@ public class Robot {
         }
 
 
+    }
+
+    public void TransferSequence()
+    {
+        slidesIn();
+        //flip the transfer down here
+        while (lifty.getCurrentPosition() < -20 && lifty.getCurrentPosition() > 0)
+        {
+            lifty.setPower(1);
+            lifty.setTargetPosition(-15);
+            lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+        intakePosition("IN");
+        //Make a timer for running the outake
+        outa
     }
 
 
