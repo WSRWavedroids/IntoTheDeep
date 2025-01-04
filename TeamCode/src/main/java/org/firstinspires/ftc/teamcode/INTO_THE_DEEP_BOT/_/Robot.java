@@ -85,7 +85,7 @@ public class Robot {
         grabbyOutakeServo = hardwareMap.get(Servo.class, "grabbyOutakeServo");
         leftSlide = hardwareMap.get(Servo.class, "leftSlide");
         rightSlide = hardwareMap.get(Servo.class, "rightSlide");
-        myOtos = hardwareMap.get(SparkFunOTOS.class, "sensor_otos");
+        myOtos = hardwareMap.get(SparkFunOTOS.class, "sparkFunSparkJoy");
 
 
         imuParameters = new IMU.Parameters(
