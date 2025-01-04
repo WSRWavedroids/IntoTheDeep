@@ -105,9 +105,9 @@ public class Basic_TeleOp_NewBot extends OpMode {
         telemetry.addData("HYPE", "Let's do this!!!");
         gamepad1.setLedColor(0, 0, 255, 100000000);
         gamepad2.setLedColor(0, 0, 255, 100000000);
-        robot.intakePosition("UP");
-        robot.tempOutakePos("UP");
-        robot.collapseExpansion();
+        //robot.intakePosition("UP");
+        //robot.tempOutakePos("UP");
+        //robot.collapseExpansion();
     }
 
     /*
@@ -168,29 +168,16 @@ public class Basic_TeleOp_NewBot extends OpMode {
             robot.holdArm();
         }*/
 
-        int liftyTopLimit = 4100;//temp value
-        int liftyBottomLimit = -20;//temp value
-        int liftyGoControlerVal = robot.liftyL.getCurrentPosition() - ((int)armStickY * 360);
-        robot.liftyL.setPower(1);
-        robot.liftyR.setPower(1);
-
-        robot.liftyL.setTargetPosition(liftyGoControlerVal);
-        robot.liftyR.setTargetPosition(liftyGoControlerVal);
-
-
-        if(robot.liftyL.getCurrentPosition() > liftyTopLimit || liftyGoControlerVal > liftyTopLimit)
+        //int liftyTopLimit = 4100;//temp value
+        //int liftyBottomLimit = -20;//temp value
+        double CadenVertSlideSense = .75;
+        robot.liftyL.setPower(-gamepad2.left_stick_y * CadenVertSlideSense);
+        robot.liftyR.setPower(-gamepad2.left_stick_y * CadenVertSlideSense);
+        if(Math.abs(gamepad2.left_stick_y) < .1)
         {
-            robot.liftyL.setTargetPosition(liftyTopLimit);
-            robot.liftyR.setTargetPosition(liftyTopLimit);
-        }
-        else if(robot.liftyL.getCurrentPosition() < liftyBottomLimit || liftyGoControlerVal < liftyBottomLimit)
-        {
-            robot.liftyL.setTargetPosition(liftyBottomLimit);
-            robot.liftyR.setTargetPosition(liftyBottomLimit);
+            robot.holdArm();
         }
 
-        robot.liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
         //intake
