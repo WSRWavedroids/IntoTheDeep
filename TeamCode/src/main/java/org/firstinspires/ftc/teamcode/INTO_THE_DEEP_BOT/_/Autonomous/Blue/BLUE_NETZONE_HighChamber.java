@@ -15,9 +15,9 @@ public class BLUE_NETZONE_HighChamber extends AutonomousPLUS {
 
         super.runOpMode();
         waitForStart();
-        robot.encoderReset();
+        /*robot.encoderReset();
         telemetry.addData(currentPosition,"Start position");
-        robot.lifty.setPower(0);
+        robot.liftyL.setPower(0);
         robot.tempOutakePos("UP");
         robot.intakePosition("IN");
         speed = .3;
