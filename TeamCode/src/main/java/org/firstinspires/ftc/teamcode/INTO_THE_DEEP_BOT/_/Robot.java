@@ -10,15 +10,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
-import com.qualcomm.robotcore.hardware.ImuOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.ftccommon.internal.manualcontrol.parameters.ImuParameters;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
-import java.lang.reflect.Array;
 import java.util.Objects;
 
 public class Robot {
@@ -44,6 +40,9 @@ public class Robot {
     public Servo leftSlide;
     public Servo rightSlide;
 
+    public boolean teleopEncoderMode;
+
+    public boolean teleopPowerMode;
 
     //public DistanceSensor distanceSensor;
 
@@ -212,12 +211,14 @@ public class Robot {
     {
         leftSlide.setPosition(1); //guess value... DO NOT TRUST
         rightSlide.setPosition(0); //guess value... DO NOT TRUST
-        intakePosition("UP");
+        //intakePosition("UP");
     }
 
     public void collapseExpansion()
     {
         slidesIn();
+        liftyL.setPower(1);
+        liftyR.setPower(1);
         liftyL.setTargetPosition(-20);
         liftyR.setTargetPosition(-20);
         liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -279,18 +280,18 @@ public class Robot {
     {
         if (pos == "DOWN")
         {
-            leftFlippyOutakeServo.setPosition(.5);
-            rightFlippyOutakeServo.setPosition(.5);
+            leftFlippyOutakeServo.setPosition(0);
+            rightFlippyOutakeServo.setPosition(0);
         }
         if (pos == "UP")
         {
-            leftFlippyOutakeServo.setPosition(.8);
-            rightFlippyOutakeServo.setPosition(.2);
+            leftFlippyOutakeServo.setPosition(1);
+            rightFlippyOutakeServo.setPosition(1);
         }
         if (pos == "MOREUP")
         {
             leftFlippyOutakeServo.setPosition(1);
-            rightFlippyOutakeServo.setPosition(0);
+            rightFlippyOutakeServo.setPosition(1);
         }
 
 
@@ -298,32 +299,62 @@ public class Robot {
 
     public void TransferSequence()
     {
-        slidesIn(); //move the intake up and the horiz slides in
-        //flip the transfer down here
+
+        tempOutakePos("DOWN");
 
         //Moves and waits until the vert slides are at the bottom before moving on
-        while (liftyL.getCurrentPosition() < -20 || liftyL.getCurrentPosition() > -10)
+        while (liftyL.getCurrentPosition() < -5 || liftyL.getCurrentPosition() > 5)
         {
             liftyL.setPower(1);
             liftyR.setPower(1);
-            liftyL.setTargetPosition(-15);
-            liftyR.setTargetPosition(-15);
+            liftyL.setTargetPosition(0);
+            liftyR.setTargetPosition(0);
             liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
-        //Moves the intake in and waits until it reaches its destination
-        intakePosition("IN");
-        while(intakeFlipper.getPosition() != 1)
+
+        while(leftFlippyOutakeServo.getPosition() > 0.1)
         {
+            tempOutakePos("DOWN");
+            tellMotorOutput(); //Just a stalling method... had to have something here
+        }
+
+        intakePosition("UP");
+       /* while(intakeFlipper.getPosition() != .75)
+        {
+            intakePosition("UP");
+            tellMotorOutput();
+        }*/
+
+        slidesIn(); //move the intake up and the horiz slides in
+        while(leftSlide.getPosition() < 1)
+        {
+            slidesIn();
+            tellMotorOutput();
+        }
+
+        //flip the transfer down here
+
+
+        //Moves the intake in and waits until it reaches its destination
+        while(intakeFlipper.getPosition() < 1)
+        {
+            intakeFlipper.setPosition(1);
            tellMotorOutput(); //Just a stalling method... had to have something here
         }
+
 
         //Make a timer for running the intake spit-out
         ElapsedTime timer = new ElapsedTime();
         timer.reset();
-        while (timer.milliseconds() < 500 )
+        while (timer.milliseconds() < 1000 )
         {
-            intake_spin(.5);
+            tellMotorOutput();
+        }
+        timer.reset();
+        while (timer.milliseconds() < 1000 )
+        {
+            intake_spin(-.5);
         }
         intake_spin(0);
 
@@ -331,6 +362,7 @@ public class Robot {
         intakePosition("UP");
         while(intakeFlipper.getPosition() != .75)
         {
+            intakeFlipper.setPosition(.75);
             tellMotorOutput(); //more stalling... tee hee
         }
         //flip the intake up to allow scoring
@@ -339,12 +371,13 @@ public class Robot {
 
 
 
-    public void encoderRunningMode(){
+    public DcMotor.RunMode encoderRunningMode(){
         frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        return null;
     }
 
     public void encoderReset(){
