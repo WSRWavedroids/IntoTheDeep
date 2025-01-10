@@ -237,11 +237,16 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
         if(gamepad2.x)
         {
-            robot.intakePosition("DOWN");
+            robot.intakePosition("UP");
+            robot.slidesIn();
         }
         else if (gamepad2.y)
         {
-          robot.TransferSequence();
+            robot.frontLeftDrive.setPower(0);
+            robot.backLeftDrive.setPower(0);
+            robot.frontRightDrive.setPower(0);
+            robot.backRightDrive.setPower(0);
+            robot.TransferSequence();
         }
 
         if (robot.canWiggle == true && Math.abs(gamepad2.right_stick_y) > 0)
@@ -264,13 +269,13 @@ public class Basic_TeleOp_NewBot extends OpMode {
             double left = (robot.leftSlide.getPosition() + ((double)slideSum * sensModifier));
             double right = (robot.rightSlide.getPosition() - ((double)slideSum * sensModifier));
 
-            if(left < .05)
+            if(left < .25)
             {
-                left = .05;
+                left = .25;
             }
-            if (right > .95)
+            if (right > .75)
             {
-                right = .95;
+                right = .75;
             }
 
             robot.rightSlide.setPosition(right);

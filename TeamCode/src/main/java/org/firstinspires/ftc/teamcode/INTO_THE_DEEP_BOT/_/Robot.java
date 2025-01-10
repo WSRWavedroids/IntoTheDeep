@@ -216,13 +216,32 @@ public class Robot {
 
     public void collapseExpansion()
     {
-        slidesIn();
-        liftyL.setPower(1);
-        liftyR.setPower(1);
-        liftyL.setTargetPosition(-20);
-        liftyR.setTargetPosition(-20);
-        liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        tempOutakePos("DOWN");
+        //Moves and waits until the vert slides are at the bottom before moving on
+        while (liftyL.getCurrentPosition() < -5 || liftyL.getCurrentPosition() > 5)
+        {
+            liftyL.setPower(1);
+            liftyR.setPower(1);
+            liftyL.setTargetPosition(0);
+            liftyR.setTargetPosition(0);
+            liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+
+        while(leftFlippyOutakeServo.getPosition() > 0.1)
+        {
+            tempOutakePos("DOWN");
+            tellMotorOutput(); //Just a stalling method... had to have something here
+        }
+
+        intakePosition("UP");
+
+        slidesIn(); //move the intake up and the horiz slides in
+        while(leftSlide.getPosition() < 1)
+        {
+            slidesIn();
+            tellMotorOutput();
+        }
     }
 
     public void intake_spin (double direction){
@@ -285,13 +304,13 @@ public class Robot {
         }
         if (pos == "UP")
         {
-            leftFlippyOutakeServo.setPosition(1);
-            rightFlippyOutakeServo.setPosition(1);
+            leftFlippyOutakeServo.setPosition(.8);
+            rightFlippyOutakeServo.setPosition(.8);
         }
         if (pos == "MOREUP")
         {
-            leftFlippyOutakeServo.setPosition(1);
-            rightFlippyOutakeServo.setPosition(1);
+            leftFlippyOutakeServo.setPosition(.8);
+            rightFlippyOutakeServo.setPosition(.8);
         }
 
 
