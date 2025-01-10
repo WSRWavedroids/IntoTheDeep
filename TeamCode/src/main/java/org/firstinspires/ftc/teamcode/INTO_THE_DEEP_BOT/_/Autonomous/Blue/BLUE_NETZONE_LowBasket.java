@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPLUS;
 
-@Autonomous(group = "Basic", name = "Blue Basic Net Zone")
-public class BlueBasicNetZone extends AutonomousPLUS {
+@Autonomous(group = "Basic", name = "Net Zone Basket")
+public class BLUE_NETZONE_LowBasket extends AutonomousPLUS {
 
     public String currentPosition;
     public String target;
@@ -17,19 +17,26 @@ public class BlueBasicNetZone extends AutonomousPLUS {
 
 
         waitForStart();
+        robot.encoderReset();
         telemetry.addData(currentPosition,"Start position");
-
-        //robot.waterslide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        robot.liftyL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.liftyL.setPower(0);
-        //robot.waterslide.setPower(0);
         robot.tempOutakePos("UP");
         robot.intakePosition("UP");
-        speed = .5;
+        speed = .4;
         robot.outakeclawOpenClose("CLOSED");
-        moveRobotForward(80, 2);
-        moveRobotLeft(600, 2);
-        moveRobotRight(350, 2);
+        //Movement Starts
+        moveRobotForward(900,2);
+        turnRobotLeft(1250,2);
+        moveRobotForward(950,2);
+        robot.liftyL.setPower(1);
+        robot.liftyL.setTargetPosition(2500);
+        robot.liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        sleep(3000);
+        moveRobotForward(150,2);
+        robot.outakeclawOpenClose("OPEN");
+        sleep(1000);
+        speed = 1;
+        turnRobotLeft(15,2);
 
     }
 }

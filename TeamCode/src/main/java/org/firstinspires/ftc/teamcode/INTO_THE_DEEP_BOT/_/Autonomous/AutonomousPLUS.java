@@ -172,10 +172,14 @@ public class AutonomousPLUS extends LinearOpMode {
     }
 
     public void moveArm(int ticks, double power, long pause) {
-        robot.lifty.setPower(power);
-        robot.lifty.setTargetPosition(ticks);
-        robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        while (!(robot.lifty.getCurrentPosition() > (ticks - 10) && robot.lifty.getCurrentPosition() < (ticks + 10)))
+        robot.liftyL.setPower(power);
+        robot.liftyR.setPower(power);
+        robot.liftyL.setTargetPosition(ticks);
+        robot.liftyR.setTargetPosition(ticks);
+        robot.liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        while (!(robot.liftyR.getCurrentPosition() > (ticks - 10) && robot.liftyR.getCurrentPosition() < (ticks + 10)))
         {
             robot.tellMotorOutput();
         }

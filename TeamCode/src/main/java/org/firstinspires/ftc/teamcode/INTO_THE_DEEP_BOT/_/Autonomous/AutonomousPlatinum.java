@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
 public class AutonomousPlatinum extends LinearOpMode {
 
     //DO NOT DELETE THIS LINE! CAPITALIZATION IS VERY IMPORTANT!!!
-    public static Robot robot = null;
+    public Robot robot = null;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -23,9 +23,9 @@ public class AutonomousPlatinum extends LinearOpMode {
      * SLIDES ACTIONS (INCLUDES SPECIMEN CLAW)
      *******************************************************************************/
 
-    public static class Slides {
+    public class Slides {
 
-        public static class slideUpToMidPos implements Action {
+        public class slideUpToMidPos implements Action {
             // checks if the lift motor has been powered on
             private boolean initialized = false;
 
@@ -34,19 +34,21 @@ public class AutonomousPlatinum extends LinearOpMode {
             public boolean run(@NonNull TelemetryPacket packet) {
                 // powers on motor, if it is not on
                 if (!initialized) {
-                    robot.lifty.setPower(0.8);
+                    robot.liftyL.setPower(0.8);
+                    robot.liftyR.setPower(0.8);
                     initialized = true;
                 }
 
                 // checks lift's current position
-                double pos = robot.lifty.getCurrentPosition();
+                double pos = robot.liftyL.getCurrentPosition();
                 packet.put("liftPos", pos);
                 if (pos < 1500) { //todo Find a way to make this customizable because this is annoying af
                     // true causes the action to rerun
                     return true;
                 } else {
                     // false stops action rerun
-                    robot.lifty.setPower(0);
+                    robot.liftyL.setPower(0);
+                    robot.liftyR.setPower(0);
                     return false;
                 }
                 // overall, the action powers the lift until it surpasses
@@ -54,7 +56,7 @@ public class AutonomousPlatinum extends LinearOpMode {
             }
         }
 
-        public static class slideUpToHighPos implements Action {
+        public class slideUpToHighPos implements Action {
             // checks if the lift motor has been powered on
             private boolean initialized = false;
 
@@ -63,19 +65,21 @@ public class AutonomousPlatinum extends LinearOpMode {
             public boolean run(@NonNull TelemetryPacket packet) {
                 // powers on motor, if it is not on
                 if (!initialized) {
-                    robot.lifty.setPower(0.8);
+                    robot.liftyL.setPower(0.8);
+                    robot.liftyR.setPower(0.8);
                     initialized = true;
                 }
 
                 // checks lift's current position
-                double pos = robot.lifty.getCurrentPosition();
+                double pos = robot.liftyL.getCurrentPosition();
                 packet.put("liftPos", pos);
                 if (pos < 2500) { //todo Find a way to make this customizable because this is annoying af
                     // true causes the action to rerun
                     return true;
                 } else {
                     // false stops action rerun
-                    robot.lifty.setPower(0);
+                    robot.liftyL.setPower(0);
+                    robot.liftyR.setPower(0);
                     return false;
                 }
                 // overall, the action powers the lift until it surpasses
@@ -83,7 +87,7 @@ public class AutonomousPlatinum extends LinearOpMode {
             }
         }
 
-        public static class slideUpToWallPos implements Action {
+        public class slideUpToWallPos implements Action {
             // checks if the lift motor has been powered on
             private boolean initialized = false;
 
@@ -92,19 +96,21 @@ public class AutonomousPlatinum extends LinearOpMode {
             public boolean run(@NonNull TelemetryPacket packet) {
                 // powers on motor, if it is not on
                 if (!initialized) {
-                    robot.lifty.setPower(0.8);
+                    robot.liftyR.setPower(0.8);
+                    robot.liftyL.setPower(0.8);
                     initialized = true;
                 }
 
                 // checks lift's current position
-                double pos = robot.lifty.getCurrentPosition();
+                double pos = robot.liftyL.getCurrentPosition();
                 packet.put("liftPos", pos);
                 if (pos < 230) { //todo Find a way to make this customizable because this is annoying af
                     // true causes the action to rerun
                     return true;
                 } else {
                     // false stops action rerun
-                    robot.lifty.setPower(0);
+                    robot.liftyL.setPower(0);
+                    robot.liftyR.setPower(0);
                     return false;
                 }
                 // overall, the action powers the lift until it surpasses
@@ -112,7 +118,7 @@ public class AutonomousPlatinum extends LinearOpMode {
             }
         }
 
-        public static class slideDownToNoPos implements Action {
+        public class slideDownToNoPos implements Action {
             // checks if the lift motor has been powered on
             private boolean initialized = false;
 
@@ -121,19 +127,21 @@ public class AutonomousPlatinum extends LinearOpMode {
             public boolean run(@NonNull TelemetryPacket packet) {
                 // powers on motor, if it is not on
                 if (!initialized) {
-                    robot.lifty.setPower(0.8);
+                    robot.liftyR.setPower(0.8);
+                    robot.liftyL.setPower(0.8);
                     initialized = true;
                 }
 
                 // checks lift's current position
-                double pos = robot.lifty.getCurrentPosition();
+                double pos = robot.liftyL.getCurrentPosition();
                 packet.put("liftPos", pos);
                 if (pos > 5) { //todo Find a way to make this customizable because this is annoying af
                     // true causes the action to rerun
                     return true;
                 } else {
                     // false stops action rerun
-                    robot.lifty.setPower(0);
+                    robot.liftyL.setPower(0);
+                    robot.liftyR.setPower(0);
                     return false;
                 }
                 // overall, the action powers the lift until it goes down to
@@ -141,7 +149,7 @@ public class AutonomousPlatinum extends LinearOpMode {
             }
         }
 
-        public static class closeClaw implements Action {
+        public class closeClaw implements Action {
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 robot.outakeclawOpenClose("CLOSED");
@@ -149,7 +157,7 @@ public class AutonomousPlatinum extends LinearOpMode {
             }
         }
 
-        public static class openClaw implements Action{
+        public class openClaw implements Action{
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 robot.outakeclawOpenClose("OPEN");
@@ -157,35 +165,28 @@ public class AutonomousPlatinum extends LinearOpMode {
             }
         }
 
-        public static Action slideUpToMidPos(double distance){
+        public Action slideUpToMidPos(double distance){
             return new slideUpToMidPos();
         }
 
-        public static Action slideUpToHighPos(double distance){
+        public Action slideUpToHighPos(double distance){
             return new slideUpToHighPos();
         }
 
-        public static Action slideUpToWallPos(double distance){
+        public Action slideUpToWallPos(double distance){
             return new slideUpToWallPos();
         }
 
-        public static Action slideDownToNoPos(double distance){
+        public Action slideDownToNoPos(double distance){
             return new slideDownToNoPos();
         }
 
-        public static Action closeClaw(double position){
+        public Action closeClaw(double position){
             return new closeClaw();
         }
 
-        public static Action openClaw(double position){
+        public Action openClaw(double position){
             return new openClaw();
-        }
-
-        public static Action moveWrist(double position){
-            Action inst = null;
-            return inst;
-
-            //I'm dealing with this nonsense later...
         }
 
     }
@@ -194,9 +195,9 @@ public class AutonomousPlatinum extends LinearOpMode {
      * GROUND INTAKE ACTIONS
      *******************************************************************************/
 
-    public static class GroundIntake {
+    public class GroundIntake {
 
-        public static class spinHawk implements Action{
+        public class spinHawk implements Action{
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 robot.intake_spin(1);
@@ -204,7 +205,7 @@ public class AutonomousPlatinum extends LinearOpMode {
             }
         }
 
-        public static class spinTuah implements Action{
+        public class spinTuah implements Action{
             @Override
             public boolean run(@NonNull TelemetryPacket packet) {
                 robot.intake_spin(-1);
@@ -212,15 +213,15 @@ public class AutonomousPlatinum extends LinearOpMode {
             }
         }
 
-        public static Action spinIntake(){
+        public Action spinIntake(){
             return new spinHawk();
         }
 
-        public static Action spinOuttake(){
+        public Action spinOuttake(){
             return new spinTuah();
         }
 
-        public static Action flipWrist(double position){
+        public Action flipWrist(double position){
             Action inst = null;
             return inst;
 

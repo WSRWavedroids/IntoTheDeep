@@ -31,7 +31,8 @@ public class Robot {
     public DcMotor frontRightDrive;
     public DcMotor backLeftDrive;
     public DcMotor backRightDrive;
-    public DcMotor lifty; //vertical extension
+    public DcMotor liftyL; //vertical extension
+    public DcMotor liftyR;
     public DcMotor waterslide; //horizontal extension
 
     public CRServo leftIntake;
@@ -42,7 +43,8 @@ public class Robot {
 
     public Servo intakeFlipper;
 
-    public Servo flippyOutakeServo;
+    public Servo leftFlippyOutakeServo;
+    public Servo rightFlippyOutakeServo;
 
     public Servo grabbyOutakeServo;
 
@@ -58,6 +60,7 @@ public class Robot {
     public String intakeFlipperPos ="UP";
     public String color = "";
     public IMU.Parameters imuParameters;
+    public IMU imu;
 
     //Initialize motors and servos
     public Robot(HardwareMap hardwareMap, Telemetry telemetry, OpMode opmode){
@@ -71,12 +74,15 @@ public class Robot {
         frontLeftDrive = hardwareMap.get(DcMotor.class, "frontLeftDrive");
         backLeftDrive = hardwareMap.get(DcMotor.class, "backLeftDrive");
         backRightDrive = hardwareMap.get(DcMotor.class, "backRightDrive");
-        lifty = hardwareMap.get(DcMotor.class, "lifty");
+        liftyL = hardwareMap.get(DcMotor.class, "liftyL");
+        liftyR = hardwareMap.get(DcMotor.class, "liftyR");
         //waterslide = hardwareMap.get(DcMotor.class, "waterslide");
         leftIntake = hardwareMap.get(CRServo.class, "leftIntake");
         rightIntake = hardwareMap.get(CRServo.class, "rightIntake");
         intakeFlipper = hardwareMap.get(Servo.class, "flipperServo");
-        flippyOutakeServo = hardwareMap.get(Servo.class, "flippyOutakeServo");
+        leftFlippyOutakeServo = hardwareMap.get(Servo.class, "leftFlippyOutakeServo");
+        rightFlippyOutakeServo = hardwareMap.get(Servo.class, "rightFlippyOutakeServo");
+
         grabbyOutakeServo = hardwareMap.get(Servo.class, "grabbyOutakeServo");
 
         leftSlide = hardwareMap.get(Servo.class, "leftSlide");
@@ -91,13 +97,15 @@ public class Robot {
                         RevHubOrientationOnRobot.UsbFacingDirection.RIGHT
                 )
         );
+        imu = hardwareMap.get(IMU.class, "imu");
 
         // This section sets the direction of all of the motors. Depending on the motor, this may change later in the program.
         frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
         backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         backRightDrive.setDirection(DcMotor.Direction.FORWARD); //Was inverted as forward
-        lifty.setDirection(DcMotor.Direction.REVERSE);//inverted
+        liftyL.setDirection(DcMotor.Direction.FORWARD);//inverted
+        liftyR.setDirection(DcMotor.Direction.FORWARD);//inverted
         //waterslide.setDirection(DcMotor.Direction.FORWARD);
 
         // This tells the motors to chill when we're not powering them.
@@ -105,6 +113,9 @@ public class Robot {
         frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftyL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftyR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         //waterslide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //This is new..
@@ -176,7 +187,8 @@ public class Robot {
         frontRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         backRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         //waterslide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
@@ -197,8 +209,32 @@ public class Robot {
 
     public void collapseExpansion()
     {
-        slidesIn();
-        //lifty.setTargetPosition(-20);
+        tempOutakePos("DOWN");
+        //Moves and waits until the vert slides are at the bottom before moving on
+        while (liftyL.getCurrentPosition() < -5 || liftyL.getCurrentPosition() > 5)
+        {
+            liftyL.setPower(1);
+            liftyR.setPower(1);
+            liftyL.setTargetPosition(0);
+            liftyR.setTargetPosition(0);
+            liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+
+        while(leftFlippyOutakeServo.getPosition() > 0.1)
+        {
+            tempOutakePos("DOWN");
+            tellMotorOutput(); //Just a stalling method... had to have something here
+        }
+
+        intakePosition("UP");
+
+        slidesIn(); //move the intake up and the horiz slides in
+        while(leftSlide.getPosition() < 1)
+        {
+            slidesIn();
+            tellMotorOutput();
+        }
     }
 
     public void intake_spin (double direction){
@@ -219,18 +255,22 @@ public class Robot {
         }
 
     }
-
     public boolean canWiggle = true;
     public void intakePosition (String intakeFlipperPos)
     {
-        if(intakeFlipperPos == "UP")
+        if(intakeFlipperPos == "IN")
         {
             intakeFlipper.setPosition(1);//guess position
-            canWiggle = true;
+            canWiggle = false;
         }
         else if(intakeFlipperPos == "DOWN")
         {
             intakeFlipper.setPosition(.15);
+            canWiggle = true;
+        }
+        else if(intakeFlipperPos == "UP")
+        {
+            intakeFlipper.setPosition(.75);//testing value DO NOT TRUST
             canWiggle = true;
         }
 
@@ -248,22 +288,97 @@ public class Robot {
         }
     }
 
-    public void tempOutakePos(String pos)
+    public void tempOutakePos(String pos)// DO NOT TRUST THESE VALS ARE PLACEHOLDERS
     {
         if (pos == "DOWN")
         {
-            flippyOutakeServo.setPosition(.5);
+            leftFlippyOutakeServo.setPosition(0);
+            rightFlippyOutakeServo.setPosition(0);
         }
         if (pos == "UP")
         {
-            flippyOutakeServo.setPosition(.8);
+            leftFlippyOutakeServo.setPosition(.8);
+            rightFlippyOutakeServo.setPosition(.8);
         }
         if (pos == "MOREUP")
         {
-            flippyOutakeServo.setPosition(1);
+            leftFlippyOutakeServo.setPosition(.8);
+            rightFlippyOutakeServo.setPosition(.8);
         }
 
 
+    }
+
+    public void TransferSequence()
+    {
+
+        tempOutakePos("DOWN");
+
+        //Moves and waits until the vert slides are at the bottom before moving on
+        while (liftyL.getCurrentPosition() < -5 || liftyL.getCurrentPosition() > 5)
+        {
+            liftyL.setPower(1);
+            liftyR.setPower(1);
+            liftyL.setTargetPosition(0);
+            liftyR.setTargetPosition(0);
+            liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+
+        while(leftFlippyOutakeServo.getPosition() > 0.1)
+        {
+            tempOutakePos("DOWN");
+            tellMotorOutput(); //Just a stalling method... had to have something here
+        }
+
+        intakePosition("UP");
+       /* while(intakeFlipper.getPosition() != .75)
+        {
+            intakePosition("UP");
+            tellMotorOutput();
+        }*/
+
+        slidesIn(); //move the intake up and the horiz slides in
+        while(leftSlide.getPosition() < 1)
+        {
+            slidesIn();
+            tellMotorOutput();
+        }
+
+        //flip the transfer down here
+
+
+        //Moves the intake in and waits until it reaches its destination
+        while(intakeFlipper.getPosition() < 1)
+        {
+            intakeFlipper.setPosition(1);
+            tellMotorOutput(); //Just a stalling method... had to have something here
+        }
+
+
+        //Make a timer for running the intake spit-out
+        ElapsedTime timer = new ElapsedTime();
+        timer.reset();
+        while (timer.milliseconds() < 1000 )
+        {
+            tellMotorOutput();
+        }
+        timer.reset();
+        while (timer.milliseconds() < 1000 )
+        {
+            intake_spin(-.5);
+        }
+        intake_spin(0);
+
+        //Flip the intake out of the way before moving on
+        intakePosition("UP");
+        while(intakeFlipper.getPosition() != .75)
+        {
+            intakeFlipper.setPosition(.75);
+            tellMotorOutput(); //more stalling... tee hee
+        }
+        //flip the intake up to allow scoring
+        //Function Ends here
     }
 
     public NormalizedRGBA getColors(){
@@ -334,7 +449,7 @@ public class Robot {
         telemetry.addData("Motors", String.format("FR Power(%.2f) FR Location (%d) FR Target (%d)", frontRightDrive.getPower(), frontRightDrive.getCurrentPosition(), frontRightDrive.getTargetPosition()));
         telemetry.addData("Motors", String.format("BL Power(%.2f) BL Location (%d) BL Target (%d)", backLeftDrive.getPower(), backLeftDrive.getCurrentPosition(), backLeftDrive.getTargetPosition()));
         telemetry.addData("Motors", String.format("BR Power(%.2f) BR Location (%d) BR Target (%d)", backRightDrive.getPower(), backRightDrive.getCurrentPosition(), backRightDrive.getTargetPosition()));
-        telemetry.addData("Motors", String.format("Lifty Power (%.2f) Lifty Location (%d) Lifty Target (%d)", lifty.getPower(), lifty.getCurrentPosition(), lifty.getTargetPosition()));
+        telemetry.addData("Motors", String.format("Lifty Power (%.2f) Lifty Location (%d) Lifty Target (%d)", liftyL.getPower(), liftyL.getCurrentPosition(), liftyL.getTargetPosition()));
         //telemetry.addData("Motors", String.format("WaterSlide Motor Power (%.2f) WaterSlide Location (%d) WaterSlide Target (%d)", waterslide.getPower(), waterslide.getCurrentPosition(), waterslide.getTargetPosition()));
         telemetry.addData("Flipper", intakeFlipper.getPosition());
         telemetry.update();
@@ -349,19 +464,19 @@ public class Robot {
     // one side may be backwards due to the direction that the motor was faced
     public void moveArm(String direction){
         if (direction == "Up"){
-            lifty.setPower(1);
-            lifty.setDirection(DcMotor.Direction.FORWARD);//inverted
+            liftyL.setPower(1);
+            liftyL.setDirection(DcMotor.Direction.FORWARD);//inverted
         } else if (direction == "Down"){
-            lifty.setPower(0.25);
-            lifty.setDirection(DcMotor.Direction.REVERSE);//Inverted
+            liftyL.setPower(0.25);
+            liftyL.setDirection(DcMotor.Direction.REVERSE);//Inverted
         }
     }
 
     ElapsedTime timer = new ElapsedTime();
 
     public void holdArm(){
-        lifty.setDirection(DcMotor.Direction.FORWARD);//
-        lifty.setPower(0.05);
+        liftyL.setDirection(DcMotor.Direction.FORWARD);//
+        liftyL.setPower(0.05);
     }
 
     public boolean primaryClawClosed = false;
