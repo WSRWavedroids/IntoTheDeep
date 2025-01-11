@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._;
+package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT;
 
 import android.annotation.SuppressLint;
 
@@ -290,7 +290,7 @@ public class Robot {
         if(state == "OPEN")
         {
            grabbyOutakeServoL.setPosition(.5);
-            grabbyOutakeServoR.setPosition(.5);
+            grabbyOutakeServoR.setPosition(.4);
         }
         else if (state == "CLOSED")
         {

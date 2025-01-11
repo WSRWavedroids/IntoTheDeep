@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous;
+package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Autonomous;
 
 /*
     SPDX-License-Identifier: MIT
