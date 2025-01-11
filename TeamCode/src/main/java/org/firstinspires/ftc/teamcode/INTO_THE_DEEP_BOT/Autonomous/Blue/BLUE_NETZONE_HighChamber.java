@@ -17,61 +17,53 @@ public class BLUE_NETZONE_HighChamber extends AutonomousPLUS {
 
 
         waitForStart();
-        prepareAuto();
-        setMotorTolerance(10);
+        robot.liftyL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.liftyR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.encoderReset();
+        robot.liftyL.setPower(0);
+        robot.liftyR.setPower(0);
+        robot.tempOutakePos("DOWN");
+        robot.intakePosition("UP");
+        robot.intakePosition("UP");
+        robot.slidesIn();
+        speed = .65;
+        robot.outakeclawOpenClose("CLOSED");
+        moveRobotForward(500, 2);
+        moveRobotRight(1100, 2);
 
-        speed = .6;
-        sleep(200);
-
-        moveRobotForward(500, 0);
-        //moveRobotRight(950, 0); // This is the code to start on a different tile
         moveArm(1500, 1, 1000);
-        speed = .3;
-        moveRobotForward(350, 0);
-        speed = .6;
-        moveArm(1800, 1, 0);
+
+
+        moveRobotForward(415, 2);
+
+        moveArm(1750, 1, 1000);
+
         robot.outakeclawOpenClose("OPEN");
         prepareNextAction(2);
-        moveRobotBackward(425,0);
-        moveArm(0,1, 0);
-
-        // First sample
-        moveRobotLeft(1345, 0);
-        setMotorTolerance(8);
-        turnRobotRight(1530, 0);
-        setMotorTolerance(10);
-        autoSlides(.50, 2000);
-        robot.intake_spin(.5); //Pick up yellow sample
-        prepareNextAction(750);
-        robot.intakeFlipper.setPosition(.15);
-        prepareNextAction(2000);
+        moveRobotBackward(450,2);
+        moveArm(0,1, 200);
+        moveRobotLeft(1500, 2);
+        turnRobotRight(1000, 2);//
+        /*Move Slides
+        robot.intake_spin(.5);
+        robot.intakePosition("DOWN");
+        while(robot.intakeFlipper.getPosition() > .15)
+        {
+            robot.intakePosition("DOWN");
+        }
         robot.intake_spin(0);
         robot.TransferSequence();
-        turnRobotRight(450, 0);
-        speed  = .3;
-        moveArm(1901, 1, 0);
-        moveRobotForward(240, 0);//I moved this to after the liftarm to prevent catching on the basket
+        //turn robot
+        //move slide
         robot.tempOutakePos("UP");
-        prepareNextAction(2000);
-        moveRobotBackward(200,0);
-        robot.safeCollapse(); // Collapses the robot so the robot doesn't fall when auto ends
+        while(robot.leftFlippyOutakeServo.getPosition() > 0)
+        {
+            robot.intakePosition("DOWN");
+        }
+        robot.TransferSequence();
 
-        /*// Second sample
-        speed = .6;
-        setMotorTolerance(8);
-        turnRobotLeft(460,0);
-        setMotorTolerance(10);
-        moveRobotRight(275, 0);
-        autoSlides(.65,2000);
-        robot.intake_spin(1); //Pick up other yellow sample
-        prepareNextAction(750);
-        robot.intakeFlipper.setPosition(.15);
+    */
         prepareNextAction(2000);
-        robot.intake_spin(0);
-        robot.TransferSequence();*/
-        
-        prepareNextAction(2000);
-
 
     }
 }

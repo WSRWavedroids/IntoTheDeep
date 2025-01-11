@@ -7,7 +7,6 @@ import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -20,10 +19,10 @@ import java.util.Objects;
 
 public class Robot {
 
-    public DcMotorEx frontLeftDrive;
-    public DcMotorEx frontRightDrive;
-    public DcMotorEx backLeftDrive;
-    public DcMotorEx backRightDrive;
+    public DcMotor frontLeftDrive;
+    public DcMotor frontRightDrive;
+    public DcMotor backLeftDrive;
+    public DcMotor backRightDrive;
     public DcMotor liftyL;
     public DcMotor liftyR;
 
@@ -60,7 +59,7 @@ public class Robot {
     public HardwareMap hardwareMap;
     public static double parkingZone;
     public String startingPosition;
-    public String controlMode = "Field Centric";// Robot Centric
+    public String controlMode = "Robot Centric";// Robot Centric
     public String intakeFlipperPos ="UP";
     public IMU.Parameters imuParameters;
 
@@ -72,10 +71,10 @@ public class Robot {
 
         // This section turns the names of the pieces of hardware into variables that we can program with.
         // Make sure that the device name is the exact same thing you typed in on the configuration on the driver hub.
-        frontRightDrive = hardwareMap.get(DcMotorEx.class, "frontRightDrive");
-        frontLeftDrive = hardwareMap.get(DcMotorEx.class, "frontLeftDrive");
-        backLeftDrive = hardwareMap.get(DcMotorEx.class, "backLeftDrive");
-        backRightDrive = hardwareMap.get(DcMotorEx.class, "backRightDrive");
+        frontRightDrive = hardwareMap.get(DcMotor.class, "frontRightDrive");
+        frontLeftDrive = hardwareMap.get(DcMotor.class, "frontLeftDrive");
+        backLeftDrive = hardwareMap.get(DcMotor.class, "backLeftDrive");
+        backRightDrive = hardwareMap.get(DcMotor.class, "backRightDrive");
         liftyL = hardwareMap.get(DcMotor.class, "liftyL");
         liftyR = hardwareMap.get(DcMotor.class, "liftyR");
         leftIntake = hardwareMap.get(CRServo.class, "leftIntake");
@@ -92,7 +91,7 @@ public class Robot {
 
         imuParameters = new IMU.Parameters(
                 new RevHubOrientationOnRobot(
-                        RevHubOrientationOnRobot.LogoFacingDirection.DOWN,
+                        RevHubOrientationOnRobot.LogoFacingDirection.UP,
                         RevHubOrientationOnRobot.UsbFacingDirection.RIGHT
                 )
         );
@@ -189,8 +188,7 @@ public class Robot {
     }
 
     public void positionRunningMode(){
-
-        frontLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            frontLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             frontRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             backLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             backRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -324,7 +322,7 @@ public class Robot {
 
     public void TransferSequence()
     {
-        //intakePosition("UP");
+
         tempOutakePos("DOWN");
 
         //Moves and waits until the vert slides are at the bottom before moving on
@@ -337,7 +335,6 @@ public class Robot {
             liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
-
 
         while(leftFlippyOutakeServo.getPosition() > 0.1)
         {
@@ -383,57 +380,6 @@ public class Robot {
             intake_spin(-.5);
         }
         intake_spin(0);
-
-        //Flip the intake out of the way before moving on
-        intakePosition("UP");
-        while(intakeFlipper.getPosition() != .75)
-        {
-            intakeFlipper.setPosition(.75);
-            tellMotorOutput(); //more stalling... tee hee
-        }
-        //flip the intake up to allow scoring
-        //Function Ends here
-    }
-
-    public void safeCollapse()
-    {
-
-        tempOutakePos("DOWN");
-
-        //Moves and waits until the vert slides are at the bottom before moving on
-        while (liftyL.getCurrentPosition() < -5 || liftyL.getCurrentPosition() > 5)
-        {
-            liftyL.setPower(1);
-            liftyR.setPower(1);
-            liftyL.setTargetPosition(0);
-            liftyR.setTargetPosition(0);
-            liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
-
-        while(leftFlippyOutakeServo.getPosition() > 0.1)
-        {
-            tempOutakePos("DOWN");
-            tellMotorOutput(); //Just a stalling method... had to have something here
-        }
-
-        intakePosition("UP");
-       /* while(intakeFlipper.getPosition() != .75)
-        {
-            intakePosition("UP");
-            tellMotorOutput();
-        }*/
-
-        slidesIn(); //move the intake up and the horiz slides in
-        while(leftSlide.getPosition() < 1)
-        {
-            slidesIn();
-            tellMotorOutput();
-        }
-
-        //flip the transfer down here
-
-
 
         //Flip the intake out of the way before moving on
         intakePosition("UP");

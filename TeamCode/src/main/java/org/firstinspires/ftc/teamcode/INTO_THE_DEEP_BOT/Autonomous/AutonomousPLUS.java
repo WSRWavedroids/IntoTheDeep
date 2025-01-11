@@ -67,12 +67,6 @@ public class AutonomousPLUS extends LinearOpMode {
     {
         robot.leftSlide.setPosition(1-change);
         robot.rightSlide.setPosition(0+change);
-        while(robot.leftSlide.getPosition() != 1-change)
-        {
-            robot.leftSlide.setPosition(1-change);
-            robot.rightSlide.setPosition(0+change);
-            robot.tellMotorOutput();
-        }
         sleep(pause);
     }
     public void moveRobotForward(int ticks, long pause) {
@@ -351,8 +345,6 @@ public class AutonomousPLUS extends LinearOpMode {
     }
 
 
-
-
     public void moveArm(int ticks, double power, long pause) {
         //Moves the lift to the specified position...
         // Doesn't move it by the number of ticks given as the drivetrain functions expect.
@@ -367,30 +359,6 @@ public class AutonomousPLUS extends LinearOpMode {
             robot.tellMotorOutput();
         }
         sleep(pause);
-    }
-
-    public void prepareAuto() {
-        robot.liftyL.setPower(0);
-        robot.liftyR.setPower(0);
-        robot.intakePosition("UP");
-        robot.tempOutakePos("DOWN");
-        robot.slidesIn();
-        //CHASE WAS HERE ;)
-        robot.outakeclawOpenClose("CLOSED");
-        robot.frontLeftDrive.setTargetPositionTolerance(12);
-        robot.frontRightDrive.setTargetPositionTolerance(12);
-        robot.backLeftDrive.setTargetPositionTolerance(12);
-        robot.backRightDrive.setTargetPositionTolerance(12);
-        robot.liftyL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.liftyR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.encoderReset();
-    }
-
-    public void setMotorTolerance(int ticks) {
-        robot.frontLeftDrive.setTargetPositionTolerance(ticks);
-        robot.frontRightDrive.setTargetPositionTolerance(ticks);
-        robot.backLeftDrive.setTargetPositionTolerance(ticks);
-        robot.backRightDrive.setTargetPositionTolerance(ticks);
     }
 
     public void prepareNextAction(long pause) {
