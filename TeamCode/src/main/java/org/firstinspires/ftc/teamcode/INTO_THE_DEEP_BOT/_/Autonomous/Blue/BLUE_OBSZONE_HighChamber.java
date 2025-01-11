@@ -16,11 +16,12 @@ public class BLUE_OBSZONE_HighChamber extends AutonomousPLUS {
         super.runOpMode();
 
         waitForStart();
+        /*
         robot.lifty.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.encoderReset();
         robot.lifty.setPower(0);
         robot.tempOutakePos("UP");
-        robot.intakePosition("UP");
+        robot.intakePosition("IN");
         robot.slidesIn();
         speed = .65;
         robot.outakeclawOpenClose("CLOSED");
@@ -30,7 +31,7 @@ public class BLUE_OBSZONE_HighChamber extends AutonomousPLUS {
         speed=.4;
         moveRobotForward(350, 2);
 
-        moveArm(2500, 1, 2); //Places the starting specimen on the bar*/
+        moveArm(2500, 1, 2); //Places the starting specimen on the bar
         robot.outakeclawOpenClose("OPEN"); //Releases said specimen
 
         speed = .6;
@@ -48,6 +49,6 @@ public class BLUE_OBSZONE_HighChamber extends AutonomousPLUS {
         speed = 1;
         moveRobotBackward(400, 2);
         moveRobotRight(1575, 2);
-        turnRobotLeft(1525, 2);
+        turnRobotLeft(1525, 2);*/
     }
 }

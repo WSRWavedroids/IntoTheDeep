@@ -16,7 +16,7 @@ public class ImprovedDrivetrainMovementsTest extends AutonomousPLUS {
         super.runOpMode();
 
         waitForStart();
-        robot.lifty.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        /*robot.lifty.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.encoderReset();
         robot.lifty.setPower(0);
         robot.tempOutakePos("UP");
@@ -33,6 +33,6 @@ public class ImprovedDrivetrainMovementsTest extends AutonomousPLUS {
         moveDiagonalLeft(-1000, 2);
 
 
-
+*/
     }
 }
