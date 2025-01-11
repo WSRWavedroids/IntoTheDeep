@@ -35,7 +35,8 @@ public class Robot {
 
     public Servo leftFlippyOutakeServo;
     public Servo rightFlippyOutakeServo;
-    public Servo grabbyOutakeServo;
+    public Servo grabbyOutakeServoL;
+    public Servo grabbyOutakeServoR;
 
     public Servo leftSlide;
     public Servo rightSlide;
@@ -81,7 +82,8 @@ public class Robot {
         intakeFlipper = hardwareMap.get(Servo.class, "flipperServo");
         leftFlippyOutakeServo = hardwareMap.get(Servo.class, "leftFlippyOutakeServo");
         rightFlippyOutakeServo = hardwareMap.get(Servo.class, "rightFlippyOutakeServo");
-        grabbyOutakeServo = hardwareMap.get(Servo.class, "grabbyOutakeServo");
+        grabbyOutakeServoL = hardwareMap.get(Servo.class, "grabbyOutakeServoL");
+        grabbyOutakeServoR = hardwareMap.get(Servo.class, "grabbyOutakeServoR");
         leftSlide = hardwareMap.get(Servo.class, "leftSlide");
         rightSlide = hardwareMap.get(Servo.class, "rightSlide");
         myOtos = hardwareMap.get(SparkFunOTOS.class, "sparkFunSparkJoy");
@@ -287,11 +289,13 @@ public class Robot {
     {
         if(state == "OPEN")
         {
-           grabbyOutakeServo.setPosition(.9);
+           grabbyOutakeServoL.setPosition(.5);
+            grabbyOutakeServoR.setPosition(.5);
         }
         else if (state == "CLOSED")
         {
-            grabbyOutakeServo.setPosition(1);
+            grabbyOutakeServoL.setPosition(1);
+            grabbyOutakeServoR.setPosition(0);
         }
     }
 
