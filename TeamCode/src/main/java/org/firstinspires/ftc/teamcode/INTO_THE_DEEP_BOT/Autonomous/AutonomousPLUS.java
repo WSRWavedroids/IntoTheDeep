@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous;
+package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Autonomous;
 /* Copyright (c) 2017 FIRST. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -32,7 +32,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
+import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Robot;
 //import org.firstinspires.ftc.teamcode.OLD.Autonomous.AprilTags.MayFlowers;
 
 /**
@@ -63,7 +63,12 @@ public class AutonomousPLUS extends LinearOpMode {
 
     //These are the basic functions for mechnum movement during auto... Don't mess with these unless something is inverted
     // Remember Without ODO pods there will be some inconsistency due to mechnum slippage
-
+    public void autoSlides(double change, long pause)
+    {
+        robot.leftSlide.setPosition(1-change);
+        robot.rightSlide.setPosition(0+change);
+        sleep(pause);
+    }
     public void moveRobotForward(int ticks, long pause) {
         if (opModeIsActive()) {
             robot.setTargets("Forward", ticks); // Inverted... Lol

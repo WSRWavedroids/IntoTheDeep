@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Teleop;
+package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Teleop;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -37,8 +37,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
-import org.opencv.core.Mat;
+import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Robot;
 
 
 /**
@@ -105,8 +104,9 @@ public class Basic_TeleOp_NewBot extends OpMode {
         telemetry.addData("HYPE", "Let's do this!!!");
         gamepad1.setLedColor(0, 0, 255, 100000000);
         gamepad2.setLedColor(0, 0, 255, 100000000);
-        //robot.liftyR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //robot.liftyL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.tempOutakePos("DOWN");
+        robot.slidesIn();
+        robot.intakePosition("UP");
     }
 
     /*
@@ -172,8 +172,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
         int liftyTopLimit = 4100;//temp value
         int liftyBottomLimit = -20;//temp value
-        if(Math.abs(gamepad1.left_stick_y) < .1) {
-            int liftyGoControlerVal = robot.liftyL.getCurrentPosition() - ((int) armStickY * 360);
+            int liftyGoControlerVal = robot.liftyL.getCurrentPosition() - ((int) armStickY * 260);
             robot.liftyR.setPower(1);
             robot.liftyL.setPower(1);
             robot.liftyR.setTargetPosition(liftyGoControlerVal);
@@ -187,7 +186,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
                 robot.liftyL.setTargetPosition(liftyBottomLimit);
             }
 
-        }
+
 
             robot.liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
