@@ -7,6 +7,7 @@ import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -19,10 +20,10 @@ import java.util.Objects;
 
 public class Robot {
 
-    public DcMotor frontLeftDrive;
-    public DcMotor frontRightDrive;
-    public DcMotor backLeftDrive;
-    public DcMotor backRightDrive;
+    public DcMotorEx frontLeftDrive;
+    public DcMotorEx frontRightDrive;
+    public DcMotorEx backLeftDrive;
+    public DcMotorEx backRightDrive;
     public DcMotor liftyL;
     public DcMotor liftyR;
 
@@ -71,10 +72,10 @@ public class Robot {
 
         // This section turns the names of the pieces of hardware into variables that we can program with.
         // Make sure that the device name is the exact same thing you typed in on the configuration on the driver hub.
-        frontRightDrive = hardwareMap.get(DcMotor.class, "frontRightDrive");
-        frontLeftDrive = hardwareMap.get(DcMotor.class, "frontLeftDrive");
-        backLeftDrive = hardwareMap.get(DcMotor.class, "backLeftDrive");
-        backRightDrive = hardwareMap.get(DcMotor.class, "backRightDrive");
+        frontRightDrive = hardwareMap.get(DcMotorEx.class, "frontRightDrive");
+        frontLeftDrive = hardwareMap.get(DcMotorEx.class, "frontLeftDrive");
+        backLeftDrive = hardwareMap.get(DcMotorEx.class, "backLeftDrive");
+        backRightDrive = hardwareMap.get(DcMotorEx.class, "backRightDrive");
         liftyL = hardwareMap.get(DcMotor.class, "liftyL");
         liftyR = hardwareMap.get(DcMotor.class, "liftyR");
         leftIntake = hardwareMap.get(CRServo.class, "leftIntake");
@@ -188,7 +189,13 @@ public class Robot {
     }
 
     public void positionRunningMode(){
-            frontLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        frontLeftDrive.setTargetPositionTolerance(5);
+        frontRightDrive.setTargetPositionTolerance(5);
+        backLeftDrive.setTargetPositionTolerance(5);
+        backRightDrive.setTargetPositionTolerance(5);
+
+        frontLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             frontRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             backLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             backRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
