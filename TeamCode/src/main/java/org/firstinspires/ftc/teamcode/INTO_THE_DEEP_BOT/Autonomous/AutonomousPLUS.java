@@ -67,6 +67,12 @@ public class AutonomousPLUS extends LinearOpMode {
     {
         robot.leftSlide.setPosition(1-change);
         robot.rightSlide.setPosition(0+change);
+        while(robot.leftSlide.getPosition() != 1-change)
+        {
+            robot.leftSlide.setPosition(1-change);
+            robot.rightSlide.setPosition(0+change);
+            robot.tellMotorOutput();
+        }
         sleep(pause);
     }
     public void moveRobotForward(int ticks, long pause) {
