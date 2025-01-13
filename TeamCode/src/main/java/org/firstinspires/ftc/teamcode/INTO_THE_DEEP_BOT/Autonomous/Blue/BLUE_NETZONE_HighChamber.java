@@ -17,52 +17,51 @@ public class BLUE_NETZONE_HighChamber extends AutonomousPLUS {
 
 
         waitForStart();
-        robot.liftyL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.liftyR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.encoderReset();
         robot.liftyL.setPower(0);
         robot.liftyR.setPower(0);
         robot.tempOutakePos("DOWN");
         robot.intakePosition("UP");
-        robot.intakePosition("UP");
         robot.slidesIn();
-        speed = .65;
         robot.outakeclawOpenClose("CLOSED");
-        moveRobotForward(500, 2);
-        moveRobotRight(1100, 2);
+        robot.frontLeftDrive.setTargetPositionTolerance(50);
+        robot.frontRightDrive.setTargetPositionTolerance(50);
+        robot.backLeftDrive.setTargetPositionTolerance(50);
+        robot.backRightDrive.setTargetPositionTolerance(50);
+        robot.liftyL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.liftyR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.encoderReset();
+        speed = .3;
+        sleep(200);
+        moveRobotForward(500, 0);
+        speed=.6;
+        moveRobotRight(1100, 0);
 
         moveArm(1500, 1, 1000);
 
+        moveRobotForward(395, 0);
 
-        moveRobotForward(415, 2);
-
-        moveArm(1750, 1, 1000);
+        moveArm(1800, 1, 0);
 
         robot.outakeclawOpenClose("OPEN");
         prepareNextAction(2);
-        moveRobotBackward(450,2);
-        moveArm(0,1, 200);
-        moveRobotLeft(1500, 2);
-        turnRobotRight(1000, 2);//
-        /*Move Slides
+        moveRobotBackward(450,0);
+        moveArm(0,1, 0);
+        moveRobotLeft(1550, 0);
+        turnRobotRight(1500, 0);//
+
+        autoSlides(.70, 2000);
         robot.intake_spin(.5);
-        robot.intakePosition("DOWN");
-        while(robot.intakeFlipper.getPosition() > .15)
-        {
-            robot.intakePosition("DOWN");
-        }
+        robot.intakeFlipper.setPosition(.15);
+        prepareNextAction(2000);
         robot.intake_spin(0);
         robot.TransferSequence();
-        //turn robot
-        //move slide
         robot.tempOutakePos("UP");
-        while(robot.leftFlippyOutakeServo.getPosition() > 0)
-        {
-            robot.intakePosition("DOWN");
-        }
-        robot.TransferSequence();
 
-    */
+        robot.TransferSequence();
+        turnRobotRight(450, 0);
+        moveRobotForward(250, 0);
+        moveArm(1901, 1, 0);
+        robot.tempOutakePos("UP");
         prepareNextAction(2000);
 
     }

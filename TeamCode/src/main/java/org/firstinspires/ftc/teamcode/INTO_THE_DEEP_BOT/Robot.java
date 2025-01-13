@@ -190,10 +190,10 @@ public class Robot {
 
     public void positionRunningMode(){
 
-        frontLeftDrive.setTargetPositionTolerance(5);
-        frontRightDrive.setTargetPositionTolerance(5);
-        backLeftDrive.setTargetPositionTolerance(5);
-        backRightDrive.setTargetPositionTolerance(5);
+        frontLeftDrive.setTargetPositionTolerance(50);
+        frontRightDrive.setTargetPositionTolerance(50);
+        backLeftDrive.setTargetPositionTolerance(50);
+        backRightDrive.setTargetPositionTolerance(50);
 
         frontLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             frontRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
