@@ -17,19 +17,7 @@ public class BLUE_NETZONE_HighChamber extends AutonomousPLUS {
 
 
         waitForStart();
-        robot.liftyL.setPower(0);
-        robot.liftyR.setPower(0);
-        robot.tempOutakePos("DOWN");
-        robot.intakePosition("UP");
-        robot.slidesIn();
-        robot.outakeclawOpenClose("CLOSED");
-        robot.frontLeftDrive.setTargetPositionTolerance(50);
-        robot.frontRightDrive.setTargetPositionTolerance(50);
-        robot.backLeftDrive.setTargetPositionTolerance(50);
-        robot.backRightDrive.setTargetPositionTolerance(50);
-        robot.liftyL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.liftyR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.encoderReset();
+        prepareAuto();
         speed = .3;
         sleep(200);
         moveRobotForward(500, 0);
@@ -50,19 +38,21 @@ public class BLUE_NETZONE_HighChamber extends AutonomousPLUS {
         turnRobotRight(1500, 0);//
 
         autoSlides(.70, 2000);
-        robot.intake_spin(.5);
+        robot.intake_spin(.5); //Pick up yellow sample
         robot.intakeFlipper.setPosition(.15);
         prepareNextAction(2000);
         robot.intake_spin(0);
         robot.TransferSequence();
-        robot.tempOutakePos("UP");
+        //robot.tempOutakePos("UP");
 
-        robot.TransferSequence();
+        //robot.TransferSequence();
         turnRobotRight(450, 0);
         moveRobotForward(250, 0);
         moveArm(1901, 1, 0);
         robot.tempOutakePos("UP");
         prepareNextAction(2000);
-
+        moveRobotBackward(300,0);
+        robot.TransferSequence(); // Collapses the robot so the robot doesn't fall when auto ends
+        prepareNextAction(2000);
     }
 }
