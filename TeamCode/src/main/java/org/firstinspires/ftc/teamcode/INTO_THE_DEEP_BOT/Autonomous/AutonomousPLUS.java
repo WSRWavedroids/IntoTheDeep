@@ -367,6 +367,23 @@ public class AutonomousPLUS extends LinearOpMode {
         sleep(pause);
     }
 
+    public void prepareAuto() {
+        robot.liftyL.setPower(0);
+        robot.liftyR.setPower(0);
+        robot.tempOutakePos("DOWN");
+        robot.intakePosition("UP");
+        robot.slidesIn();
+        //CHASE WAS HERE ;)
+        robot.outakeclawOpenClose("CLOSED");
+        robot.frontLeftDrive.setTargetPositionTolerance(50);
+        robot.frontRightDrive.setTargetPositionTolerance(50);
+        robot.backLeftDrive.setTargetPositionTolerance(50);
+        robot.backRightDrive.setTargetPositionTolerance(50);
+        robot.liftyL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.liftyR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.encoderReset();
+    }
+
     public void prepareNextAction(long pause) {
         sleep(pause);
         robot.encoderReset();
