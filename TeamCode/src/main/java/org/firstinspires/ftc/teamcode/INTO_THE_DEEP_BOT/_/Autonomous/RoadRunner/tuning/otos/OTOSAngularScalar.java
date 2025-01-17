@@ -5,8 +5,10 @@ import com.acmerobotics.roadrunner.Rotation2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.RoadRunner.SparkFunDrive;
-@TeleOp
+//import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.RoadRunner.SparkFunDrive;
+//@TeleOp
+
+/*
 public class OTOSAngularScalar extends LinearOpMode {
 
     @Override
@@ -31,3 +33,5 @@ public class OTOSAngularScalar extends LinearOpMode {
 
     }
 }
+
+ */

@@ -9,6 +9,7 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.DownsampledWriter;
 import com.acmerobotics.roadrunner.ftc.FlightRecorder;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -21,11 +22,18 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.RoadRunner.
  * Portions of this code made and released under the MIT License by SparkFun
  * Unless otherwise noted, comments are from SparkFun
  */
-public class SparkFunDrive extends MecanumDrive {
+
+/*
+public class SparkFunDrive extends LinearOpMode {
+
+    @Override
+    public void runOpMode() throws InterruptedException {
+
+    }
 
     public static class Params {
         // Assuming you've mounted your sensor to a robot and it's not centered,
-        // you can specify the offset for the sensor relative to the center of the
+        // you can specify the offset for the sensor r elative to the center of the
         // robot. The units default to inches and degrees, but if you want to use
         // different units, specify them before setting the offset! Note that as of
         // firmware version 1.0, these values will be lost after a power cycle, so
@@ -143,3 +151,5 @@ public class SparkFunDrive extends MecanumDrive {
 
 
 }
+
+ */
