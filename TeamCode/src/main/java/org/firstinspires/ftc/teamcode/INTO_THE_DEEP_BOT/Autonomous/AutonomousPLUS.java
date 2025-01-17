@@ -375,10 +375,10 @@ public class AutonomousPLUS extends LinearOpMode {
         robot.slidesIn();
         //CHASE WAS HERE ;)
         robot.outakeclawOpenClose("CLOSED");
-        robot.frontLeftDrive.setTargetPositionTolerance(50);
-        robot.frontRightDrive.setTargetPositionTolerance(50);
-        robot.backLeftDrive.setTargetPositionTolerance(50);
-        robot.backRightDrive.setTargetPositionTolerance(50);
+        robot.frontLeftDrive.setTargetPositionTolerance(15);
+        robot.frontRightDrive.setTargetPositionTolerance(15);
+        robot.backLeftDrive.setTargetPositionTolerance(15);
+        robot.backRightDrive.setTargetPositionTolerance(15);
         robot.liftyL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.liftyR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.encoderReset();

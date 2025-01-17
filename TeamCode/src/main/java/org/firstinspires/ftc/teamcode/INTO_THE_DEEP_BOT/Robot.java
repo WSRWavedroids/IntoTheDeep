@@ -399,6 +399,57 @@ public class Robot {
         //Function Ends here
     }
 
+    public void safeCollapse()
+    {
+
+        tempOutakePos("DOWN");
+
+        //Moves and waits until the vert slides are at the bottom before moving on
+        while (liftyL.getCurrentPosition() < -5 || liftyL.getCurrentPosition() > 5)
+        {
+            liftyL.setPower(1);
+            liftyR.setPower(1);
+            liftyL.setTargetPosition(0);
+            liftyR.setTargetPosition(0);
+            liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+
+        while(leftFlippyOutakeServo.getPosition() > 0.1)
+        {
+            tempOutakePos("DOWN");
+            tellMotorOutput(); //Just a stalling method... had to have something here
+        }
+
+        intakePosition("UP");
+       /* while(intakeFlipper.getPosition() != .75)
+        {
+            intakePosition("UP");
+            tellMotorOutput();
+        }*/
+
+        slidesIn(); //move the intake up and the horiz slides in
+        while(leftSlide.getPosition() < 1)
+        {
+            slidesIn();
+            tellMotorOutput();
+        }
+
+        //flip the transfer down here
+
+
+
+        //Flip the intake out of the way before moving on
+        intakePosition("UP");
+        while(intakeFlipper.getPosition() != .75)
+        {
+            intakeFlipper.setPosition(.75);
+            tellMotorOutput(); //more stalling... tee hee
+        }
+        //flip the intake up to allow scoring
+        //Function Ends here
+    }
+
 
 
     public DcMotor.RunMode encoderRunningMode(){
