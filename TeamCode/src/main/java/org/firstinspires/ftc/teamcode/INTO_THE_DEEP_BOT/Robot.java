@@ -329,7 +329,7 @@ public class Robot {
 
     public void TransferSequence()
     {
-
+        //intakePosition("UP");
         tempOutakePos("DOWN");
 
         //Moves and waits until the vert slides are at the bottom before moving on
@@ -342,6 +342,7 @@ public class Robot {
             liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
+
 
         while(leftFlippyOutakeServo.getPosition() > 0.1)
         {
