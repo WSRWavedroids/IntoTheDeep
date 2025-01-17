@@ -370,11 +370,12 @@ public class AutonomousPLUS extends LinearOpMode {
     public void prepareAuto() {
         robot.liftyL.setPower(0);
         robot.liftyR.setPower(0);
-        robot.tempOutakePos("DOWN");
         robot.intakePosition("UP");
+        robot.tempOutakePos("DOWN");
         robot.slidesIn();
         //CHASE WAS HERE ;)
         robot.outakeclawOpenClose("CLOSED");
+
         robot.frontLeftDrive.setTargetPositionTolerance(12);
         robot.frontRightDrive.setTargetPositionTolerance(12);
         robot.backLeftDrive.setTargetPositionTolerance(12);
