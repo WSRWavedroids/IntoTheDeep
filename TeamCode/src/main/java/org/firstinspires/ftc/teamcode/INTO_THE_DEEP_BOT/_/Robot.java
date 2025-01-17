@@ -46,7 +46,8 @@ public class Robot {
     public Servo leftFlippyOutakeServo;
     public Servo rightFlippyOutakeServo;
 
-    public Servo grabbyOutakeServo;
+    public Servo grabbyOutakeServoL;
+    public Servo grabbyOutakeServoR;
 
     public NormalizedColorSensor colorSens;
     public SparkFunOTOS sparky;
@@ -83,7 +84,8 @@ public class Robot {
         leftFlippyOutakeServo = hardwareMap.get(Servo.class, "leftFlippyOutakeServo");
         rightFlippyOutakeServo = hardwareMap.get(Servo.class, "rightFlippyOutakeServo");
 
-        grabbyOutakeServo = hardwareMap.get(Servo.class, "grabbyOutakeServo");
+        grabbyOutakeServoL = hardwareMap.get(Servo.class, "grabbyOutakeServoL");
+        grabbyOutakeServoR = hardwareMap.get(Servo.class, "grabbyOutakeServoR");
 
         leftSlide = hardwareMap.get(Servo.class, "leftSlide");
         rightSlide = hardwareMap.get(Servo.class, "rightSlide");
@@ -280,11 +282,15 @@ public class Robot {
     {
         if(state == "OPEN")
         {
-            grabbyOutakeServo.setPosition(.9);
+            grabbyOutakeServoL.setPosition(.9);
+            grabbyOutakeServoR.setPosition(.9);
+
         }
         else if (state == "CLOSED")
         {
-            grabbyOutakeServo.setPosition(1);
+            grabbyOutakeServoL.setPosition(1);
+            grabbyOutakeServoR.setPosition(1);
+
         }
     }
 
