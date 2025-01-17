@@ -41,8 +41,9 @@ public class BLUE_NETZONE_HighChamber extends AutonomousPLUS {
         moveRobotLeft(1385, 0);
         turnRobotRight(1500, 0);//
 
-        autoSlides(.6, 2000);
+        autoSlides(.55, 2000);
         robot.intake_spin(.5); //Pick up yellow sample
+        prepareNextAction(500);
         robot.intakeFlipper.setPosition(.15);
         prepareNextAction(2000);
         robot.intake_spin(0);
