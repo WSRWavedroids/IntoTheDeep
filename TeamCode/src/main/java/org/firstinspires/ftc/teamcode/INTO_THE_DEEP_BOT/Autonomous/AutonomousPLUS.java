@@ -375,7 +375,6 @@ public class AutonomousPLUS extends LinearOpMode {
         robot.slidesIn();
         //CHASE WAS HERE ;)
         robot.outakeclawOpenClose("CLOSED");
-
         robot.frontLeftDrive.setTargetPositionTolerance(12);
         robot.frontRightDrive.setTargetPositionTolerance(12);
         robot.backLeftDrive.setTargetPositionTolerance(12);
@@ -383,6 +382,13 @@ public class AutonomousPLUS extends LinearOpMode {
         robot.liftyL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.liftyR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.encoderReset();
+    }
+
+    public void setMotorTolerance(int ticks) {
+        robot.frontLeftDrive.setTargetPositionTolerance(ticks);
+        robot.frontRightDrive.setTargetPositionTolerance(ticks);
+        robot.backLeftDrive.setTargetPositionTolerance(ticks);
+        robot.backRightDrive.setTargetPositionTolerance(ticks);
     }
 
     public void prepareNextAction(long pause) {

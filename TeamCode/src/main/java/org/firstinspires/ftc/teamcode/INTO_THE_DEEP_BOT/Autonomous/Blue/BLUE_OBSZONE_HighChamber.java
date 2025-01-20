@@ -43,7 +43,7 @@ public class BLUE_OBSZONE_HighChamber extends AutonomousPLUS {
         moveRobotForward(1150, 0);
         prepareNextAction(500);
         moveRobotRight(375, 0);
-        moveRobotBackward(1400, 0);
+        moveRobotBackward(1300, 0);
         prepareNextAction(500);
         moveRobotForward(450, 0);
 
