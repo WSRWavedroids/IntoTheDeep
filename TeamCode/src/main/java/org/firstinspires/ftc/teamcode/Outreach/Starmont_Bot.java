@@ -44,7 +44,7 @@ public class Starmont_Bot {
         this.opmode = opmode;
 
         // This section turns the names of the pieces of hardware into variables that we can program with.
-        // Make sure that the device name is the exact same thing you typed in on the configuration on the driver hub.
+        // Make sure that the device name (text in green) is the EXACT SAME thing you typed in on the configuration on the driver hub.
 
         //TODO: Initialize all motors and servos from the hardware map
         //Example: frontLeftDrive = hardwareMap.get(DcMotor.class, "frontLeftDrive");
@@ -87,51 +87,60 @@ public class Starmont_Bot {
     public void stopAllMotors() {
         //Setting motor powers is the bread and butter of controlling your robot. This is a simple way to tell all your motors to stop.
         //Example usage: robot.stopAllMotors();
-        frontLeftDrive.setPower(0);
-        frontRightDrive.setPower(0);
-        backLeftDrive.setPower(0);
-        backRightDrive.setPower(0);
+        frontleftwheel.setPower(0);
+        frontrightwheel.setPower(0);
+        backleftwheel.setPower(0);
+        backrightwheel.setPower(0);
     }
 
     public void setTargets(String direction, int ticks) {
 
         //DON'T GET FREAKED OUT BY THIS! There's a lot going on, but it's very repetitive.
+        //Each of these sets the target position of each of the drivetrain motors based on the direction you want the robot to move in.
+        //Example usage: robot.setTargets("Right", 400);
+        //This will add or subtract 400 ticks from the current position of each motor and set that as the target position for the motor.
 
-        if (Objects.equals(direction, "Right")){
-            frontLeftDrive.setTargetPosition(-ticks + frontLeftDrive.getCurrentPosition());
-            frontRightDrive.setTargetPosition(ticks + frontRightDrive.getCurrentPosition());
-            backLeftDrive.setTargetPosition(ticks + backLeftDrive.getCurrentPosition());
-            backRightDrive.setTargetPosition(-ticks + backRightDrive.getCurrentPosition());
+        if (direction == "Right"){
+            //To move right, the FRONT LEFT and BACK RIGHT wheels should spin forward, and the FRONT RIGHT and BACK LEFT wheels should spin backward.
+            frontleftwheel.setTargetPosition(frontleftwheel.getCurrentPosition() + ticks);
+            frontrightwheel.setTargetPosition(frontrightwheel.getCurrentPosition() - ticks);
+            backleftwheel.setTargetPosition(backleftwheel.getCurrentPosition() - ticks);
+            backrightwheel.setTargetPosition(backrightwheel.getCurrentPosition() + ticks);
 
         } else if (direction == "Left"){
-            frontLeftDrive.setTargetPosition(ticks + frontLeftDrive.getCurrentPosition());
-            frontRightDrive.setTargetPosition(-ticks + frontRightDrive.getCurrentPosition());
-            backLeftDrive.setTargetPosition(-ticks + backLeftDrive.getCurrentPosition());
-            backRightDrive.setTargetPosition(ticks + backRightDrive.getCurrentPosition());
+            //To move right, the FRONT RIGHT and BACK LEFT wheels should spin forward, and the FRONT LEFT and BACK RIGHT wheels should spin backward.
+            frontleftwheel.setTargetPosition(frontleftwheel.getCurrentPosition() - ticks);
+            frontrightwheel.setTargetPosition(frontrightwheel.getCurrentPosition() + ticks);
+            backleftwheel.setTargetPosition(backleftwheel.getCurrentPosition() + ticks);
+            backrightwheel.setTargetPosition(backrightwheel.getCurrentPosition() - ticks);
 
         } else if (direction == "Forward"){
-            frontLeftDrive.setTargetPosition(-ticks + frontLeftDrive.getCurrentPosition());
-            frontRightDrive.setTargetPosition(-ticks + frontRightDrive.getCurrentPosition());
-            backLeftDrive.setTargetPosition(-ticks - backLeftDrive.getCurrentPosition());
-            backRightDrive.setTargetPosition(-ticks - backRightDrive.getCurrentPosition());
+            //To move forward, all of the wheels should spin forward.
+            frontleftwheel.setTargetPosition(frontleftwheel.getCurrentPosition() + ticks);
+            frontrightwheel.setTargetPosition(frontrightwheel.getCurrentPosition() + ticks);
+            backleftwheel.setTargetPosition(backleftwheel.getCurrentPosition() + ticks);
+            backrightwheel.setTargetPosition(backrightwheel.getCurrentPosition() + ticks);
 
         } else if (direction == "Backward") {
-            frontLeftDrive.setTargetPosition(ticks - frontLeftDrive.getCurrentPosition());
-            frontRightDrive.setTargetPosition(ticks - frontRightDrive.getCurrentPosition());
-            backLeftDrive.setTargetPosition(ticks - backLeftDrive.getCurrentPosition());
-            backRightDrive.setTargetPosition(ticks - backRightDrive.getCurrentPosition());
+            //To move backward, all of the wheels should spin backward.
+            frontleftwheel.setTargetPosition(frontleftwheel.getCurrentPosition() - ticks);
+            frontrightwheel.setTargetPosition(frontrightwheel.getCurrentPosition() - ticks);
+            backleftwheel.setTargetPosition(backleftwheel.getCurrentPosition() - ticks);
+            backrightwheel.setTargetPosition(backrightwheel.getCurrentPosition() - ticks);
 
         } else if (direction == "Turn Right") {
-            frontLeftDrive.setTargetPosition(ticks + frontLeftDrive.getCurrentPosition());
-            frontRightDrive.setTargetPosition(-ticks - frontRightDrive.getCurrentPosition());
-            backLeftDrive.setTargetPosition(ticks - backLeftDrive.getCurrentPosition());
-            backRightDrive.setTargetPosition(-ticks - backRightDrive.getCurrentPosition());
+            //To turn right, the LEFT SIDE wheels should spin forward, and the RIGHT SIDE wheels should spin backward.
+            frontleftwheel.setTargetPosition(frontleftwheel.getCurrentPosition() + ticks);
+            frontrightwheel.setTargetPosition(frontrightwheel.getCurrentPosition() - ticks);
+            backleftwheel.setTargetPosition(backleftwheel.getCurrentPosition() + ticks);
+            backrightwheel.setTargetPosition(backrightwheel.getCurrentPosition() - ticks);
 
         } else if (direction == "Turn Left") {
-            frontLeftDrive.setTargetPosition(-ticks - frontLeftDrive.getCurrentPosition());
-            frontRightDrive.setTargetPosition(ticks + frontRightDrive.getCurrentPosition());
-            backLeftDrive.setTargetPosition(-ticks - backLeftDrive.getCurrentPosition());
-            backRightDrive.setTargetPosition(ticks - backRightDrive.getCurrentPosition());
+            //To turn left, the RIGHT SIDE wheels should spin forward, and the LEFT SIDE wheels should spin backward.
+            frontleftwheel.setTargetPosition(frontleftwheel.getCurrentPosition() - ticks);
+            frontrightwheel.setTargetPosition(frontrightwheel.getCurrentPosition() + ticks);
+            backleftwheel.setTargetPosition(backleftwheel.getCurrentPosition() - ticks);
+            backrightwheel.setTargetPosition(backrightwheel.getCurrentPosition() + ticks);
 
         }
 
@@ -142,50 +151,54 @@ public class Starmont_Bot {
     public void positionRunningMode(){
         //This will make all the motors set their goal to be moving in the direction necessary to hit the target number of ticks.
         //This is the mode you use in autonomous to drive to a certain position.
-        frontLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        frontRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //Example usage: robot.positionRunningMode();
+        frontleftwheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        frontrightwheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backleftwheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backrightwheel.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
     public void powerSet(double speed) {
         //This is a versatile function to set all of the motors to the same speed.
         //Example usage: robot.powerSet(0.75);
         //That will set all of the motors to 75% power.
-        frontLeftDrive.setPower(speed);
-        frontRightDrive.setPower(speed);
-        backLeftDrive.setPower(speed);
-        backRightDrive.setPower(speed);
+        frontleftwheel.setPower(speed);
+        frontrightwheel.setPower(speed);
+        backleftwheel.setPower(speed);
+        backrightwheel.setPower(speed);
 
     }
 
     public void encoderRunningMode(){
         //This makes all the motors go back to trying to move at velocity based on provided power
         //This is the mode you run the drivetrain motors on 85% of the time
-        frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //Example usage: robot.encoderRunningMode();
+        frontleftwheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontrightwheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backleftwheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backrightwheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
 
     public void encoderReset(){
         //This sets the current encoder position to zero and stops providing power to the motors.
         //This can be really helpful if your motors seem to be making up random number of ticks and not moving as intended.
-        frontLeftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        frontRightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backLeftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backRightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //Example usage: robot.encoderReset();
+        frontleftwheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontrightwheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backleftwheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backrightwheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
+
 
     @SuppressLint("DefaultLocale")
     public void tellMotorOutput(){
-
         //Each line prints out the power, encoder location, and encoder target location of the motor
-        telemetry.addData("Motors", String.format("FL Power(%.2f) FL Location (%d) FL Target (%d)", frontLeftDrive.getPower(), frontLeftDrive.getCurrentPosition(), frontLeftDrive.getTargetPosition()));
-        telemetry.addData("Motors", String.format("FR Power(%.2f) FR Location (%d) FR Target (%d)", frontRightDrive.getPower(), frontRightDrive.getCurrentPosition(), frontRightDrive.getTargetPosition()));
-        telemetry.addData("Motors", String.format("BL Power(%.2f) BL Location (%d) BL Target (%d)", backLeftDrive.getPower(), backLeftDrive.getCurrentPosition(), backLeftDrive.getTargetPosition()));
-        telemetry.addData("Motors", String.format("BR Power(%.2f) BR Location (%d) BR Target (%d)", backRightDrive.getPower(), backRightDrive.getCurrentPosition(), backRightDrive.getTargetPosition()));
+        //Example usage: robot.tellMotorOutput();
+        telemetry.addData("Motors", String.format("FL Power(%.2f) FL Location (%d) FL Target (%d)", frontleftwheel.getPower(), frontleftwheel.getCurrentPosition(), frontleftwheel.getTargetPosition()));
+        telemetry.addData("Motors", String.format("FR Power(%.2f) FR Location (%d) FR Target (%d)", frontrightwheel.getPower(), frontrightwheel.getCurrentPosition(), frontrightwheel.getTargetPosition()));
+        telemetry.addData("Motors", String.format("BL Power(%.2f) BL Location (%d) BL Target (%d)", backleftwheel.getPower(), backleftwheel.getCurrentPosition(), backleftwheel.getTargetPosition()));
+        telemetry.addData("Motors", String.format("BR Power(%.2f) BR Location (%d) BR Target (%d)", backrightwheel.getPower(), backrightwheel.getCurrentPosition(), backrightwheel.getTargetPosition()));
         telemetry.update();
     }
 
