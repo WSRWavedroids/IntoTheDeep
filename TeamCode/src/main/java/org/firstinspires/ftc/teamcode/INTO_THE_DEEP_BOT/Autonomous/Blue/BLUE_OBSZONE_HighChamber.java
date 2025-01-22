@@ -20,6 +20,7 @@ public class BLUE_OBSZONE_HighChamber extends AutonomousPLUS {
         //First movements to line up under bar
         prepareAuto();
         robot.intakePosition("UP");
+        setMotorTolerance(25);
         speed = .65;
         moveDiagonalLeft(495, 0); //Trusting Pythagorus
         moveRobotForward(150, 0);
@@ -50,7 +51,7 @@ public class BLUE_OBSZONE_HighChamber extends AutonomousPLUS {
         turnRobotRight(1530, 0);
         speed = .3;
         prepareNextAction(2000);
-        moveRobotForward(900, 0);
+        moveRobotForward(865, 0);
         robot.outakeclawOpenClose("CLOSED");
         prepareNextAction(200);
         moveRobotBackward(20, 0);
@@ -60,7 +61,7 @@ public class BLUE_OBSZONE_HighChamber extends AutonomousPLUS {
         turnRobotLeft(1530, 0);
         moveRobotLeft(2000, 0);
         moveArm(1700, 1, 0);
-        moveRobotForward(275, 0);
+        moveRobotForward(250, 0);
         moveArm(1200, 1, 0);
         robot.outakeclawOpenClose("OPEN");
         moveRobotBackward(200, 0);

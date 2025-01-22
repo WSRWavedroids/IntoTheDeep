@@ -62,6 +62,8 @@ public class Robot {
     public String startingPosition;
     public String controlMode = "Robot Centric";// Robot Centric
     public String intakeFlipperPos ="UP";
+
+
     public IMU.Parameters imuParameters;
 
     //Initialize motors and servos
@@ -324,6 +326,7 @@ public class Robot {
 
     public void TransferSequence()
     {
+
         //intakePosition("UP");
         tempOutakePos("DOWN");
 

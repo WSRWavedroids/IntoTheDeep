@@ -27,16 +27,16 @@ public class BLUE_NETZONE_HighChamber extends AutonomousPLUS {
         //moveRobotRight(950, 0); // This is the code to start on a different tile
         moveArm(1500, 1, 1000);
         speed = .3;
-        moveRobotForward(350, 0);
+        moveRobotForward(315, 0);
         speed = .6;
         moveArm(1800, 1, 0);
         robot.outakeclawOpenClose("OPEN");
         prepareNextAction(2);
-        moveRobotBackward(425,0);
+        moveRobotBackward(525,0);
         moveArm(0,1, 0);
 
         // First sample
-        moveRobotLeft(1345, 0);
+        moveRobotLeft(1385, 0);
         setMotorTolerance(8);
         turnRobotRight(1530, 0);
         setMotorTolerance(10);

@@ -67,6 +67,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
     public Robot robot = null;
     public IMU imu;
 
+    public boolean teleopRunning = false; //Things for multithreading
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -82,12 +83,19 @@ public class Basic_TeleOp_NewBot extends OpMode {
         {
               imu = hardwareMap.get(IMU.class, "imu");
             IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                    RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                    RevHubOrientationOnRobot.LogoFacingDirection.DOWN,
                     RevHubOrientationOnRobot.UsbFacingDirection.RIGHT)); //Forward = left fsr
             // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
             imu.initialize(parameters);
         }
         //if using field centric youl need this lolzeez
+
+        //Multithreading: creates a thread for controller 2
+        Thread controller2Thread = new Thread(() -> {
+            while (opModeIsActive()) {
+
+            }
+        });
 
     }
 
@@ -107,6 +115,8 @@ public class Basic_TeleOp_NewBot extends OpMode {
         robot.tempOutakePos("DOWN");
         robot.slidesIn();
         robot.intakePosition("UP");
+        teleopRunning = true;
+        OpMode.Basic_TeleOp_NewBot.init().controller2Thread.start();
     }
 
     /*
@@ -241,11 +251,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
         }
         else if (gamepad2.y)
         {
-            robot.frontLeftDrive.setPower(0);
-            robot.backLeftDrive.setPower(0);
-            robot.frontRightDrive.setPower(0);
-            robot.backRightDrive.setPower(0);
-            robot.TransferSequence();
+            if(transferSequencePlsWork.getState() == transferSequencePlsWork.Wai)
         }
 
         if (robot.canWiggle == true && Math.abs(gamepad2.right_stick_y) > 0)
@@ -292,12 +298,17 @@ public class Basic_TeleOp_NewBot extends OpMode {
         {
             robot.outakeclawOpenClose("OPEN");
         }
+
+
     }
 
     /*
      * Code to run ONCE after the driver hits STOP
      */
-    public void stop () { telemetry.addData("Status", "Robot Stopped"); }
+    public void stop () {
+        telemetry.addData("Status", "Robot Stopped");
+        Basic_TeleOp_NewBot.init().controller2Thread
+    }
 
 
     /*
@@ -398,5 +409,12 @@ public class Basic_TeleOp_NewBot extends OpMode {
         }
         return max;
     }
+
+    /*Thread transferSequencePlsWork = new Thread(()->{
+        robot.TransferSequence();
+        Thread.currentThread().interrupt();
+
+
+    });*/
 
 }
