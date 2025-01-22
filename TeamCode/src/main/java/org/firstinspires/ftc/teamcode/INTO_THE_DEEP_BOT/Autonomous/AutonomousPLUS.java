@@ -367,6 +367,18 @@ public class AutonomousPLUS extends LinearOpMode {
         sleep(pause);
     }
 
+    public void pickupSample(int pickupTime, long pause) {
+        double distance = robot.leftSlide.getPosition() + .10;
+        robot.intake_spin(.75);
+        prepareNextAction(100);
+        //robot.leftSlide.setPosition(1-(robot.leftSlide.getPosition()+.10));
+        //robot.rightSlide.setPosition(0+(robot.leftSlide.getPosition()+.10));
+        robot.intakeFlipper.setPosition(.15);
+        autoSlides(distance,0);
+        //prepareNextAction(pickupTime);
+        robot.intake_spin(0);
+        prepareNextAction(pause);
+    }
     public void prepareAuto() {
         robot.liftyL.setPower(0);
         robot.liftyR.setPower(0);
