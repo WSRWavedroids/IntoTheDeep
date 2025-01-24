@@ -77,7 +77,6 @@ public class Robot {
         backRightDrive = hardwareMap.get(DcMotor.class, "backRightDrive");
         liftyL = hardwareMap.get(DcMotor.class, "liftyL");
         liftyR = hardwareMap.get(DcMotor.class, "liftyR");
-        //waterslide = hardwareMap.get(DcMotor.class, "waterslide");
         leftIntake = hardwareMap.get(CRServo.class, "leftIntake");
         rightIntake = hardwareMap.get(CRServo.class, "rightIntake");
         intakeFlipper = hardwareMap.get(Servo.class, "flipperServo");
@@ -95,20 +94,19 @@ public class Robot {
 
         imuParameters = new IMU.Parameters(
                 new RevHubOrientationOnRobot(
-                        RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                        RevHubOrientationOnRobot.LogoFacingDirection.DOWN,
                         RevHubOrientationOnRobot.UsbFacingDirection.RIGHT
                 )
         );
         imu = hardwareMap.get(IMU.class, "imu");
 
         // This section sets the direction of all of the motors. Depending on the motor, this may change later in the program.
-        frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
-        frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
-        backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
-        backRightDrive.setDirection(DcMotor.Direction.FORWARD); //Was inverted as forward
+        frontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
+        frontRightDrive.setDirection(DcMotor.Direction.REVERSE);
+        backLeftDrive.setDirection(DcMotor.Direction.FORWARD);
+        backRightDrive.setDirection(DcMotor.Direction.REVERSE); //Was inverted as forward
         liftyL.setDirection(DcMotor.Direction.FORWARD);//inverted
         liftyR.setDirection(DcMotor.Direction.FORWARD);//inverted
-        //waterslide.setDirection(DcMotor.Direction.FORWARD);
 
         // This tells the motors to chill when we're not powering them.
         frontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -117,8 +115,6 @@ public class Robot {
         backRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftyL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftyR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        //waterslide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //This is new..
         telemetry.addData("Status", "Initialized");
@@ -142,40 +138,40 @@ public class Robot {
         //This is all inverted (big sigh)
 
         if (Objects.equals(direction, "Right")){
-            frontLeftDrive.setTargetPosition(-ticks + frontLeftDrive.getCurrentPosition());
-            frontRightDrive.setTargetPosition(ticks + frontRightDrive.getCurrentPosition());
-            backLeftDrive.setTargetPosition(ticks + backLeftDrive.getCurrentPosition());
-            backRightDrive.setTargetPosition(-ticks + backRightDrive.getCurrentPosition());
+            frontLeftDrive.setTargetPosition(frontLeftDrive.getCurrentPosition() + ticks);
+            frontRightDrive.setTargetPosition(frontRightDrive.getCurrentPosition() - ticks);
+            backLeftDrive.setTargetPosition(backLeftDrive.getCurrentPosition() - ticks);
+            backRightDrive.setTargetPosition(backRightDrive.getCurrentPosition() + ticks);
 
         } else if (direction == "Left"){
-            frontLeftDrive.setTargetPosition(ticks + frontLeftDrive.getCurrentPosition());
-            frontRightDrive.setTargetPosition(-ticks + frontRightDrive.getCurrentPosition());
-            backLeftDrive.setTargetPosition(-ticks + backLeftDrive.getCurrentPosition());
-            backRightDrive.setTargetPosition(ticks + backRightDrive.getCurrentPosition());
+            frontLeftDrive.setTargetPosition(frontLeftDrive.getCurrentPosition() - ticks);
+            frontRightDrive.setTargetPosition(frontRightDrive.getCurrentPosition() + ticks);
+            backLeftDrive.setTargetPosition(backLeftDrive.getCurrentPosition() + ticks);
+            backRightDrive.setTargetPosition(backRightDrive.getCurrentPosition() - ticks);
 
         } else if (direction == "Forward"){
-            frontLeftDrive.setTargetPosition(-ticks + frontLeftDrive.getCurrentPosition());
-            frontRightDrive.setTargetPosition(-ticks + frontRightDrive.getCurrentPosition());
-            backLeftDrive.setTargetPosition(-ticks + backLeftDrive.getCurrentPosition());
-            backRightDrive.setTargetPosition(-ticks + backRightDrive.getCurrentPosition());
+            frontLeftDrive.setTargetPosition(frontLeftDrive.getCurrentPosition() + ticks);
+            frontRightDrive.setTargetPosition(frontRightDrive.getCurrentPosition() + ticks);
+            backLeftDrive.setTargetPosition(backLeftDrive.getCurrentPosition() + ticks);
+            backRightDrive.setTargetPosition(backRightDrive.getCurrentPosition() + ticks);
 
         } else if (direction == "Backward") {
-            frontLeftDrive.setTargetPosition(ticks + frontLeftDrive.getCurrentPosition());
-            frontRightDrive.setTargetPosition(ticks + frontRightDrive.getCurrentPosition());
-            backLeftDrive.setTargetPosition(ticks + backLeftDrive.getCurrentPosition());
-            backRightDrive.setTargetPosition(ticks + backRightDrive.getCurrentPosition());
+            frontLeftDrive.setTargetPosition(frontLeftDrive.getCurrentPosition() - ticks);
+            frontRightDrive.setTargetPosition(frontRightDrive.getCurrentPosition() - ticks);
+            backLeftDrive.setTargetPosition(backLeftDrive.getCurrentPosition() - ticks);
+            backRightDrive.setTargetPosition(backRightDrive.getCurrentPosition() - ticks);
 
         } else if (direction == "Turn Right") {
-            frontLeftDrive.setTargetPosition(-ticks + frontLeftDrive.getCurrentPosition());
-            frontRightDrive.setTargetPosition(ticks + frontRightDrive.getCurrentPosition());
-            backLeftDrive.setTargetPosition(-ticks + backLeftDrive.getCurrentPosition());
-            backRightDrive.setTargetPosition(ticks + backRightDrive.getCurrentPosition());
+            frontLeftDrive.setTargetPosition(frontLeftDrive.getCurrentPosition() + ticks);
+            frontRightDrive.setTargetPosition(frontRightDrive.getCurrentPosition() - ticks);
+            backLeftDrive.setTargetPosition(backLeftDrive.getCurrentPosition() + ticks);
+            backRightDrive.setTargetPosition(backRightDrive.getCurrentPosition() - ticks);
 
         } else if (direction == "Turn Left") {
-            frontLeftDrive.setTargetPosition(ticks + frontLeftDrive.getCurrentPosition());
-            frontRightDrive.setTargetPosition(-ticks + frontRightDrive.getCurrentPosition());
-            backLeftDrive.setTargetPosition(ticks + backLeftDrive.getCurrentPosition());
-            backRightDrive.setTargetPosition(-ticks + backRightDrive.getCurrentPosition());
+            frontLeftDrive.setTargetPosition(frontLeftDrive.getCurrentPosition() - ticks);
+            frontRightDrive.setTargetPosition(frontRightDrive.getCurrentPosition() + ticks);
+            backLeftDrive.setTargetPosition(backLeftDrive.getCurrentPosition() - ticks);
+            backRightDrive.setTargetPosition(backRightDrive.getCurrentPosition() + ticks);
 
         }
 
@@ -191,7 +187,6 @@ public class Robot {
         backRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        //waterslide.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
     public void powerSet(double speed) {
