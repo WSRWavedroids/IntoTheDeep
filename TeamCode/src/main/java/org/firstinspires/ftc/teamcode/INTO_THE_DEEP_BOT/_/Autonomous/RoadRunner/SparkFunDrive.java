@@ -15,6 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.RoadRunner.messages.PoseMessage;
 
+
 /**
  * Experimental extension of MecanumDrive that uses the SparkFun OTOS sensor for localization.
  * <p>
@@ -23,13 +24,8 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.RoadRunner.
  * Unless otherwise noted, comments are from SparkFun
  */
 
-/*
-public class SparkFunDrive extends LinearOpMode {
 
-    @Override
-    public void runOpMode() throws InterruptedException {
-
-    }
+public class SparkFunDrive extends MecanumDrive {
 
     public static class Params {
         // Assuming you've mounted your sensor to a robot and it's not centered,
@@ -69,7 +65,7 @@ public class SparkFunDrive extends LinearOpMode {
 
     public static SparkFunDrive.Params PARAMS = new SparkFunDrive.Params();
     public SparkFunOTOS otos;
-    private Pose2d lastOtosPose = pose;
+    private Pose2d lastOtosPose = MecanumDrive.pose;
 
     private final DownsampledWriter estimatedPoseWriter = new DownsampledWriter("ESTIMATED_POSE", 50_000_000);
 
@@ -151,5 +147,3 @@ public class SparkFunDrive extends LinearOpMode {
 
 
 }
-
- */
