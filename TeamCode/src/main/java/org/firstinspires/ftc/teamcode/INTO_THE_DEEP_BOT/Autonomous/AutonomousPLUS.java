@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous;
+package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Autonomous;
 /* Copyright (c) 2017 FIRST. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -32,7 +32,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
+import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Robot;
 //import org.firstinspires.ftc.teamcode.OLD.Autonomous.AprilTags.MayFlowers;
 
 /**
@@ -63,7 +63,18 @@ public class AutonomousPLUS extends LinearOpMode {
 
     //These are the basic functions for mechnum movement during auto... Don't mess with these unless something is inverted
     // Remember Without ODO pods there will be some inconsistency due to mechnum slippage
-
+    public void autoSlides(double change, long pause)
+    {
+        robot.leftSlide.setPosition(1-change);
+        robot.rightSlide.setPosition(0+change);
+        while(robot.leftSlide.getPosition() != 1-change)
+        {
+            robot.leftSlide.setPosition(1-change);
+            robot.rightSlide.setPosition(0+change);
+            robot.tellMotorOutput();
+        }
+        sleep(pause);
+    }
     public void moveRobotForward(int ticks, long pause) {
         if (opModeIsActive()) {
             robot.setTargets("Forward", ticks); // Inverted... Lol
@@ -340,17 +351,46 @@ public class AutonomousPLUS extends LinearOpMode {
     }
 
 
+
+
     public void moveArm(int ticks, double power, long pause) {
         //Moves the lift to the specified position...
         // Doesn't move it by the number of ticks given as the drivetrain functions expect.
-        robot.lifty.setPower(power);
-        robot.lifty.setTargetPosition(ticks);
-        robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        while (!(robot.lifty.getCurrentPosition() > (ticks - 10) && robot.lifty.getCurrentPosition() < (ticks + 10)))
+        robot.liftyR.setPower(power);
+        robot.liftyL.setPower(power);
+        robot.liftyR.setTargetPosition(ticks);
+        robot.liftyL.setTargetPosition(ticks);
+        robot.liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        while (!(robot.liftyR.getCurrentPosition() > (ticks - 10) && robot.liftyR.getCurrentPosition() < (ticks + 10)))
         {
             robot.tellMotorOutput();
         }
         sleep(pause);
+    }
+
+    public void prepareAuto() {
+        robot.liftyL.setPower(0);
+        robot.liftyR.setPower(0);
+        robot.intakePosition("UP");
+        robot.tempOutakePos("DOWN");
+        robot.slidesIn();
+        //CHASE WAS HERE ;)
+        robot.outakeclawOpenClose("CLOSED");
+        robot.frontLeftDrive.setTargetPositionTolerance(12);
+        robot.frontRightDrive.setTargetPositionTolerance(12);
+        robot.backLeftDrive.setTargetPositionTolerance(12);
+        robot.backRightDrive.setTargetPositionTolerance(12);
+        robot.liftyL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.liftyR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.encoderReset();
+    }
+
+    public void setMotorTolerance(int ticks) {
+        robot.frontLeftDrive.setTargetPositionTolerance(ticks);
+        robot.frontRightDrive.setTargetPositionTolerance(ticks);
+        robot.backLeftDrive.setTargetPositionTolerance(ticks);
+        robot.backRightDrive.setTargetPositionTolerance(ticks);
     }
 
     public void prepareNextAction(long pause) {

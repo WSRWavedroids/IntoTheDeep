@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.Red;
+package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Autonomous.Red;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPLUS;
+import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Autonomous.AutonomousPLUS;
 @Disabled
 @Autonomous(group = "Basic", name = "Red Basic Observation Zone")
 public class RedBasicObservationZone extends AutonomousPLUS {

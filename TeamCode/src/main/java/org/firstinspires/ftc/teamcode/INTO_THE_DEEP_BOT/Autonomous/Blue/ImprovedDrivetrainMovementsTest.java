@@ -1,9 +1,8 @@
-package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.Blue;
+package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Autonomous.Blue;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPLUS;
+import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Autonomous.AutonomousPLUS;
 
 @Autonomous(group = "Basic", name = "Improved Movements?")
 public class ImprovedDrivetrainMovementsTest extends AutonomousPLUS {
@@ -16,7 +15,7 @@ public class ImprovedDrivetrainMovementsTest extends AutonomousPLUS {
         super.runOpMode();
 
         waitForStart();
-        robot.lifty.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        /*robot.lifty.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.encoderReset();
         robot.lifty.setPower(0);
         robot.tempOutakePos("UP");
@@ -33,6 +32,6 @@ public class ImprovedDrivetrainMovementsTest extends AutonomousPLUS {
         moveDiagonalLeft(-1000, 2);
 
 
-
+*/
     }
 }

@@ -27,9 +27,10 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Teleop;
+package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Teleop;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -37,8 +38,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
-import org.opencv.core.Mat;
+import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Robot;
 
 
 /**
@@ -68,6 +68,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
     public Robot robot = null;
     public IMU imu;
 
+    public SparkFunOTOS sparky = hardwareMap.get(SparkFunOTOS.class, "sparkFunSparkJoy"); // Field Centric IMU is garbage
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -81,6 +82,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
         if (robot.controlMode=="Field Centric")
         {
+
               imu = hardwareMap.get(IMU.class, "imu");
             IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                     RevHubOrientationOnRobot.LogoFacingDirection.UP,
@@ -105,9 +107,9 @@ public class Basic_TeleOp_NewBot extends OpMode {
         telemetry.addData("HYPE", "Let's do this!!!");
         gamepad1.setLedColor(0, 0, 255, 100000000);
         gamepad2.setLedColor(0, 0, 255, 100000000);
+        robot.tempOutakePos("DOWN");
+        robot.slidesIn();
         robot.intakePosition("UP");
-        robot.tempOutakePos("UP");
-        robot.collapseExpansion();
     }
 
     /*
@@ -168,24 +170,57 @@ public class Basic_TeleOp_NewBot extends OpMode {
             robot.holdArm();
         }*/
 
+        //int liftyTopLimit = 4100;//temp value
+        //int liftyBottomLimit = -20;//temp value
+
         int liftyTopLimit = 4100;//temp value
         int liftyBottomLimit = -20;//temp value
-        int liftyGoControlerVal = robot.lifty.getCurrentPosition() - ((int)armStickY * 360);
-        robot.lifty.setPower(1);
+            int liftyGoControlerVal = robot.liftyL.getCurrentPosition() - ((int) armStickY * 260);
+            robot.liftyR.setPower(1);
+            robot.liftyL.setPower(1);
+            robot.liftyR.setTargetPosition(liftyGoControlerVal);
+            robot.liftyL.setTargetPosition(liftyGoControlerVal);
 
-        robot.lifty.setTargetPosition(liftyGoControlerVal);
+            if (robot.liftyL.getCurrentPosition() > liftyTopLimit || liftyGoControlerVal > liftyTopLimit) {
+                robot.liftyR.setTargetPosition(liftyTopLimit);
+                robot.liftyL.setTargetPosition(liftyTopLimit);
+            } else if (robot.liftyL.getCurrentPosition() < liftyBottomLimit || liftyGoControlerVal < liftyBottomLimit) {
+                robot.liftyR.setTargetPosition(liftyBottomLimit);
+                robot.liftyL.setTargetPosition(liftyBottomLimit);
+            }
 
 
-        if(robot.lifty.getCurrentPosition() > liftyTopLimit || liftyGoControlerVal > liftyTopLimit)
+
+            robot.liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+
+
+
+        /*if(Math.abs(gamepad2.left_stick_y) > 0.1)
         {
-            robot.lifty.setTargetPosition(liftyTopLimit);
-        }
-        else if(robot.lifty.getCurrentPosition() < liftyBottomLimit || liftyGoControlerVal < liftyBottomLimit)
-        {
-            robot.lifty.setTargetPosition(liftyBottomLimit);
+            robot.teleopEncoderMode = false;
+            robot.teleopPowerMode = true;
+            double CadenVertSlideSense = .75;
+            robot.liftyL.setPower(-gamepad2.left_stick_y * CadenVertSlideSense);
+            robot.liftyR.setPower(-gamepad2.left_stick_y * CadenVertSlideSense);
         }
 
-        robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        if(Math.abs(gamepad2.left_stick_y) < .1 && robot.teleopPowerMode == true)
+        {
+            robot.holdArm();
+        }*/
+
+        if(gamepad2.left_bumper)
+        {
+            robot.tempOutakePos("UP");
+        }
+        else if(gamepad2.right_bumper)
+        {
+            robot.tempOutakePos("DOWN");
+        }
 
         //intake
         if(gamepad2.dpad_down)
@@ -204,11 +239,16 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
         if(gamepad2.x)
         {
-            robot.intakePosition("DOWN");
+            robot.intakePosition("UP");
+            robot.slidesIn();
         }
         else if (gamepad2.y)
         {
-           robot.collapseExpansion();
+            robot.frontLeftDrive.setPower(0);
+            robot.backLeftDrive.setPower(0);
+            robot.frontRightDrive.setPower(0);
+            robot.backRightDrive.setPower(0);
+            robot.TransferSequence();
         }
 
         if (robot.canWiggle == true && Math.abs(gamepad2.right_stick_y) > 0)
@@ -231,13 +271,13 @@ public class Basic_TeleOp_NewBot extends OpMode {
             double left = (robot.leftSlide.getPosition() + ((double)slideSum * sensModifier));
             double right = (robot.rightSlide.getPosition() - ((double)slideSum * sensModifier));
 
-            if(left < .05)
+            if(left < .25)
             {
-                left = .05;
+                left = .25;
             }
-            if (right > .95)
+            if (right > .75)
             {
-                right = .95;
+                right = .75;
             }
 
             robot.rightSlide.setPosition(right);
@@ -305,7 +345,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
             motorPowers[3] = (leftY + leftX - rightX);
 
         } else if (robot.controlMode == "Field Centric") {
-            double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+            double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);;// sparky.getPosition().h
 
             // Rotate the movement direction counter to the bot's rotation
             double rotX = leftX * Math.cos(-botHeading) - leftY * Math.sin(-botHeading);

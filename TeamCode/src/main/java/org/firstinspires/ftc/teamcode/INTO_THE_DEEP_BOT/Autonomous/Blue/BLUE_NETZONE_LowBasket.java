@@ -1,9 +1,8 @@
-package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.Blue;
+package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Autonomous.Blue;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPLUS;
+import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Autonomous.AutonomousPLUS;
 
 @Autonomous(group = "Basic", name = "Net Zone Basket")
 public class BLUE_NETZONE_LowBasket extends AutonomousPLUS {
@@ -17,11 +16,11 @@ public class BLUE_NETZONE_LowBasket extends AutonomousPLUS {
 
 
         waitForStart();
-        robot.encoderReset();
+        /*robot.encoderReset();
         telemetry.addData(currentPosition,"Start position");
         robot.lifty.setPower(0);
         robot.tempOutakePos("UP");
-        robot.intakePosition("UP");
+        robot.intakePosition("IN");
         speed = .4;
         robot.outakeclawOpenClose("CLOSED");
         //Movement Starts
@@ -37,6 +36,6 @@ public class BLUE_NETZONE_LowBasket extends AutonomousPLUS {
         sleep(1000);
         speed = 1;
         turnRobotLeft(15,2);
-
+*/
     }
 }
