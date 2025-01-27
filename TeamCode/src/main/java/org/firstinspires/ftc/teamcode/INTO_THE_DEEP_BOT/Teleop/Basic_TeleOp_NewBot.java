@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Teleop;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -67,6 +68,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
     public Robot robot = null;
     public IMU imu;
 
+    public SparkFunOTOS sparky = hardwareMap.get(SparkFunOTOS.class, "sparkFunSparkJoy"); // Field Centric IMU is garbage
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -80,6 +82,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
         if (robot.controlMode=="Field Centric")
         {
+
               imu = hardwareMap.get(IMU.class, "imu");
             IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                     RevHubOrientationOnRobot.LogoFacingDirection.UP,
@@ -342,7 +345,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
             motorPowers[3] = (leftY + leftX - rightX);
 
         } else if (robot.controlMode == "Field Centric") {
-            double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+            double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);;// sparky.getPosition().h
 
             // Rotate the movement direction counter to the bot's rotation
             double rotX = leftX * Math.cos(-botHeading) - leftY * Math.sin(-botHeading);
