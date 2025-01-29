@@ -369,6 +369,22 @@ public class AutonomousPLUS extends LinearOpMode {
         sleep(pause);
     }
 
+    public void pickupSample(int pickupTime, long pause) {
+        // REQUIREMENTS TO USE FUNCTION (plz don't ignore):
+            // Needs a wait before the function if the most recent movement was the slides
+            // Function can't run until the servos get over their start-of-auto crisis (about 2.5 seconds). This is really obscure, but it might be a problem for somebody someday.
+        double distance = robot.rightSlide.getPosition() + .20;
+        robot.intake_spin(.75);
+        prepareNextAction(100);
+        //robot.leftSlide.setPosition(1-(robot.leftSlide.getPosition()+.10));
+        //robot.rightSlide.setPosition(0+(robot.leftSlide.getPosition()+.10));
+        robot.intakeFlipper.setPosition(.15);
+        prepareNextAction(0);
+        autoSlides(distance,0);
+        prepareNextAction(pickupTime);
+        robot.intake_spin(0);
+        prepareNextAction(pause);
+    }
     public void prepareAuto() {
         robot.liftyL.setPower(0);
         robot.liftyR.setPower(0);
