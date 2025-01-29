@@ -20,9 +20,6 @@ public class BLUE_NETZONE_HighChamber extends AutonomousPLUS {
         prepareAuto();
         setMotorTolerance(10);
 
-        //DELETE THIS
-        pickupSample(2000,100000);
-
         speed = .6;
         sleep(200);
 
