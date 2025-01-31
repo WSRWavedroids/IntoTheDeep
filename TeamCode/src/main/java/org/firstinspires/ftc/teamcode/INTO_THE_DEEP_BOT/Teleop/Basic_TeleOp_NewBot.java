@@ -68,7 +68,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
     public Robot robot = null;
     public IMU imu;
 
-    public SparkFunOTOS sparky = hardwareMap.get(SparkFunOTOS.class, "sparkFunSparkJoy"); // Field Centric IMU is garbage
+    //public SparkFunOTOS sparky = hardwareMap.get(SparkFunOTOS.class, "sparkFunSparkJoy"); // Field Centric IMU is garbage
     /*
      * Code to run ONCE when the driver hits INIT
      */

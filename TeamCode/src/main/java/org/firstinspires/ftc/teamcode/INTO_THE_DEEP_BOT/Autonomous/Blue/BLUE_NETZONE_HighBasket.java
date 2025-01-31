@@ -29,7 +29,19 @@ public class BLUE_NETZONE_HighBasket extends AutonomousPLUS {
         prepareNextAction(1500);
         moveRobotBackward(300,0);
         robot.safeCollapse();
-        turnRobotLeft(375,0);
+
+        // Pickup 1
+        turnRobotLeft(400,0);
+        autoSlides(.30,0);
+        pickupSample(2000,0);
+        robot.TransferSequence();
+        turnRobotRight(400,0);
+        moveArm(1901,1,0);
+        moveRobotForward(300,0);
+        robot.tempOutakePos("UP");
+        prepareNextAction(1500);
+        moveRobotBackward(300,0);
+        robot.safeCollapse();
 
 
         prepareNextAction(2000);
