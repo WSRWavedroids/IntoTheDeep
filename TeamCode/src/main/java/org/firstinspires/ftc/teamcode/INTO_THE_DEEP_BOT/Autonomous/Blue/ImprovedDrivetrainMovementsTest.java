@@ -15,7 +15,8 @@ public class ImprovedDrivetrainMovementsTest extends AutonomousPLUS {
         super.runOpMode();
 
         waitForStart();
-        /*robot.lifty.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+       goofymoveForward(1000, 200);
+       goofymoveBackward(1000, 200);/*robot.lifty.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.encoderReset();
         robot.lifty.setPower(0);
         robot.tempOutakePos("UP");

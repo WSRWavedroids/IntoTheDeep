@@ -18,6 +18,7 @@ public class BLUE_NETZONE_HighBasket extends AutonomousPLUS {
         waitForStart();
         prepareAuto();
         setMotorTolerance(10);
+        prepareNextAction(250);
 
         // Preloaded sample
         moveRobotForward(300,0);
@@ -26,20 +27,20 @@ public class BLUE_NETZONE_HighBasket extends AutonomousPLUS {
         moveArm(1901,1,0);
         moveRobotForward(200,0);
         robot.tempOutakePos("UP");
-        prepareNextAction(1500);
+        prepareNextAction(750);
         moveRobotBackward(300,0);
         robot.safeCollapse();
 
         // Pickup 1
         turnRobotLeft(400,0);
         autoSlides(.30,0);
-        pickupSample(2000,0);
+        pickupSample(1000,0);
         robot.TransferSequence();
         turnRobotRight(400,0);
         moveArm(1901,1,0);
         moveRobotForward(300,0);
         robot.tempOutakePos("UP");
-        prepareNextAction(1500);
+        prepareNextAction(750);
         moveRobotBackward(300,0);
         robot.safeCollapse();
 

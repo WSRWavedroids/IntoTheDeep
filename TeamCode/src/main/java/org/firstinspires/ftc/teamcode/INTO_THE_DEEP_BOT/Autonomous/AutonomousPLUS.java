@@ -350,6 +350,44 @@ public class AutonomousPLUS extends LinearOpMode {
         sleep(pause);
     }
 
+    public void goofymoveForward(int ticks, long pause)
+    {
+        robot.encoderReset();
+        while(robot.frontLeftDrive.getCurrentPosition() <  ticks)
+        {
+            robot.frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.backLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.backRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            robot.frontLeftDrive.setPower(-speed);
+            robot.frontRightDrive.setPower(-speed);
+            robot.backLeftDrive.setPower(-speed);
+            robot.backRightDrive.setPower(-speed);
+        }
+        robot.stopAllMotors();
+        sleep(pause);
+    }
+
+    public void goofymoveBackward(int ticks, long pause)
+    {
+        robot.encoderReset();
+        while(robot.frontLeftDrive.getCurrentPosition() > -ticks)
+        {
+            robot.frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.backLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.backRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            robot.frontLeftDrive.setPower(speed);
+            robot.frontRightDrive.setPower(speed);
+            robot.backLeftDrive.setPower(speed);
+            robot.backRightDrive.setPower(speed);
+        }
+        robot.stopAllMotors();
+        sleep(pause);
+    }
+
 
 
 
