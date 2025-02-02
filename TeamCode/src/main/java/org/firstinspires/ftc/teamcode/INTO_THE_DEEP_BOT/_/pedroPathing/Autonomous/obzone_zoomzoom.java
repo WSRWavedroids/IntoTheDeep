@@ -14,7 +14,7 @@ import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPLUS;
+//import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPLUS;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPlatinum;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.pedroPathing.constants.*;
 
@@ -48,31 +48,35 @@ public class obzone_zoomzoom extends OpMode {
      * Lets assume our robot is 18 by 18 inches
      * Lets assume the Robot is facing the human player and we want to score in the bucket */
 
-    /** Start Pose of our robot */
-    private final Pose startPose = new Pose(9, 58, Math.toRadians(0)); // Basket parking is x = 2.75, y=109
-
-    /** Scoring Pose of our robot. It is facing the submersible at a -45 degree (315 degree) angle. */
+    //Start Pos and go score
+    private final Pose startPose = new Pose(9, 60, Math.toRadians(0)); // Basket parking is x = 2.75, y=109
     private final Pose scorePreloadPos = new Pose(36.15, 57.2, Math.toRadians(0));
 
-    /** Lowest (First) Sample from the Spike Mark */
-    private final Pose grabFromWallPos = new Pose(19, 45.5, Math.toRadians(180));
 
-    /** Middle (Second) Sample from the Spike Mark */
-    private final Pose firstSamplePrep = new Pose(75.8, 33.3, Math.toRadians(180));
+    //Make this a pathset to push first sample Go in front of the first sample
+    private final Pose sample1Pos = new Pose(63.9, 23.04, Math.toRadians(180));
+    private final Pose sample1control1 = new Pose(33.89, 44.97, Math.toRadians(0));
+    private final Pose Sample1control2 = new Pose(28.36, 6.2, Math.toRadians(180));
+    private final Pose Sample1control3 = new Pose(64.47, 62.03, Math.toRadians(180));
+    private final Pose pushSample1Pos = new Pose(11, 23.04, Math.toRadians(180));
 
-    /** Highest (Third) Sample from the Spike Mark */
-    private final Pose pickup3Pose = new Pose(49, 135, Math.toRadians(0));
+    private final Pose sample2Pos = new Pose(63.58, 11.96, Math.toRadians(180));
+    private final Pose sample2control1 = new Pose(63.8, 29.46, Math.toRadians(180));
+    private final Pose pushSample2Pos = new Pose(12, 11.51, Math.toRadians(180));
 
-    /** Park Pose for our robot, after we do all of the scoring. */
-    private final Pose parkPose = new Pose(60, 98, Math.toRadians(90));
+    private final Pose controlToGrabPos = new Pose(35.45, 16.84, Math.toRadians(180));
+    private final Pose cycleGrabPosition = new Pose(63.58, 18.61, Math.toRadians(180));
 
-    /** Park Control Pose for our robot, this is used to manipulate the bezier curve that we will create for the parking.
-     * The Robot will not go to this pose, it is used a control point for our bezier curve. */
-    private final Pose parkControlPose = new Pose(60, 98, Math.toRadians(90));
+    //use these to help cycle
+    private final Pose score1Pos = new Pose(36.55, 66.9, Math.toRadians(0));
+    private final Pose score2Pos = new Pose(36.55, 69.9, Math.toRadians(0));
+    private final Pose score3Pos = new Pose(36.55, 72, Math.toRadians(0));
+
+    private final Pose park = new Pose(11, 13, Math.toRadians(0));
 
     /* These are our Paths and PathChains that we will define in buildPaths() */
-    private Path scorePreload, park;
-    private PathChain grabPickup1, grabPickup2, grabPickup3, scorePickup1, scorePickup2, scorePickup3;
+    private Path scorePreload;
+    private PathChain placePreload, pushBoth, Cycle1, Cycle2, Cycle3, Return1, Return2, Park ;
 
     /** Build the paths for the auto (adds, for example, constant/linear headings while doing paths)
      * It is necessary to do this so that all the paths are built before the auto starts. **/
@@ -94,100 +98,62 @@ public class obzone_zoomzoom extends OpMode {
          * Here is a explanation of the difference between Paths and PathChains <https://pedropathing.com/commonissues/pathtopathchain.html> */
 
         /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
-        follower.pathBuilder()
-                .addPath(
-                        // Line 1
-                        new BezierLine(
-                                new Point(9.000, 60.000, Point.CARTESIAN),
-                                new Point(36.150, 60.258, Point.CARTESIAN)
-                        )
-                )
-                .setTangentHeadingInterpolation()
-                .addPath(
-                        // Line 2
-                        new BezierCurve(
-                                new Point(36.150, 60.258, Point.CARTESIAN),
-                                new Point(33.895, 44.972, Point.CARTESIAN),
-                                new Point(28.357, 6.203, Point.CARTESIAN),
-                                new Point(64.468, 62.031, Point.CARTESIAN),
-                                new Point(63.900, 23.040, Point.CARTESIAN)
-                        )
-                )
-                .setTangentHeadingInterpolation()
-                .addPath(
-                        // Line 3
-                        new BezierLine(
-                                new Point(63.900, 23.040, Point.CARTESIAN),
-                                new Point(9.748, 22.597, Point.CARTESIAN)
-                        )
-                )
-                .setTangentHeadingInterpolation()
-                .addPath(
-                        // Line 4
-                        new BezierCurve(
-                                new Point(9.748, 22.597, Point.CARTESIAN),
-                                new Point(63.803, 29.465, Point.CARTESIAN),
-                                new Point(63.582, 11.963, Point.CARTESIAN)
-                        )
-                )
-                .setTangentHeadingInterpolation()
-                .addPath(
-                        // Line 5
-                        new BezierLine(
-                                new Point(63.582, 11.963, Point.CARTESIAN),
-                                new Point(9.748, 11.520, Point.CARTESIAN)
-                        )
-                )
-                .setTangentHeadingInterpolation()
-                .addPath(
-                        // Line 6
-                        new BezierCurve(
-                                new Point(9.748, 11.520, Point.CARTESIAN),
-                                new Point(35.446, 16.837, Point.CARTESIAN),
-                                new Point(6.425, 29.686, Point.CARTESIAN)
-                        )
-                )
-                .setTangentHeadingInterpolation()
-                .addPath(
-                        // Line 7
-                        new BezierLine(
-                                new Point(6.425, 29.686, Point.CARTESIAN),
-                                new Point(36.554, 66.905, Point.CARTESIAN)
-                        )
-                )
-                .setTangentHeadingInterpolation()
-                .addPath(
-                        // Line 8
-                        new BezierLine(
-                                new Point(36.554, 66.905, Point.CARTESIAN),
-                                new Point(6.425, 29.243, Point.CARTESIAN)
-                        )
-                )
-                .setTangentHeadingInterpolation()
-                .addPath(
-                        // Line 9
-                        new BezierLine(
-                                new Point(6.425, 29.243, Point.CARTESIAN),
-                                new Point(36.554, 72.665, Point.CARTESIAN)
-                        )
-                )
-                .setTangentHeadingInterpolation()
-                .addPath(
-                        // Line 10
-                        new BezierLine(
-                                new Point(36.554, 72.665, Point.CARTESIAN),
-                                new Point(6.646, 29.243, Point.CARTESIAN)
-                        )
-                )
-                .setTangentHeadingInterpolation()
-                .addPath(
-                        // Line 11
-                        new BezierLine(
-                                new Point(6.646, 29.243, Point.CARTESIAN),
-                                new Point(36.997, 81.305, Point.CARTESIAN)
-                        )
-                )
-                .setTangentHeadingInterpolation();
+        scorePreload = new Path(new BezierLine(new Point(startPose), new Point(scorePreloadPos)));
+        scorePreload.setLinearHeadingInterpolation(startPose.getHeading(), scorePreloadPos.getHeading());
+
+
+        /* Here is an example for Constant Interpolation
+        scorePreload.setConstantInterpolation(startPose.getHeading()); */
+
+        /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
+        pushBoth = follower.pathBuilder()
+                //get in front of first sample
+                .addPath(new BezierCurve(new Point(scorePreloadPos), new Point(sample1control1), new Point(sample2control1), new Point(Sample1control3), new Point(sample1Pos)))
+                .setLinearHeadingInterpolation(scorePreloadPos.getHeading(), sample1Pos.getHeading())
+                //push it back to obzone
+                .addPath(new BezierLine(new Point(sample1Pos), new Point(pushSample1Pos)))
+                .setLinearHeadingInterpolation(sample1Pos.getHeading(), pushSample1Pos.getHeading())
+                //go back for second sample with bez curve
+                .addPath(new BezierCurve(new Point(pushSample1Pos),new Point(sample2control1), new Point(sample2Pos)))
+                .setLinearHeadingInterpolation(pushSample1Pos.getHeading(), sample2Pos.getHeading())
+                //Push 2
+                .addPath(new BezierLine(new Point(sample2Pos), new Point(pushSample2Pos)))
+                .setLinearHeadingInterpolation(sample2Pos.getHeading(), pushSample2Pos.getHeading())
+                //Go to grab position with bez curve
+                .addPath(new BezierCurve(new Point(pushSample2Pos), new Point(controlToGrabPos), new Point(cycleGrabPosition)))
+                .setLinearHeadingInterpolation(pushSample2Pos.getHeading(), cycleGrabPosition.getHeading())
+                .build();
+                //finished...yay... mabe
+
+        /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
+        Cycle1 = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(cycleGrabPosition), new Point(score1Pos)))
+                .setLinearHeadingInterpolation(cycleGrabPosition.getHeading(), score1Pos.getHeading())
+                .build();
+
+        Return1 = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(score1Pos), new Point(cycleGrabPosition)))
+                .setLinearHeadingInterpolation(score1Pos.getHeading(), cycleGrabPosition.getHeading())
+                .build();
+
+
+        Cycle2 = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(cycleGrabPosition), new Point(score1Pos)))
+                .setLinearHeadingInterpolation(cycleGrabPosition.getHeading(), score1Pos.getHeading())
+                .build();
+
+        Return2 = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(score2Pos), new Point(cycleGrabPosition)))
+                .setLinearHeadingInterpolation(score2Pos.getHeading(), cycleGrabPosition.getHeading())
+                .build();
+
+        Park = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(score3Pos), new Point(park)))
+                .setLinearHeadingInterpolation(score3Pos.getHeading(), park.getHeading())
+                .build();
+
+
+
     }
 
     /** This switch is called continuously and runs the pathing, at certain points, it triggers the action state.
