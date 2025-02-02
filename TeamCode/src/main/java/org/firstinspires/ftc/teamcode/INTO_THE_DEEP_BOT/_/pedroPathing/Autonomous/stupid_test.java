@@ -9,14 +9,15 @@ import com.pedropathing.pathgen.PathChain;
 import com.pedropathing.pathgen.Point;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPLUS;
-
+@Disabled
 @Autonomous(group = "Basic", name = "Stupid Test")
 public class stupid_test extends AutonomousPLUS {
 
-    public String currentPosition;
+    /*public String currentPosition;
     public String target;
 
     public void runOpMode() {
@@ -40,31 +41,31 @@ public class stupid_test extends AutonomousPLUS {
          * Even though Pedro uses a different coordinate system than RR, you can convert any roadrunner pose by adding +72 both the x and y.
          * This visualizer is very easy to use to find and create paths/pathchains/poses: <https://pedro-path-generator.vercel.app/>
          * Lets assume our robot is 18 by 18 inches
-         * Lets assume the Robot is facing the human player and we want to score in the bucket */
+         * Lets assume the Robot is facing the human player and we want to score in the bucket
 
-        /** Start Pose of our robot */
+        /** Start Pose of our robot
         final Pose startPose = new Pose(2.75, 58, Math.toRadians(0)); // Basket parking is x = 2.75, y=109
 
-        /** Scoring Pose of our robot. It is facing the submersible at a -45 degree (315 degree) angle. */
+        /** Scoring Pose of our robot. It is facing the submersible at a -45 degree (315 degree) angle.
         final Pose scorePose = new Pose(14, 129, Math.toRadians(315));
 
-        /** Lowest (First) Sample from the Spike Mark */
+        /** Lowest (First) Sample from the Spike Mark
         final Pose pickup1Pose = new Pose(37, 121, Math.toRadians(0));
 
-        /** Middle (Second) Sample from the Spike Mark */
+        /** Middle (Second) Sample from the Spike Mark
         final Pose pickup2Pose = new Pose(43, 130, Math.toRadians(0));
 
-        /** Highest (Third) Sample from the Spike Mark */
+        /** Highest (Third) Sample from the Spike Mark
         final Pose pickup3Pose = new Pose(49, 135, Math.toRadians(0));
 
-        /** Park Pose for our robot, after we do all of the scoring. */
+        /** Park Pose for our robot, after we do all of the scoring.
         final Pose parkPose = new Pose(60, 98, Math.toRadians(90));
 
         /** Park Control Pose for our robot, this is used to manipulate the bezier curve that we will create for the parking.
-         * The Robot will not go to this pose, it is used a control point for our bezier curve. */
+         * The Robot will not go to this pose, it is used a control point for our bezier curve.
         final Pose parkControlPose = new Pose(60, 98, Math.toRadians(90));
 
-        /* These are our Paths and PathChains that we will define in buildPaths() */
+        /* These are our Paths and PathChains that we will define in buildPaths()
         Path scorePreload;
         Path park;
         PathChain grabPickup1, grabPickup2, grabPickup3, scorePickup1, scorePickup2, scorePickup3;
@@ -88,51 +89,51 @@ public class stupid_test extends AutonomousPLUS {
              * PathChains hold Path(s) within it and are able to hold their end point, meaning that they will holdPoint until another path is followed.
              * Here is a explanation of the difference between Paths and PathChains <https://pedropathing.com/commonissues/pathtopathchain.html> */
 
-            /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
+            /* This is our scorePreload path. We are using a BezierLine, which is a straight line.
             scorePreload = new Path(new BezierLine(new Point(startPose), new Point(scorePose)));
             scorePreload.setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading());
 
         /* Here is an example for Constant Interpolation
         scorePreload.setConstantInterpolation(startPose.getHeading()); */
 
-            /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
+            /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line.
             grabPickup1 = follower.pathBuilder()
                     .addPath(new BezierLine(new Point(scorePose), new Point(pickup1Pose)))
                     .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1Pose.getHeading())
                     .build();
 
-            /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
+            /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line.
             scorePickup1 = follower.pathBuilder()
                     .addPath(new BezierLine(new Point(pickup1Pose), new Point(scorePose)))
                     .setLinearHeadingInterpolation(pickup1Pose.getHeading(), scorePose.getHeading())
                     .build();
 
-            /* This is our grabPickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
+            /* This is our grabPickup2 PathChain. We are using a single path with a BezierLine, which is a straight line.
             grabPickup2 = follower.pathBuilder()
                     .addPath(new BezierLine(new Point(scorePose), new Point(pickup2Pose)))
                     .setLinearHeadingInterpolation(scorePose.getHeading(), pickup2Pose.getHeading())
                     .build();
 
-            /* This is our scorePickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
+            /* This is our scorePickup2 PathChain. We are using a single path with a BezierLine, which is a straight line.
             scorePickup2 = follower.pathBuilder()
                     .addPath(new BezierLine(new Point(pickup2Pose), new Point(scorePose)))
                     .setLinearHeadingInterpolation(pickup2Pose.getHeading(), scorePose.getHeading())
                     .build();
 
-            /* This is our grabPickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
+            /* This is our grabPickup3 PathChain. We are using a single path with a BezierLine, which is a straight line.
             grabPickup3 = follower.pathBuilder()
                     .addPath(new BezierLine(new Point(scorePose), new Point(pickup3Pose)))
                     .setLinearHeadingInterpolation(scorePose.getHeading(), pickup3Pose.getHeading())
                     .build();
 
-            /* This is our scorePickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
+            /* This is our scorePickup3 PathChain. We are using a single path with a BezierLine, which is a straight line.
             scorePickup3 = follower.pathBuilder()
                     .addPath(new BezierLine(new Point(pickup3Pose), new Point(scorePose)))
                     .setLinearHeadingInterpolation(pickup3Pose.getHeading(), scorePose.getHeading())
                     .build();
 
-            /* This is our park path. We are using a BezierCurve with 3 points, which is a curved line that is curved based off of the control point */
-            park = new Path(new BezierCurve(new Point(scorePose), /* Control Point */ new Point(parkControlPose), new Point(parkPose)));
+            /* This is our park path. We are using a BezierCurve with 3 points, which is a curved line that is curved based off of the control point
+            park = new Path(new BezierCurve(new Point(scorePose), /* Control Point  new Point(parkControlPose), new Point(parkPose)));
             park.setLinearHeadingInterpolation(scorePose.getHeading(), parkPose.getHeading());
         };
 
@@ -143,4 +144,5 @@ public class stupid_test extends AutonomousPLUS {
 
 
     }
-}
+    */
+}}

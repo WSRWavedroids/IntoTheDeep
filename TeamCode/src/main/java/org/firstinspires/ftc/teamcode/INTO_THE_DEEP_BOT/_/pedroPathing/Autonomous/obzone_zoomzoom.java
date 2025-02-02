@@ -29,7 +29,7 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.pedroPathing.constants
  * @version 2.0, 11/28/2024
  */
 
-@Autonomous(name = "Pedro's Incredible Basket Auto", group = "Pedro's Autos")
+@Autonomous(name = "Pedro go obzone", group = "Pedro's Autos")
 public class obzone_zoomzoom extends OpMode {
 
     private Follower follower;
@@ -49,16 +49,16 @@ public class obzone_zoomzoom extends OpMode {
      * Lets assume the Robot is facing the human player and we want to score in the bucket */
 
     /** Start Pose of our robot */
-    private final Pose startPose = new Pose(2.75, 58, Math.toRadians(0)); // Basket parking is x = 2.75, y=109
+    private final Pose startPose = new Pose(9, 58, Math.toRadians(0)); // Basket parking is x = 2.75, y=109
 
     /** Scoring Pose of our robot. It is facing the submersible at a -45 degree (315 degree) angle. */
-    private final Pose scorePose = new Pose(14, 129, Math.toRadians(315));
+    private final Pose scorePreloadPos = new Pose(36.15, 57.2, Math.toRadians(0));
 
     /** Lowest (First) Sample from the Spike Mark */
-    private final Pose pickup1Pose = new Pose(37, 121, Math.toRadians(0));
+    private final Pose grabFromWallPos = new Pose(19, 45.5, Math.toRadians(180));
 
     /** Middle (Second) Sample from the Spike Mark */
-    private final Pose pickup2Pose = new Pose(43, 130, Math.toRadians(0));
+    private final Pose firstSamplePrep = new Pose(75.8, 33.3, Math.toRadians(180));
 
     /** Highest (Third) Sample from the Spike Mark */
     private final Pose pickup3Pose = new Pose(49, 135, Math.toRadians(0));
@@ -94,51 +94,100 @@ public class obzone_zoomzoom extends OpMode {
          * Here is a explanation of the difference between Paths and PathChains <https://pedropathing.com/commonissues/pathtopathchain.html> */
 
         /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
-        scorePreload = new Path(new BezierLine(new Point(startPose), new Point(scorePose)));
-        scorePreload.setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading());
-
-        /* Here is an example for Constant Interpolation
-        scorePreload.setConstantInterpolation(startPose.getHeading()); */
-
-        /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        grabPickup1 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(scorePose), new Point(pickup1Pose)))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1Pose.getHeading())
-                .build();
-
-        /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        scorePickup1 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(pickup1Pose), new Point(scorePose)))
-                .setLinearHeadingInterpolation(pickup1Pose.getHeading(), scorePose.getHeading())
-                .build();
-
-        /* This is our grabPickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        grabPickup2 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(scorePose), new Point(pickup2Pose)))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup2Pose.getHeading())
-                .build();
-
-        /* This is our scorePickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        scorePickup2 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(pickup2Pose), new Point(scorePose)))
-                .setLinearHeadingInterpolation(pickup2Pose.getHeading(), scorePose.getHeading())
-                .build();
-
-        /* This is our grabPickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        grabPickup3 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(scorePose), new Point(pickup3Pose)))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup3Pose.getHeading())
-                .build();
-
-        /* This is our scorePickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        scorePickup3 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(pickup3Pose), new Point(scorePose)))
-                .setLinearHeadingInterpolation(pickup3Pose.getHeading(), scorePose.getHeading())
-                .build();
-
-        /* This is our park path. We are using a BezierCurve with 3 points, which is a curved line that is curved based off of the control point */
-        park = new Path(new BezierCurve(new Point(scorePose), /* Control Point */ new Point(parkControlPose), new Point(parkPose)));
-        park.setLinearHeadingInterpolation(scorePose.getHeading(), parkPose.getHeading());
+        follower.pathBuilder()
+                .addPath(
+                        // Line 1
+                        new BezierLine(
+                                new Point(9.000, 60.000, Point.CARTESIAN),
+                                new Point(36.150, 60.258, Point.CARTESIAN)
+                        )
+                )
+                .setTangentHeadingInterpolation()
+                .addPath(
+                        // Line 2
+                        new BezierCurve(
+                                new Point(36.150, 60.258, Point.CARTESIAN),
+                                new Point(33.895, 44.972, Point.CARTESIAN),
+                                new Point(28.357, 6.203, Point.CARTESIAN),
+                                new Point(64.468, 62.031, Point.CARTESIAN),
+                                new Point(63.900, 23.040, Point.CARTESIAN)
+                        )
+                )
+                .setTangentHeadingInterpolation()
+                .addPath(
+                        // Line 3
+                        new BezierLine(
+                                new Point(63.900, 23.040, Point.CARTESIAN),
+                                new Point(9.748, 22.597, Point.CARTESIAN)
+                        )
+                )
+                .setTangentHeadingInterpolation()
+                .addPath(
+                        // Line 4
+                        new BezierCurve(
+                                new Point(9.748, 22.597, Point.CARTESIAN),
+                                new Point(63.803, 29.465, Point.CARTESIAN),
+                                new Point(63.582, 11.963, Point.CARTESIAN)
+                        )
+                )
+                .setTangentHeadingInterpolation()
+                .addPath(
+                        // Line 5
+                        new BezierLine(
+                                new Point(63.582, 11.963, Point.CARTESIAN),
+                                new Point(9.748, 11.520, Point.CARTESIAN)
+                        )
+                )
+                .setTangentHeadingInterpolation()
+                .addPath(
+                        // Line 6
+                        new BezierCurve(
+                                new Point(9.748, 11.520, Point.CARTESIAN),
+                                new Point(35.446, 16.837, Point.CARTESIAN),
+                                new Point(6.425, 29.686, Point.CARTESIAN)
+                        )
+                )
+                .setTangentHeadingInterpolation()
+                .addPath(
+                        // Line 7
+                        new BezierLine(
+                                new Point(6.425, 29.686, Point.CARTESIAN),
+                                new Point(36.554, 66.905, Point.CARTESIAN)
+                        )
+                )
+                .setTangentHeadingInterpolation()
+                .addPath(
+                        // Line 8
+                        new BezierLine(
+                                new Point(36.554, 66.905, Point.CARTESIAN),
+                                new Point(6.425, 29.243, Point.CARTESIAN)
+                        )
+                )
+                .setTangentHeadingInterpolation()
+                .addPath(
+                        // Line 9
+                        new BezierLine(
+                                new Point(6.425, 29.243, Point.CARTESIAN),
+                                new Point(36.554, 72.665, Point.CARTESIAN)
+                        )
+                )
+                .setTangentHeadingInterpolation()
+                .addPath(
+                        // Line 10
+                        new BezierLine(
+                                new Point(36.554, 72.665, Point.CARTESIAN),
+                                new Point(6.646, 29.243, Point.CARTESIAN)
+                        )
+                )
+                .setTangentHeadingInterpolation()
+                .addPath(
+                        // Line 11
+                        new BezierLine(
+                                new Point(6.646, 29.243, Point.CARTESIAN),
+                                new Point(36.997, 81.305, Point.CARTESIAN)
+                        )
+                )
+                .setTangentHeadingInterpolation();
     }
 
     /** This switch is called continuously and runs the pathing, at certain points, it triggers the action state.
