@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
+//import org.firstinspires.ftc.teamcode.OLD.Autonomous.AprilTags.MayFlowers;
 
 /**
  * This is the autonomous mode. It moves the robot without us having to touch the controller.
@@ -44,6 +45,7 @@ public class AutonomousPLUS extends LinearOpMode {
 
     // This section tells the program all of the different pieces of hardware that are on our robot that we will use in the program.
     private ElapsedTime runtime = new ElapsedTime();
+
 
     public double speed = 0.6;
     public int sleepTime;
@@ -61,7 +63,18 @@ public class AutonomousPLUS extends LinearOpMode {
 
     //These are the basic functions for mechnum movement during auto... Don't mess with these unless something is inverted
     // Remember Without ODO pods there will be some inconsistency due to mechnum slippage
-
+    public void autoSlides(double change, long pause)
+    {
+        robot.leftSlide.setPosition(1-change);
+        robot.rightSlide.setPosition(0+change);
+        while(robot.leftSlide.getPosition() != 1-change)
+        {
+            robot.leftSlide.setPosition(1-change);
+            robot.rightSlide.setPosition(0+change);
+            robot.tellMotorOutput();
+        }
+        sleep(pause);
+    }
     public void moveRobotForward(int ticks, long pause) {
         if (opModeIsActive()) {
             robot.setTargets("Forward", ticks); // Inverted... Lol
@@ -75,7 +88,6 @@ public class AutonomousPLUS extends LinearOpMode {
 
         robot.stopAllMotors();
         robot.encoderRunningMode();
-        robot.stopAllMotors();
         sleep(pause);
         robot.encoderReset();
     }
@@ -171,19 +183,230 @@ public class AutonomousPLUS extends LinearOpMode {
         }
     }
 
-    public void moveArm(int ticks, double power, long pause) {
-        robot.liftyL.setPower(power);
-        robot.liftyR.setPower(power);
-        robot.liftyL.setTargetPosition(ticks);
-        robot.liftyR.setTargetPosition(ticks);
-        robot.liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    public void moveDiagonalRight(int ticks, long pause) {
+        //This moves along the 45/225 axis, Positive ticks move forward and negative move back
+        if (opModeIsActive()) {
+            robot.setTargets("Diagonal Right", ticks);
+            robot.frontLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.backRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.powerSet(speed);
 
+            while (opModeIsActive() && robot.isWheelsBusy()) {
+                robot.tellMotorOutput();
+            }
+
+            robot.stopAllMotors();
+            robot.encoderRunningMode();
+            sleep(pause);
+            robot.encoderReset();
+        }
+    }
+
+    public void moveDiagonalLeft(int ticks, long pause) {
+        //moves along the 135/315 axis, positive ticks move forward and negative ticks move back
+        if (opModeIsActive()) {
+            robot.setTargets("Diagonal Left", ticks);
+            robot.frontRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.backLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.powerSet(speed);
+
+            while (opModeIsActive() && robot.isWheelsBusy()) {
+                robot.tellMotorOutput();
+            }
+
+            robot.stopAllMotors();
+            robot.encoderRunningMode();
+            sleep(pause);
+            robot.encoderReset();
+        }
+    }
+
+
+    public void timeDriveForward(long time, long pause)
+    {//time is in milliseconds
+        ElapsedTime timer = new ElapsedTime();
+        robot.encoderRunningMode();
+        timer.reset();
+        while (timer.milliseconds() < time)
+        {
+            robot.frontLeftDrive.setPower(-speed);
+            robot.backLeftDrive.setPower(-speed);
+            robot.frontRightDrive.setPower(-speed);
+            robot.backRightDrive.setPower(-speed);
+        }
+        robot.stopAllMotors();
+        sleep(pause);
+    }
+
+    public void timeDriveBackward(long time, long pause)
+    {//time is in milliseconds
+        ElapsedTime timer = new ElapsedTime();
+        robot.encoderRunningMode();
+        timer.reset();
+        while (opModeIsActive() && timer.milliseconds() < time)
+        {
+            robot.frontLeftDrive.setPower(speed);
+            robot.backLeftDrive.setPower(speed);
+            robot.frontRightDrive.setPower(speed);
+            robot.backRightDrive.setPower(speed);
+        }
+        robot.stopAllMotors();
+        sleep(pause);
+    }
+
+    public void timeDriveRight(long time, long pause)
+    {//time is in milliseconds
+        ElapsedTime timer = new ElapsedTime();
+        robot.encoderRunningMode();
+        timer.reset();
+        while (opModeIsActive() && timer.milliseconds() < time)
+        {
+            robot.frontLeftDrive.setPower(-speed);
+            robot.backLeftDrive.setPower(speed);
+            robot.frontRightDrive.setPower(speed);
+            robot.backRightDrive.setPower(-speed);
+        }
+        robot.stopAllMotors();
+        sleep(pause);
+    }
+
+    public void timeDriveLeft(long time, long pause)
+    {//time is in milliseconds
+        ElapsedTime timer = new ElapsedTime();
+        robot.encoderRunningMode();
+        timer.reset();
+        while (opModeIsActive() && timer.milliseconds() < time)
+        {
+            robot.frontLeftDrive.setPower(speed);
+            robot.backLeftDrive.setPower(-speed);
+            robot.frontRightDrive.setPower(-speed);
+            robot.backRightDrive.setPower(speed);
+        }
+        robot.stopAllMotors();
+        sleep(pause);
+    }
+
+    public void timeTurnleft(long time, long pause)
+    {//time is in milliseconds
+        ElapsedTime timer = new ElapsedTime();
+        robot.encoderRunningMode();
+        timer.reset();
+        while (opModeIsActive() && timer.milliseconds() < time)
+        {
+            robot.frontLeftDrive.setPower(speed);
+            robot.backLeftDrive.setPower(speed);
+            robot.frontRightDrive.setPower(-speed);
+            robot.backRightDrive.setPower(-speed);
+        }
+        robot.stopAllMotors();
+        sleep(pause);
+    }
+
+    public void timeTurnRight(long time, long pause)
+    {//time is in milliseconds
+        ElapsedTime timer = new ElapsedTime();
+        robot.encoderRunningMode();
+        timer.reset();
+        while (opModeIsActive() && timer.milliseconds() < time)
+        {
+            robot.frontLeftDrive.setPower(-speed);
+            robot.backLeftDrive.setPower(-speed);
+            robot.frontRightDrive.setPower(speed);
+            robot.backRightDrive.setPower(speed);
+        }
+        robot.stopAllMotors();
+        sleep(pause);
+    }
+
+    public void timeDiagonalRight(long time, long pause, int PosOneForward_MinusOneBack)
+    {// This moves along the 45/225 axis. Changing the last int to -1 will make it go back, pos 1 will go forward
+        ElapsedTime timer = new ElapsedTime();
+        robot.encoderRunningMode();
+        timer.reset();
+        while (opModeIsActive() && timer.milliseconds() < time)
+        {
+            robot.frontLeftDrive.setPower(-speed *  PosOneForward_MinusOneBack);
+            robot.backLeftDrive.setPower(0);
+            robot.frontRightDrive.setPower(0);
+            robot.backRightDrive.setPower(-speed * PosOneForward_MinusOneBack);
+        }
+        robot.stopAllMotors();
+        sleep(pause);
+    }
+
+    public void timeDiagonalLeft(long time, long pause, int PosOneForward_MinusOneBack)
+    {//Moves along the 135/315 degree axis. Changing the last int to -1 will make it go back, pos 1 will go forward
+        ElapsedTime timer = new ElapsedTime();
+        robot.encoderRunningMode();
+        timer.reset();
+        while (opModeIsActive() && timer.milliseconds() < time)
+        {
+            robot.frontLeftDrive.setPower(0);
+            robot.backLeftDrive.setPower(-speed * PosOneForward_MinusOneBack);
+            robot.frontRightDrive.setPower(-speed * PosOneForward_MinusOneBack);
+            robot.backRightDrive.setPower(0);
+        }
+        robot.stopAllMotors();
+        sleep(pause);
+    }
+
+
+
+
+    public void moveArm(int ticks, double power, long pause) {
+        //Moves the lift to the specified position...
+        // Doesn't move it by the number of ticks given as the drivetrain functions expect.
+        robot.liftyR.setPower(power);
+        robot.liftyL.setPower(power);
+        robot.liftyR.setTargetPosition(ticks);
+        robot.liftyL.setTargetPosition(ticks);
+        robot.liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         while (!(robot.liftyR.getCurrentPosition() > (ticks - 10) && robot.liftyR.getCurrentPosition() < (ticks + 10)))
         {
             robot.tellMotorOutput();
         }
         sleep(pause);
+    }
+
+    public void pickupSample(int pickupTime, long pause) {
+        // REQUIREMENTS TO USE FUNCTION (plz don't ignore):
+        // Needs a wait before the function if the most recent movement was the slides
+        // Function can't run until the servos get over their start-of-auto crisis (about 2.5 seconds). This is really obscure, but it might be a problem for somebody someday.
+        double distance = robot.rightSlide.getPosition() + .20;
+        robot.intake_spin(.75);
+        prepareNextAction(100);
+        //robot.leftSlide.setPosition(1-(robot.leftSlide.getPosition()+.10));
+        //robot.rightSlide.setPosition(0+(robot.leftSlide.getPosition()+.10));
+        robot.intakeFlipper.setPosition(.15);
+        prepareNextAction(0);
+        autoSlides(distance,0);
+        prepareNextAction(pickupTime);
+        robot.intake_spin(0);
+        prepareNextAction(pause);
+    }
+    public void prepareAuto() {
+        robot.liftyL.setPower(0);
+        robot.liftyR.setPower(0);
+        robot.intakePosition("UP");
+        robot.tempOutakePos("DOWN");
+        robot.slidesIn();
+        //CHASE WAS HERE ;)
+        //robot.outakeclawOpenClose("CLOSED");
+        //robot.frontLeftDrive.setTargetPositionTolerance(12);
+        //robot.frontRightDrive.setTargetPositionTolerance(12);
+        //robot.backLeftDrive.setTargetPositionTolerance(12);
+        //robot.backRightDrive.setTargetPositionTolerance(12);
+        robot.liftyL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.liftyR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.encoderReset();
+    }
+
+    public void setMotorTolerance(int ticks) {
+        //robot.frontLeftDrive.setTargetPositionTolerance(ticks);
+        //robot.frontRightDrive.setTargetPositionTolerance(ticks);
+        //robot.backLeftDrive.setTargetPositionTolerance(ticks);
+        //robot.backRightDrive.setTargetPositionTolerance(ticks);
     }
 
     public void prepareNextAction(long pause) {

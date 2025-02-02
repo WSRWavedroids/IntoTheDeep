@@ -28,6 +28,8 @@ public class stupid_test extends AutonomousPLUS {
 
         super.runOpMode();
 
+        buildPaths();
+
         pathTimer = new Timer();
         opmodeTimer = new Timer();
         opmodeTimer.resetTimer();
@@ -35,29 +37,35 @@ public class stupid_test extends AutonomousPLUS {
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
         follower.setStartingPose(startPose);
-        buildPaths();
 
+
+        telemetry.addData("State:", "Init");
+        telemetry.addData("Starting pos (as done in code):", startPose);
+        telemetry.update();
         waitForStart();
 
         opmodeTimer.resetTimer();
         setPathState(0);
 
-        //prepareAuto()
-        robot.encoderReset();
-        telemetry.addData(currentPosition,"Start position");
-        robot.liftyL.setPower(0);
-        robot.tempOutakePos("UP");
-        robot.intakePosition("UP");
-        speed = .3;
-        robot.outakeclawOpenClose("CLOSED");
-
+        prepareAuto();
+        telemetry.addData("State:", "Started, pre-wait");
+        telemetry.update();
         prepareNextAction(4000);
 
+        telemetry.addData("State:", "Started, post-wait, pre-movement");
 
+        telemetry.update();
         do {
             follower.followPath(scorePreload);
+            telemetry.addData("State:", "Do loop");
+            telemetry.addData("x", follower.getPose().getX());
+            telemetry.addData("y", follower.getPose().getY());
+            telemetry.addData("heading", follower.getPose().getHeading());
+            telemetry.update();
         } while (follower.isBusy());
 
+        telemetry.addData("State:", "Post-Do loop, pre-arm");
+        telemetry.update();
         moveArm(500,1,2000);
 
 
@@ -65,6 +73,8 @@ public class stupid_test extends AutonomousPLUS {
 
 
     }
+
+
 
     /** Build the paths for the auto (adds, for example, constant/linear headings while doing paths)
      * It is necessary to do this so that all the paths are built before the auto starts. **/
@@ -75,20 +85,22 @@ public class stupid_test extends AutonomousPLUS {
      * It is used by the pathUpdate method. */
     private int pathState;
 
-    /* Create and Define Poses + Paths
-     * Poses are built with three constructors: x, y, and heading (in Radians).
-     * Pedro uses 0 - 144 for x and y, with 0, 0 being on the bottom left.
-     * (For Into the Deep, this would be Blue Observation Zone (0,0) to Red Observation Zone (144,144).)
-     * Even though Pedro uses a different coordinate system than RR, you can convert any roadrunner pose by adding +72 both the x and y.
-     * This visualizer is very easy to use to find and create paths/pathchains/poses: <https://pedro-path-generator.vercel.app/>
-     * Lets assume our robot is 18 by 18 inches
-     * Lets assume the Robot is facing the human player and we want to score in the bucket */
+        /* Create and Define Poses + Paths
+         * Poses are built with three constructors: x, y, and heading (in Radians).
+         * Pedro uses 0 - 144 for x and y, with 0, 0 being on the bottom left.
+         * (For Into the Deep, this would be Blue Observation Zone (0,0) to Red Observation Zone (144,144).)
+         * Even though Pedro uses a different coordinate system than RR, you can convert any roadrunner pose by adding +72 both the x and y.
+         * This visualizer is very easy to use to find and create paths/pathchains/poses: <https://pedro-path-generator.vercel.app/>
+         * Lets assume our robot is 18 by 18 inches
+         * Lets assume the Robot is facing the human player and we want to score in the bucket */
 
     /** Start Pose of our robot */
-    private final Pose startPose = new Pose(9, 58, Math.toRadians(0)); // Basket parking is x = 9, y=109
+    private final Pose startPose = new Pose(9, 109, Math.toRadians(0)); // Basket parking is x = 9, y=109
+
 
     /** Scoring Pose of our robot. It is facing the submersible at a -45 degree (315 degree) angle. */
     private final Pose scorePose = new Pose(14, 129, Math.toRadians(315));
+
 
     /** Lowest (First) Sample from the Spike Mark */
     private final Pose pickup1Pose = new Pose(37, 121, Math.toRadians(0));
@@ -110,6 +122,7 @@ public class stupid_test extends AutonomousPLUS {
     private Path scorePreload, grabPickup1;
     private Path park;
     private PathChain grabPickup2, grabPickup3, scorePickup1, scorePickup2, scorePickup3;
+
     private void buildPaths() {
 
         /* There are two major types of paths components: BezierCurves and BezierLines.
