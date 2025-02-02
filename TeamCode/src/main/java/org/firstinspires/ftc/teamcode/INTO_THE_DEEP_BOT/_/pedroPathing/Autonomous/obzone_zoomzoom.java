@@ -178,7 +178,7 @@ public class obzone_zoomzoom extends OpMode {
                     /* Score Preload */
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
-                    follower.followPath(grabPickup1,true);
+                    follower.followPath(pushBoth,true);
                     setPathState(2);
                 }
                 break;
@@ -188,7 +188,7 @@ public class obzone_zoomzoom extends OpMode {
                     /* Grab Sample */
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
-                    follower.followPath(scorePickup1,true);
+                    follower.followPath(Cycle1,true);
                     setPathState(3);
                 }
                 break;
@@ -198,7 +198,7 @@ public class obzone_zoomzoom extends OpMode {
                     /* Score Sample */
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
-                    follower.followPath(grabPickup2,true);
+                    follower.followPath(Return1,true);
                     setPathState(4);
                 }
                 break;
@@ -208,7 +208,7 @@ public class obzone_zoomzoom extends OpMode {
                     /* Grab Sample */
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
-                    follower.followPath(scorePickup2,true);
+                    follower.followPath(Cycle2,true);
                     setPathState(5);
                 }
                 break;
@@ -218,7 +218,7 @@ public class obzone_zoomzoom extends OpMode {
                     /* Score Sample */
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
-                    follower.followPath(grabPickup3,true);
+                    follower.followPath(Return2,true);
                     setPathState(6);
                 }
                 break;
@@ -228,7 +228,7 @@ public class obzone_zoomzoom extends OpMode {
                     /* Grab Sample */
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
-                    follower.followPath(scorePickup3, true);
+                    follower.followPath(Cycle3, true);
                     setPathState(7);
                 }
                 break;
@@ -238,7 +238,7 @@ public class obzone_zoomzoom extends OpMode {
                     /* Score Sample */
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are parked */
-                    follower.followPath(park,true);
+                    follower.followPath(Park,true);
                     setPathState(8);
                 }
                 break;
