@@ -13,6 +13,9 @@ import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPLUS;
+import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPlatinum;
+import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.pedroPathing.constants.LConstants;
 
@@ -32,6 +35,9 @@ public class basket_zoomzoom extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
+
+    public AutonomousPLUS autonomousPLUS;
+    public AutonomousPlatinum autonomousPlatinum;
 
     /** This is the variable where we store the state of our auto.
      * It is used by the pathUpdate method. */

@@ -16,7 +16,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPLUS;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPlatinum;
-import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.pedroPathing.constants.*;
 
 
@@ -30,7 +29,7 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.pedroPathing.constants
  * @version 2.0, 11/28/2024
  */
 
-@Autonomous(name = "Pedro's Incredible Obzone Auto", group = "Pedro's Autos")
+@Autonomous(name = "Pedro's Incredible Basket Auto", group = "Pedro's Autos")
 public class obzone_zoomzoom extends OpMode {
 
     private Follower follower;
@@ -50,7 +49,7 @@ public class obzone_zoomzoom extends OpMode {
      * Lets assume the Robot is facing the human player and we want to score in the bucket */
 
     /** Start Pose of our robot */
-    private final Pose startPose = new Pose(9, 58, Math.toRadians(0));
+    private final Pose startPose = new Pose(2.75, 58, Math.toRadians(0)); // Basket parking is x = 2.75, y=109
 
     /** Scoring Pose of our robot. It is facing the submersible at a -45 degree (315 degree) angle. */
     private final Pose scorePose = new Pose(14, 129, Math.toRadians(315));
