@@ -28,8 +28,6 @@ public class stupid_test extends AutonomousPLUS {
 
         super.runOpMode();
 
-        buildPaths();
-
         pathTimer = new Timer();
         opmodeTimer = new Timer();
         opmodeTimer.resetTimer();
@@ -38,18 +36,22 @@ public class stupid_test extends AutonomousPLUS {
         follower = new Follower(hardwareMap);
         follower.setStartingPose(startPose);
 
+        buildPaths();
 
         telemetry.addData("State:", "Init");
         telemetry.addData("Starting pos (as done in code):", startPose);
         telemetry.update();
+
         waitForStart();
 
         opmodeTimer.resetTimer();
         setPathState(0);
 
         prepareAuto();
+
         telemetry.addData("State:", "Started, pre-wait");
         telemetry.update();
+
         prepareNextAction(4000);
 
         telemetry.addData("State:", "Started, post-wait, pre-movement");
@@ -57,6 +59,7 @@ public class stupid_test extends AutonomousPLUS {
         telemetry.update();
         do {
             follower.followPath(scorePreload);
+            follower.update();
             telemetry.addData("State:", "Do loop");
             telemetry.addData("x", follower.getPose().getX());
             telemetry.addData("y", follower.getPose().getY());
