@@ -173,14 +173,41 @@ public class Basic_TeleOp_NewBot extends OpMode {
         //int liftyTopLimit = 4100;//temp value
         //int liftyBottomLimit = -20;//temp value
 
+
+        //A bunch of slide nonsense. PLS don't touch unless u know what ur doing
         int liftyTopLimit = 4100;//temp value
         int liftyBottomLimit = -20;//temp value
             int liftyGoControlerVal = robot.liftyL.getCurrentPosition() - ((int) armStickY * 260);
             robot.liftyR.setPower(1);
             robot.liftyL.setPower(1);
-            robot.liftyR.setTargetPosition(liftyGoControlerVal);
-            robot.liftyL.setTargetPosition(liftyGoControlerVal);
 
+            //This needs tested. If a button is pressed but stick isn't, go to preset 1 or 2
+            if (Math.abs(gamepad2.left_stick_y) < 0.1 && gamepad2.share)
+            {
+                //Wall Position
+                robot.liftyL.setTargetPosition(143);
+                robot.liftyR.setTargetPosition(143);
+                if(robot.liftyL.getCurrentPosition() > 133 && robot.liftyL.getCurrentPosition() < 153)
+                {
+                    gamepad2.rumble(500);
+                }
+            }
+            else if(Math.abs(gamepad2.left_stick_y) < 0.1 && gamepad2.touchpad)
+            {
+                robot.liftyL.setTargetPosition(1901);
+                robot.liftyR.setTargetPosition(1901);
+                if(robot.liftyL.getCurrentPosition() > 1891 && robot.liftyL.getCurrentPosition() < 1911)
+                {
+                    gamepad2.rumble(500);
+                }
+            }
+            else
+            {
+                //if not going to preset positions, use the left stick
+                robot.liftyR.setTargetPosition(liftyGoControlerVal);
+                robot.liftyL.setTargetPosition(liftyGoControlerVal);
+            }
+            //Limits
             if (robot.liftyL.getCurrentPosition() > liftyTopLimit || liftyGoControlerVal > liftyTopLimit) {
                 robot.liftyR.setTargetPosition(liftyTopLimit);
                 robot.liftyL.setTargetPosition(liftyTopLimit);
@@ -188,9 +215,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
                 robot.liftyR.setTargetPosition(liftyBottomLimit);
                 robot.liftyL.setTargetPosition(liftyBottomLimit);
             }
-
-
-
+            //Go to Targets
             robot.liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
@@ -249,6 +274,8 @@ public class Basic_TeleOp_NewBot extends OpMode {
             robot.frontRightDrive.setPower(0);
             robot.backRightDrive.setPower(0);
             robot.TransferSequence();
+            gamepad1.rumbleBlips(2);
+            gamepad2.rumbleBlips(2);
         }
 
         if (robot.canWiggle == true && Math.abs(gamepad2.right_stick_y) > 0)
