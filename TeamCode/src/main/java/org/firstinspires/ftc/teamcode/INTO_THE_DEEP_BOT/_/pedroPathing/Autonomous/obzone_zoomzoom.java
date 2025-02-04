@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.pedroPathing.Autonomo
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
+import com.pedropathing.localization.constants.OTOSConstants;
 import com.pedropathing.pathgen.BezierCurve;
 import com.pedropathing.pathgen.BezierLine;
 import com.pedropathing.pathgen.Path;
@@ -11,6 +12,7 @@ import com.pedropathing.pathgen.PathChain;
 import com.pedropathing.pathgen.Point;
 import com.pedropathing.util.Constants;
 import com.pedropathing.util.Timer;
+import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
@@ -50,27 +52,27 @@ public class obzone_zoomzoom extends OpMode {
 
     //Start Pos and go score
     private final Pose startPose = new Pose(9, 60, Math.toRadians(0)); // Basket parking is x = 2.75, y=109
-    private final Pose scorePreloadPos = new Pose(36.15, 57.2, Math.toRadians(0));
+    private final Pose scorePreloadPos = new Pose(36.15, 60.26, Math.toRadians(0));
 
 
     //Make this a pathset to push first sample Go in front of the first sample
-    private final Pose sample1Pos = new Pose(63.9, 23.04, Math.toRadians(180));
-    private final Pose sample1control1 = new Pose(33.89, 44.97, Math.toRadians(0));
-    private final Pose Sample1control2 = new Pose(28.36, 6.2, Math.toRadians(180));
-    private final Pose Sample1control3 = new Pose(64.47, 62.03, Math.toRadians(180));
-    private final Pose pushSample1Pos = new Pose(11, 23.04, Math.toRadians(180));
+    private final Pose sample1Pos = new Pose(63.9, 35, Math.toRadians(0));
+    private final Pose sample1control1 = new Pose(23.70, 55.83, Math.toRadians(0));
+    private final Pose sample1control2 = new Pose(28.36, 6.2, Math.toRadians(0));
+    private final Pose Sample1control3 = new Pose(64.25, 54.94, Math.toRadians(0));
+    private final Pose pushSample1Pos = new Pose(18, 23.26, Math.toRadians(0));
 
-    private final Pose sample2Pos = new Pose(63.58, 11.96, Math.toRadians(180));
-    private final Pose sample2control1 = new Pose(63.8, 29.46, Math.toRadians(180));
-    private final Pose pushSample2Pos = new Pose(12, 11.51, Math.toRadians(180));
+    private final Pose sample2Pos = new Pose(64.48, 13.07, Math.toRadians(0));
+    private final Pose sample2control1 = new Pose(63.8, 29.46, Math.toRadians(0));
+    private final Pose pushSample2Pos = new Pose(18, 12.4, Math.toRadians(0));
 
-    private final Pose controlToGrabPos = new Pose(35.45, 16.84, Math.toRadians(180));
-    private final Pose cycleGrabPosition = new Pose(63.58, 18.61, Math.toRadians(180));
+    private final Pose controlToGrabPos = new Pose(27.47, 18.61, Math.toRadians(0));
+    private final Pose cycleGrabPosition = new Pose(14, 32, Math.toRadians(180));
 
     //use these to help cycle
-    private final Pose score1Pos = new Pose(36.55, 66.9, Math.toRadians(0));
-    private final Pose score2Pos = new Pose(36.55, 69.9, Math.toRadians(0));
-    private final Pose score3Pos = new Pose(36.55, 72, Math.toRadians(0));
+    private final Pose score1Pos = new Pose(34, 66.9, Math.toRadians(0));
+    private final Pose score2Pos = new Pose(34, 71.8, Math.toRadians(0));
+    private final Pose score3Pos = new Pose(34, 78.5, Math.toRadians(0));
 
     private final Pose park = new Pose(11, 13, Math.toRadians(0));
 
@@ -108,7 +110,7 @@ public class obzone_zoomzoom extends OpMode {
         /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         pushBoth = follower.pathBuilder()
                 //get in front of first sample
-                .addPath(new BezierCurve(new Point(scorePreloadPos), new Point(sample1control1), new Point(sample2control1), new Point(Sample1control3), new Point(sample1Pos)))
+                .addPath(new BezierCurve(new Point(scorePreloadPos), new Point(sample1control1), new Point(sample1control2), new Point(Sample1control3), new Point(sample1Pos)))
                 .setLinearHeadingInterpolation(scorePreloadPos.getHeading(), sample1Pos.getHeading())
                 //push it back to obzone
                 .addPath(new BezierLine(new Point(sample1Pos), new Point(pushSample1Pos)))
