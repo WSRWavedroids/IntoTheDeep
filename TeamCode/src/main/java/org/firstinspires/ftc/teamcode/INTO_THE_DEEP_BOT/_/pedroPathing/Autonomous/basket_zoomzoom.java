@@ -35,9 +35,8 @@ public class basket_zoomzoom extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
-
-    public AutonomousPLUS autonomousPLUS;
-    public AutonomousPlatinum autonomousPlatinum;
+    public AutonomousPLUS auto;
+    public Robot robot;
 
     /** This is the variable where we store the state of our auto.
      * It is used by the pathUpdate method. */
@@ -271,6 +270,7 @@ public class basket_zoomzoom extends OpMode {
     public void init() {
         pathTimer = new Timer();
         opmodeTimer = new Timer();
+        auto = new AutonomousPLUS(); robot = new Robot(hardwareMap, telemetry, this);
         opmodeTimer.resetTimer();
 
         Constants.setConstants(FConstants.class, LConstants.class);

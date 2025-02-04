@@ -33,6 +33,7 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.pedroPathing.constants
 public class obzone_zoomzoom extends OpMode {
 
     private Follower follower;
+    private AutonomousPLUS auto;
     private Timer pathTimer, actionTimer, opmodeTimer;
 
     /** This is the variable where we store the state of our auto.
@@ -271,6 +272,7 @@ public class obzone_zoomzoom extends OpMode {
 
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
+        auto = new AutonomousPLUS();
         follower.setStartingPose(startPose);
         buildPaths();
     }

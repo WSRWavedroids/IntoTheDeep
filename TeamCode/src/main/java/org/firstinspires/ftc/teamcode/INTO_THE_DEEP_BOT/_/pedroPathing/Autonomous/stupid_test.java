@@ -52,6 +52,8 @@ public class stupid_test extends AutonomousPLUS {
         telemetry.addData("State:", "Started, pre-wait");
         telemetry.update();
 
+        follower.update();
+
         prepareNextAction(4000);
 
         telemetry.addData("State:", "Started, post-wait, pre-movement");
