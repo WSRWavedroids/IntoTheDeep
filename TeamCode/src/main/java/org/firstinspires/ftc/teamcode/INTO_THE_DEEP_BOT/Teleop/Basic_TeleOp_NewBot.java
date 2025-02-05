@@ -182,7 +182,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
             robot.liftyL.setPower(1);
 
             //This needs tested. If a button is pressed but stick isn't, go to preset 1 or 2
-            if (Math.abs(gamepad2.left_stick_y) < 0.1 && gamepad2.share)
+            if (Math.abs(gamepad2.left_stick_y) < 0.1 && gamepad2.left_stick_button)
             {
                 //Wall Position
                 robot.liftyL.setTargetPosition(143);
@@ -192,7 +192,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
                     gamepad2.rumble(500);
                 }
             }
-            else if(Math.abs(gamepad2.left_stick_y) < 0.1 && gamepad2.touchpad)
+            else if(Math.abs(gamepad2.left_stick_y) < 0.1 && gamepad2.dpad_up)
             {
                 robot.liftyL.setTargetPosition(1901);
                 robot.liftyR.setTargetPosition(1901);
