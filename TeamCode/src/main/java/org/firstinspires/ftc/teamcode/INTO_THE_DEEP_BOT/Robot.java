@@ -332,8 +332,8 @@ public class Robot {
         {
             liftyL.setPower(1);
             liftyR.setPower(1);
-            liftyL.setTargetPosition(15);
-            liftyR.setTargetPosition(15);
+            liftyL.setTargetPosition(0);
+            liftyR.setTargetPosition(0);
             liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }

@@ -44,6 +44,7 @@ public class BLUE_OBSZONE_HighChamber extends AutonomousPLUS {
         moveRobotForward(400,2);
         prepareNextAction(500);
         robot.outakeclawOpenClose("CLOSED");
+        prepareNextAction(1000);
         moveRobotBackward(20, 0);
         moveArm(400, 1, 0);
         speed = 1;
@@ -52,8 +53,8 @@ public class BLUE_OBSZONE_HighChamber extends AutonomousPLUS {
         moveRobotLeft(1300, 0);
         moveArm(1700, 1, 0);
         speed=.4;
-        moveRobotForward(525, 0);
-        moveArm(1200, 1, 0);
+        moveRobotForward(500, 0);
+        moveArm(1150, 1, 0);
         robot.outakeclawOpenClose("OPEN");
         moveRobotBackward(200, 0);
         moveArm(0, 1, 0);
