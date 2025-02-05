@@ -76,6 +76,8 @@ public class Basic_TeleOp_NewBot extends OpMode {
         NORMAL_OPS
     }
 
+    public boolean canManuallyControlVerticalSlides = true;
+
     AuxState auxState = AuxState.NORMAL_OPS;
     ElapsedTime outtakeTimer = new ElapsedTime();
 
@@ -196,7 +198,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
             robot.liftyL.setPower(1);
 
             //This needs tested. If a button is pressed but stick isn't, go to preset 1 or 2
-            if (Math.abs(gamepad2.left_stick_y) < 0.1 && gamepad2.share)
+            if (Math.abs(gamepad2.left_stick_y) < 0.1 && gamepad2.left_stick_button)
             {
                 //Wall Position
                 robot.liftyL.setTargetPosition(143);
@@ -206,7 +208,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
                     gamepad2.rumble(500);
                 }
             }
-            else if(Math.abs(gamepad2.left_stick_y) < 0.1 && gamepad2.touchpad)
+            else if(Math.abs(gamepad2.left_stick_y) < 0.1 && gamepad2.dpad_up)
             {
                 robot.liftyL.setTargetPosition(1901);
                 robot.liftyR.setTargetPosition(1901);
@@ -215,7 +217,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
                     gamepad2.rumble(500);
                 }
             }
-            else
+            else if (canManuallyControlVerticalSlides)
             {
                 //if not going to preset positions, use the left stick
                 robot.liftyR.setTargetPosition(liftyGoControlerVal);
@@ -346,6 +348,8 @@ public class Basic_TeleOp_NewBot extends OpMode {
                 if (gamepad2.y){
                     robot.tempOutakePos("DOWN");
 
+                    canManuallyControlVerticalSlides = false;
+
                     robot.liftyL.setPower(1);
                     robot.liftyR.setPower(1);
                     robot.liftyL.setTargetPositionTolerance(4);
@@ -371,6 +375,9 @@ public class Basic_TeleOp_NewBot extends OpMode {
                 break;
             case LINEARS_IN:
                 if (robot.leftSlide.getPosition() == 1 && robot.intakeFlipper.getPosition() == 1){
+
+                    canManuallyControlVerticalSlides = true;
+
                     robot.intake_spin(-0.5);
 
                     outtakeTimer.reset();
