@@ -68,6 +68,17 @@ public class Basic_TeleOp_NewBot extends OpMode {
     public Robot robot = null;
     public IMU imu;
 
+    public enum AuxState {
+        VERTS_IN,
+        LINEARS_IN,
+        OUTTAKING,
+        RESETTING,
+        NORMAL_OPS
+    }
+
+    AuxState auxState = AuxState.NORMAL_OPS;
+    ElapsedTime outtakeTimer = new ElapsedTime();
+
     public SparkFunOTOS sparky = hardwareMap.get(SparkFunOTOS.class, "sparkFunSparkJoy"); // Field Centric IMU is garbage
     /*
      * Code to run ONCE when the driver hits INIT
@@ -79,6 +90,8 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
+
+        outtakeTimer.reset();
 
         if (robot.controlMode=="Field Centric")
         {
@@ -273,7 +286,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
             robot.backLeftDrive.setPower(0);
             robot.frontRightDrive.setPower(0);
             robot.backRightDrive.setPower(0);
-            robot.TransferSequence();
+            //robot.TransferSequence(); - Replaced by switch statement :)
             gamepad1.rumbleBlips(2);
             gamepad2.rumbleBlips(2);
         }
@@ -322,6 +335,64 @@ public class Basic_TeleOp_NewBot extends OpMode {
         {
             robot.outakeclawOpenClose("OPEN");
         }
+
+        //Transfer Sequence Switch Statement (Added by Claire)
+
+        switch (auxState){
+            case NORMAL_OPS:
+                if (gamepad2.y){
+                    robot.tempOutakePos("DOWN");
+
+                    robot.liftyL.setPower(1);
+                    robot.liftyR.setPower(1);
+                    robot.liftyL.setTargetPosition(0);
+                    robot.liftyR.setTargetPosition(0);
+                    robot.liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                    auxState = AuxState.VERTS_IN;
+                }
+                break;
+            case VERTS_IN:
+                if ((robot.liftyL.getCurrentPosition() > -5 || robot.liftyL.getCurrentPosition() < 5) && robot.leftFlippyOutakeServo.getPosition() < 0.1){
+                    robot.intakePosition("IN");
+                    robot.slidesIn();
+
+                    auxState = AuxState.LINEARS_IN;
+                }
+                break;
+            case LINEARS_IN:
+                if (robot.leftSlide.getPosition() == 1 && robot.intakeFlipper.getPosition() == 1){
+                    robot.intake_spin(-0.5);
+
+                    outtakeTimer.reset();
+
+                    auxState = AuxState.OUTTAKING;
+                }
+                break;
+            case OUTTAKING:
+                if (outtakeTimer.seconds() >= 1){
+                    robot.intake_spin(0);
+                    robot.intakePosition("UP");
+
+                    auxState = AuxState.RESETTING;
+                }
+                break;
+            case RESETTING:
+                if (robot.intakeFlipper.getPosition() == 0.75){
+                    auxState = AuxState.NORMAL_OPS;
+                }
+                break;
+            default:
+                auxState = AuxState.NORMAL_OPS;
+
+        }
+
+        //This is a panic button. If anything goes wrong and you want to stop the transfer sequence, just press y again.
+        if (gamepad2.y && auxState != AuxState.NORMAL_OPS) {
+            auxState = AuxState.NORMAL_OPS;
+        }
+
     }
 
     /*
