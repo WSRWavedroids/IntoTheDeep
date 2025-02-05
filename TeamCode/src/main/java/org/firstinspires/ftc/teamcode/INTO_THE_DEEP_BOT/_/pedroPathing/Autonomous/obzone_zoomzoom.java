@@ -17,7 +17,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 //import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPLUS;
+import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPLUS;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPlatinum;
+import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.pedroPathing.constants.*;
 
 
@@ -36,6 +38,8 @@ public class obzone_zoomzoom extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
+    private AutonomousPLUS plus = new AutonomousPLUS();
+    private Robot robot = new Robot(hardwareMap,telemetry,this);
 
     /** This is the variable where we store the state of our auto.
      * It is used by the pathUpdate method. */
@@ -164,6 +168,7 @@ public class obzone_zoomzoom extends OpMode {
     public void autonomousPathUpdate() {
         switch (pathState) {
             case 0:
+
                 follower.followPath(scorePreload);
                 setPathState(1);
                 break;
