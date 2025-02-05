@@ -24,8 +24,8 @@ public class Robot {
     public DcMotorEx frontRightDrive;
     public DcMotorEx backLeftDrive;
     public DcMotorEx backRightDrive;
-    public DcMotor liftyL;
-    public DcMotor liftyR;
+    public DcMotorEx liftyL;
+    public DcMotorEx liftyR;
 
 
 
@@ -76,8 +76,8 @@ public class Robot {
         frontLeftDrive = hardwareMap.get(DcMotorEx.class, "frontLeftDrive");
         backLeftDrive = hardwareMap.get(DcMotorEx.class, "backLeftDrive");
         backRightDrive = hardwareMap.get(DcMotorEx.class, "backRightDrive");
-        liftyL = hardwareMap.get(DcMotor.class, "liftyL");
-        liftyR = hardwareMap.get(DcMotor.class, "liftyR");
+        liftyL = hardwareMap.get(DcMotorEx.class, "liftyL");
+        liftyR = hardwareMap.get(DcMotorEx.class, "liftyR");
         leftIntake = hardwareMap.get(CRServo.class, "leftIntake");
         rightIntake = hardwareMap.get(CRServo.class, "rightIntake");
         intakeFlipper = hardwareMap.get(Servo.class, "flipperServo");

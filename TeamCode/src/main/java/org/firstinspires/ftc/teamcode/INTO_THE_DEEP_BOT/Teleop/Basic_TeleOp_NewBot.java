@@ -79,7 +79,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
     AuxState auxState = AuxState.NORMAL_OPS;
     ElapsedTime outtakeTimer = new ElapsedTime();
 
-    public SparkFunOTOS sparky = hardwareMap.get(SparkFunOTOS.class, "sparkFunSparkJoy"); // Field Centric IMU is garbage
+    //public SparkFunOTOS sparky = hardwareMap.get(SparkFunOTOS.class, "sparkFunSparkJoy"); // Field Centric IMU is garbage
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -133,6 +133,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
         singleJoystickDrive();
         // This little section updates the driver hub on the runtime and the motor powers.
         // It's mostly used for troubleshooting.
+        telemetry.addData("Aux State", auxState);
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         robot.tellMotorOutput();
 
@@ -282,10 +283,10 @@ public class Basic_TeleOp_NewBot extends OpMode {
         }
         else if (gamepad2.y)
         {
-            robot.frontLeftDrive.setPower(0);
-            robot.backLeftDrive.setPower(0);
-            robot.frontRightDrive.setPower(0);
-            robot.backRightDrive.setPower(0);
+            //robot.frontLeftDrive.setPower(0);
+            //robot.backLeftDrive.setPower(0);
+            //robot.frontRightDrive.setPower(0);
+            //robot.backRightDrive.setPower(0);
             //robot.TransferSequence(); - Replaced by switch statement :)
             gamepad1.rumbleBlips(2);
             gamepad2.rumbleBlips(2);
@@ -338,6 +339,8 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
         //Transfer Sequence Switch Statement (Added by Claire)
 
+
+
         switch (auxState){
             case NORMAL_OPS:
                 if (gamepad2.y){
@@ -345,6 +348,8 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
                     robot.liftyL.setPower(1);
                     robot.liftyR.setPower(1);
+                    robot.liftyL.setTargetPositionTolerance(4);
+                    robot.liftyR.setTargetPositionTolerance(4);
                     robot.liftyL.setTargetPosition(0);
                     robot.liftyR.setTargetPosition(0);
                     robot.liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -354,9 +359,12 @@ public class Basic_TeleOp_NewBot extends OpMode {
                 }
                 break;
             case VERTS_IN:
-                if ((robot.liftyL.getCurrentPosition() > -5 || robot.liftyL.getCurrentPosition() < 5) && robot.leftFlippyOutakeServo.getPosition() < 0.1){
+                if ((robot.liftyL.getCurrentPosition() > -5 && robot.liftyL.getCurrentPosition() < 5) && robot.leftFlippyOutakeServo.getPosition() < 0.1){
                     robot.intakePosition("IN");
                     robot.slidesIn();
+
+                    robot.liftyL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                    robot.liftyR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
                     auxState = AuxState.LINEARS_IN;
                 }
@@ -389,9 +397,9 @@ public class Basic_TeleOp_NewBot extends OpMode {
         }
 
         //This is a panic button. If anything goes wrong and you want to stop the transfer sequence, just press y again.
-        if (gamepad2.y && auxState != AuxState.NORMAL_OPS) {
-            auxState = AuxState.NORMAL_OPS;
-        }
+        //if (gamepad2.y && auxState != AuxState.NORMAL_OPS) {
+          //  auxState = AuxState.NORMAL_OPS;
+        //}
 
     }
 
