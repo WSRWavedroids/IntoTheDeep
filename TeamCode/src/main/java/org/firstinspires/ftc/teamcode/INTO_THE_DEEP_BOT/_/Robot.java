@@ -49,7 +49,6 @@ public class Robot {
     public Servo grabbyOutakeServoL;
     public Servo grabbyOutakeServoR;
 
-    public NormalizedColorSensor colorSens;
     public SparkFunOTOS sparky;
 
     public Telemetry telemetry;
@@ -88,7 +87,6 @@ public class Robot {
 
         leftSlide = hardwareMap.get(Servo.class, "leftSlide");
         rightSlide = hardwareMap.get(Servo.class, "rightSlide");
-        colorSens = hardwareMap.get(NormalizedColorSensor.class,"colorSens");
         sparky = hardwareMap.get(SparkFunOTOS.class,"sparkFunSparkJoy");
 
 
@@ -382,7 +380,10 @@ public class Robot {
         //Function Ends here
     }
 
+
+    /*
     public NormalizedRGBA getColors(){
+
 
         colorSens.setGain(2);   //This can be tuned in order to get more useful values
         final float[] hsvValues = new float[3];
@@ -428,6 +429,8 @@ public class Robot {
         }
 
     }
+
+     */
 
     public void encoderRunningMode(){
         frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
