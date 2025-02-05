@@ -60,7 +60,7 @@ public class Robot {
     public HardwareMap hardwareMap;
     public static double parkingZone;
     public String startingPosition;
-    public String controlMode = "Field Centric";// Robot Centric
+    public String controlMode = "Robot Centric";// Robot Centric
     public String intakeFlipperPos ="UP";
     public IMU.Parameters imuParameters;
 
