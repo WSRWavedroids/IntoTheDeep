@@ -38,8 +38,8 @@ public class obzone_zoomzoom extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
-    private AutonomousPLUS plus = new AutonomousPLUS();
-    private Robot robot = new Robot(hardwareMap,telemetry,this);
+   // private AutonomousPLUS plus = new AutonomousPLUS();
+   // private Robot robot = new Robot(hardwareMap,telemetry,this);
 
     /** This is the variable where we store the state of our auto.
      * It is used by the pathUpdate method. */
