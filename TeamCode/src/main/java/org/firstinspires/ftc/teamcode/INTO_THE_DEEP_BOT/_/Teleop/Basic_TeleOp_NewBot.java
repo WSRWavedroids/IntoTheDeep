@@ -156,6 +156,10 @@ public class Basic_TeleOp_NewBot extends OpMode {
             }
         }
 
+        if (gamepad1.options && robot.controlMode == "Field Centric") {
+            imu.resetYaw();
+        }
+
         if (gamepad1.dpad_up || gamepad1.right_trigger >= 0.5) {
             speed = 1;
         } else if (gamepad1.dpad_down) {

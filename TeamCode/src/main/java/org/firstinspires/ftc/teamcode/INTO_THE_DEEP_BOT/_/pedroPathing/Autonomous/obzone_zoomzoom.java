@@ -209,6 +209,7 @@ public class obzone_zoomzoom extends OpMode {
                     /* Grab Sample */
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
+                    follower.turnToDegrees(180);
                     follower.followPath(Cycle1,true);
                     setPathState(3);
                 }
