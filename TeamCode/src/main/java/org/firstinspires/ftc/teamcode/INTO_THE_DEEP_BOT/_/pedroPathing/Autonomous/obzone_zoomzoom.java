@@ -312,7 +312,7 @@ public class obzone_zoomzoom extends OpMode {
     @Override
     public void start() {
         opmodeTimer.resetTimer();
-
+        plus.prepareAuto();
         setPathState(0);
     }
 
