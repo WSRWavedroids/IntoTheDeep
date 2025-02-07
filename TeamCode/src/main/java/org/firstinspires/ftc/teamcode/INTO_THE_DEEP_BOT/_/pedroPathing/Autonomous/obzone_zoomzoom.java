@@ -167,6 +167,11 @@ public class obzone_zoomzoom extends OpMode {
                 .setLinearHeadingInterpolation(score2Pos.getHeading(), cycleGrabPosition.getHeading())
                 .build();
 
+        Cycle3 = follower.pathBuilder()
+                .addPath(new BezierCurve(new Point(cycleGrabPosition), new Point(cycleSwoopControl), new Point(score1Pos)))
+                .setLinearHeadingInterpolation(cycleGrabPosition.getHeading(), score1Pos.getHeading())
+                .build();
+
         Park = follower.pathBuilder()
                 .addPath(new BezierLine(new Point(score3Pos), new Point(park)))
                 .setLinearHeadingInterpolation(score3Pos.getHeading(), park.getHeading())
