@@ -18,6 +18,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 //import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPLUS;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPLUS;
+import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPearl;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPlatinum;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.pedroPathing.constants.*;
@@ -38,7 +39,17 @@ public class obzone_zoomzoom extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
-    public AutonomousPLUS plus;
+    public AutonomousPearl plus = new AutonomousPearl() {
+        @Override
+        public void init() {
+
+        }
+
+        @Override
+        public void loop() {
+
+        }
+    };
     public Robot robot;
 
     /** This is the variable where we store the state of our auto.
@@ -66,7 +77,7 @@ public class obzone_zoomzoom extends OpMode {
     private final Pose Sample1control3 = new Pose(64.25, 54.94, Math.toRadians(0));
     private final Pose pushSample1Pos = new Pose(25, 23.26, Math.toRadians(0));
 
-    private final Pose sample2Pos = new Pose(64.48, 15.5 , Math.toRadians(0));
+    private final Pose sample2Pos = new Pose(64.48, 15.5, Math.toRadians(0));
     private final Pose sample2control1 = new Pose(63.8, 29.46, Math.toRadians(0));
     private final Pose pushSample2Pos = new Pose(25, 15.5, Math.toRadians(0));
 
@@ -74,7 +85,7 @@ public class obzone_zoomzoom extends OpMode {
     private final Pose controlToGrabPos2 = new Pose(70, 32.78, Math.toRadians(180));
     private final Pose cycleGrabPosition = new Pose(18, 32, Math.toRadians(180));
 
-    private final Pose cycleSwoopControl = new Pose(44,20, Math.toRadians(180));
+    private final Pose cycleSwoopControl = new Pose (44,20,Math.toRadians(180));
 
     //use these to help cycle
     private final Pose score1Pos = new Pose(36.1, 66.9, Math.toRadians(0));
@@ -141,7 +152,7 @@ public class obzone_zoomzoom extends OpMode {
                 .build();
 
         Return1 = follower.pathBuilder()
-                .addPath(new BezierCurve(new Point(score1Pos), new Point(cycleSwoopControl), new Point(cycleGrabPosition)))
+                .addPath(new BezierCurve(new Point(score1Pos), new Point (cycleSwoopControl), new Point(cycleGrabPosition)))
                 .setLinearHeadingInterpolation(score1Pos.getHeading(), cycleGrabPosition.getHeading())
                 .build();
 
@@ -152,7 +163,7 @@ public class obzone_zoomzoom extends OpMode {
                 .build();
 
         Return2 = follower.pathBuilder()
-                .addPath(new BezierCurve(new Point(score2Pos), new Point(cycleSwoopControl),  new Point(cycleGrabPosition)))
+                .addPath(new BezierCurve(new Point(score2Pos), new Point (cycleSwoopControl), new Point(cycleGrabPosition)))
                 .setLinearHeadingInterpolation(score2Pos.getHeading(), cycleGrabPosition.getHeading())
                 .build();
 
@@ -171,7 +182,7 @@ public class obzone_zoomzoom extends OpMode {
     public void autonomousPathUpdate() {
         switch (pathState) {
             case 0:
-                //robot.outakeclawOpenClose("CLOSED");
+
                 follower.followPath(scorePreload);
                 setPathState(1);
                 break;
@@ -295,7 +306,6 @@ public class obzone_zoomzoom extends OpMode {
         opmodeTimer.resetTimer();
 
         robot = new Robot(hardwareMap, telemetry, this);
-        plus = new AutonomousPLUS();
 
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
@@ -312,7 +322,7 @@ public class obzone_zoomzoom extends OpMode {
     @Override
     public void start() {
         opmodeTimer.resetTimer();
-        plus.prepareAuto();
+        robot.prepareAuto();
         setPathState(0);
     }
 

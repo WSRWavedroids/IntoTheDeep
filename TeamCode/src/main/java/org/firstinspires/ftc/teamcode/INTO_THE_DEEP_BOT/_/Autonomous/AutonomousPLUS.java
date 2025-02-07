@@ -29,6 +29,7 @@ package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous;
  */
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -60,7 +61,6 @@ public class AutonomousPLUS extends LinearOpMode {
         robot = new Robot(hardwareMap, telemetry, this);
     }
 
-    @Override
     public void runOpMode() {
         robot = new Robot(hardwareMap, telemetry, this);
     }

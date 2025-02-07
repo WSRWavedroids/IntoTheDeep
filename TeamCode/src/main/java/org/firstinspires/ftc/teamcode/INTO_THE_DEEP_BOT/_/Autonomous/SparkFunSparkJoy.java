@@ -50,16 +50,16 @@ public class SparkFunSparkJoy extends LinearOpMode {
         while (opModeIsActive()) {
             // Get the latest position, which includes the x and y coordinates, plus the
             // heading angle
-            SparkFunOTOS.Pose2D pos = robot.sparky.getPosition();
+            SparkFunOTOS.Pose2D pos = robot.myOtos.getPosition();
 
             // Reset the tracking if the user requests it
             if (gamepad1.left_bumper) {
-                robot.sparky.resetTracking();
+                robot.myOtos.resetTracking();
             }
 
             // Re-calibrate the IMU if the user requests it
             if (gamepad1.right_bumper) {
-                robot.sparky.calibrateImu();
+                robot.myOtos.calibrateImu();
             }
 
             // Log the position to the telemetry
@@ -79,7 +79,7 @@ public class SparkFunSparkJoy extends LinearOpMode {
 
     public SparkFunOTOS.Pose2D findCurrentPose(){
 
-        SparkFunOTOS.Pose2D pos = robot.sparky.getPosition();
+        SparkFunOTOS.Pose2D pos = robot.myOtos.getPosition();
 
         // Log the position to the telemetry
         telemetry.addData("X coordinate", pos.x);
@@ -102,9 +102,9 @@ public class SparkFunSparkJoy extends LinearOpMode {
         // persisted in the sensor, so you need to set at the start of all your
         // OpModes if using the non-default value.
         // myOtos.setLinearUnit(DistanceUnit.METER);
-        robot.sparky.setLinearUnit(DistanceUnit.INCH);
+        robot.myOtos.setLinearUnit(DistanceUnit.INCH);
         // myOtos.setAngularUnit(AnguleUnit.RADIANS);
-        robot.sparky.setAngularUnit(AngleUnit.DEGREES);
+        robot.myOtos.setAngularUnit(AngleUnit.DEGREES);
 
         // Assuming you've mounted your sensor to a robot and it's not centered,
         // you can specify the offset for the sensor relative to the center of the
@@ -118,7 +118,7 @@ public class SparkFunSparkJoy extends LinearOpMode {
         // would be {-5, 10, -90}. These can be any value, even the angle can be
         // tweaked slightly to compensate for imperfect mounting (eg. 1.3 degrees).
         SparkFunOTOS.Pose2D offset = new SparkFunOTOS.Pose2D(-0.75, 0, 0);
-        robot.sparky.setOffset(offset);
+        robot.myOtos.setOffset(offset);
 
         // Here we can set the linear and angular scalars, which can compensate for
         // scaling issues with the sensor measurements. Note that as of firmware
@@ -136,8 +136,8 @@ public class SparkFunSparkJoy extends LinearOpMode {
         // multiple speeds to get an average, then set the linear scalar to the
         // inverse of the error. For example, if you move the robot 100 inches and
         // the sensor reports 103 inches, set the linear scalar to 100/103 = 0.971
-        robot.sparky.setLinearScalar(1.039904427);
-        robot.sparky.setAngularScalar(0.9918584088);
+        robot.myOtos.setLinearScalar(1.039904427);
+        robot.myOtos.setAngularScalar(0.9918584088);
 
         // The IMU on the OTOS includes a gyroscope and accelerometer, which could
         // have an offset. Note that as of firmware version 1.0, the calibration
@@ -149,22 +149,22 @@ public class SparkFunSparkJoy extends LinearOpMode {
         // to wait until the calibration is complete. If no parameters are provided,
         // it will take 255 samples and wait until done; each sample takes about
         // 2.4ms, so about 612ms total
-        robot.sparky.calibrateImu();
+        robot.myOtos.calibrateImu();
 
         // Reset the tracking algorithm - this resets the position to the origin,
         // but can also be used to recover from some rare tracking errors
-        robot.sparky.resetTracking();
+        robot.myOtos.resetTracking();
 
         // After resetting the tracking, the OTOS will report that the robot is at
         // the origin. If your robot does not start at the origin, or you have
         // another source of location information (eg. vision odometry), you can set
         // the OTOS location to match and it will continue to track from there.
-        robot.sparky.setPosition(startPos);
+        robot.myOtos.setPosition(startPos);
 
         // Get the hardware and firmware version
         SparkFunOTOS.Version hwVersion = new SparkFunOTOS.Version();
         SparkFunOTOS.Version fwVersion = new SparkFunOTOS.Version();
-        robot.sparky.getVersionInfo(hwVersion, fwVersion);
+        robot.myOtos.getVersionInfo(hwVersion, fwVersion);
 
         telemetry.addLine("OTOS configured! Press start to get position data!");
         telemetry.addLine();

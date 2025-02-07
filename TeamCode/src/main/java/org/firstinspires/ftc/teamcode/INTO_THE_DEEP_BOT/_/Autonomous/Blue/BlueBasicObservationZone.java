@@ -19,10 +19,8 @@ public class BlueBasicObservationZone extends AutonomousPLUS {
 
         waitForStart();
         //telemetry.addData(currentPosition,"Start position");
-        robot.waterslide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.liftyL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.liftyL.setPower(0);
-        robot.waterslide.setPower(0);
         robot.tempOutakePos("UP");
         robot.intakePosition("UP");
 

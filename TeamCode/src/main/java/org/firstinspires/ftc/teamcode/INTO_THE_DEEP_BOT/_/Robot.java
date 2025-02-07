@@ -48,7 +48,7 @@ public class Robot {
 
     //public DistanceSensor distanceSensor;
 
-    SparkFunOTOS myOtos;
+    public SparkFunOTOS myOtos;
 
     //public WebcamName CamCam;
 
@@ -504,6 +504,18 @@ public class Robot {
         liftyL.setPower(0.05);
         liftyR.setDirection(DcMotor.Direction.FORWARD);//
         liftyR.setPower(0.05);
+    }
+
+    public void prepareAuto(){
+        liftyL.setPower(0);
+        liftyR.setPower(0);
+        intakePosition("UP");
+        tempOutakePos("DOWN");
+        slidesIn();
+        outakeclawOpenClose("CLOSED");
+        liftyL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftyR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
     }
 
 

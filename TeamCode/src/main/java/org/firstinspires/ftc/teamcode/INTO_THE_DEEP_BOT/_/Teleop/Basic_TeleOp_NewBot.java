@@ -345,6 +345,9 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
         switch (auxState){
             case NORMAL_OPS:
+
+                canManuallyControlVerticalSlides = true;
+
                 if (gamepad2.y){
                     robot.tempOutakePos("DOWN");
 
@@ -363,7 +366,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
                 }
                 break;
             case VERTS_IN:
-                if ((robot.liftyL.getCurrentPosition() > -5 && robot.liftyL.getCurrentPosition() < 5) && robot.leftFlippyOutakeServo.getPosition() < 0.1){
+                if ((robot.liftyL.getCurrentPosition() > -20 && robot.liftyL.getCurrentPosition() < 20) && robot.leftFlippyOutakeServo.getPosition() < 0.1){
                     robot.intakePosition("IN");
                     robot.slidesIn();
 
@@ -378,7 +381,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
                     canManuallyControlVerticalSlides = true;
 
-                    robot.intake_spin(-0.5);
+                    robot.intake_spin(-1);
 
                     outtakeTimer.reset();
 
@@ -386,7 +389,10 @@ public class Basic_TeleOp_NewBot extends OpMode {
                 }
                 break;
             case OUTTAKING:
-                if (outtakeTimer.seconds() >= 1){
+
+                robot.intake_spin(-1);
+
+                if (outtakeTimer.milliseconds() >= 1000){
                     robot.intake_spin(0);
                     robot.intakePosition("UP");
 
@@ -404,9 +410,9 @@ public class Basic_TeleOp_NewBot extends OpMode {
         }
 
         //This is a panic button. If anything goes wrong and you want to stop the transfer sequence, just press y again.
-        //if (gamepad2.y && auxState != AuxState.NORMAL_OPS) {
-        //  auxState = AuxState.NORMAL_OPS;
-        //}
+        if (gamepad2.y && auxState != AuxState.NORMAL_OPS) {
+          auxState = AuxState.NORMAL_OPS;
+        }
 
     }
 

@@ -93,7 +93,6 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
         telemetry.addData("HYPE", "Let's do this!!!");
         gamepad1.setLedColor(0, 0, 255, 100000000);
         gamepad2.setLedColor(0, 0, 255, 100000000);
-        robot.imu.resetYaw();
     }
 
     /*
@@ -106,9 +105,9 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
         // It's mostly used for troubleshooting.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
 
-        telemetry.addData("Yaw", robot.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
-        telemetry.addData("Pitch", robot.imu.getRobotYawPitchRollAngles().getPitch(AngleUnit.DEGREES));
-        telemetry.addData("Roll", robot.imu.getRobotYawPitchRollAngles().getRoll(AngleUnit.DEGREES));
+        //telemetry.addData("Yaw", robot.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
+        //telemetry.addData("Pitch", robot.imu.getRobotYawPitchRollAngles().getPitch(AngleUnit.DEGREES));
+        //telemetry.addData("Roll", robot.imu.getRobotYawPitchRollAngles().getRoll(AngleUnit.DEGREES));
         telemetry.addData("Logo Orientation", robot.imuParameters.imuOrientationOnRobot);
 
     }
@@ -161,29 +160,29 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
             motorPowers[3] = (leftY + leftX - rightX);
 
         } else if (robot.controlMode == "Field Centric") {
-            double botHeading = robot.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+            //double botHeading = robot.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
             // Rotate the movement direction counter to the bot's rotation
-            double rotX = leftX * Math.cos(-botHeading) - leftY * Math.sin(-botHeading);
-            double rotY = leftX * Math.sin(-botHeading) + leftY * Math.cos(-botHeading);
+            //double rotX = leftX * Math.cos(-botHeading) - leftY * Math.sin(-botHeading);
+            //double rotY = leftX * Math.sin(-botHeading) + leftY * Math.cos(-botHeading);
 
-            rotX = rotX * 1.1;  // Counteract imperfect strafing
+            //rotX = rotX * 1.1;  // Counteract imperfect strafing
 
             // Denominator is the largest motor power (absolute value) or 1
             // This ensures all the powers maintain the same ratio,
             // but only if at least one is out of the range [-1, 1]
-            double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rightX), 1);
-            double frontLeftPower = (rotY + rotX + rightX) / denominator; //all of the right xs got inverted
-            double backLeftPower = (rotY - rotX - rightX) / denominator;
-            double frontRightPower = (rotY - rotX + rightX) / denominator;
-            double backRightPower = (rotY + rotX - rightX) / denominator;
+            //double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rightX), 1);
+            //double frontLeftPower = (rotY + rotX + rightX) / denominator; //all of the right xs got inverted
+            //double backLeftPower = (rotY - rotX - rightX) / denominator;
+            //double frontRightPower = (rotY - rotX + rightX) / denominator;
+            //double backRightPower = (rotY + rotX - rightX) / denominator;
 
 
 
-            motorPowers[0] = (float)frontLeftPower;
-            motorPowers[1] = (float) backLeftPower;
-            motorPowers[2] = (float)frontRightPower;
-            motorPowers[3] = (float) backRightPower;
+           // motorPowers[0] = (float)frontLeftPower;
+           // motorPowers[1] = (float) backLeftPower;
+           // motorPowers[2] = (float)frontRightPower;
+           // motorPowers[3] = (float) backRightPower;
         }
 
         float max = getLargestAbsVal(motorPowers);
