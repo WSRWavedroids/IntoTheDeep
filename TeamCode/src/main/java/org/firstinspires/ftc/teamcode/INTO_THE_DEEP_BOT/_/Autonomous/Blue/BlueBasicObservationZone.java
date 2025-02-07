@@ -1,13 +1,14 @@
 package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.Blue;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPLUS;
-
+@Disabled
 @Autonomous(group = "Basic", name = "Blue Basic Observation Zone")
 public class BlueBasicObservationZone extends AutonomousPLUS {
-
+/*
     public String currentPosition;
     public String target;
 
@@ -33,5 +34,5 @@ public class BlueBasicObservationZone extends AutonomousPLUS {
 
 
 
-    }
+    }*/
 }

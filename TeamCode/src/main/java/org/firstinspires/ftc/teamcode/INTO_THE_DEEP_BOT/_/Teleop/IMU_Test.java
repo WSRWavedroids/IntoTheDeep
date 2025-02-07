@@ -57,8 +57,9 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
  * did a horrible job of doing that.
  */
 
-@TeleOp(name="IMU Test", group="Test")
-public class IMU_Test extends OpMode {
+//@TeleOp(name="IMU Test", group="Test")
+//public class IMU_Test extends OpMode {
+    /*
 
     // This section tells the program all of the different pieces of hardware that are on our robot that we will use in the program.
     private ElapsedTime runtime = new ElapsedTime();
@@ -68,7 +69,7 @@ public class IMU_Test extends OpMode {
 
     /*
      * Code to run ONCE when the driver hits INIT
-     */
+
     public void init() {
 
         // Call the initialization protocol from the Robot class.
@@ -81,12 +82,12 @@ public class IMU_Test extends OpMode {
 
     /*
      * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
-     */
+
     public void init_loop() {telemetry.addData("HYPE", "ARE! YOU! READY?!?!?!?!");}
 
     /*
      * Code to run ONCE when the driver hits PLAY
-     */
+
     public void start() {
         runtime.reset();
         telemetry.addData("HYPE", "Let's do this!!!");
@@ -97,7 +98,7 @@ public class IMU_Test extends OpMode {
 
     /*
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
-     */
+
     public void loop() {
 
         singleJoystickDrive();
@@ -114,13 +115,13 @@ public class IMU_Test extends OpMode {
 
     /*
      * Code to run ONCE after the driver hits STOP
-     */
+
     public void stop () { telemetry.addData("Status", "Robot Stopped"); }
 
 
     /*
      * The holding cell for all of the random functions we call above.
-     */
+
 
     public void setIndividualPowers ( float[] motorPowers){
         // This function creates an array so that the function below works.
@@ -216,5 +217,4 @@ public class IMU_Test extends OpMode {
         }
         return max;
     }
-
-}
+*/

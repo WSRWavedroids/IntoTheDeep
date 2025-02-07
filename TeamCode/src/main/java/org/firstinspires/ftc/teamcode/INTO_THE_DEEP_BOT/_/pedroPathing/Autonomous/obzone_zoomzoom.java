@@ -60,23 +60,24 @@ public class obzone_zoomzoom extends OpMode {
 
 
     //Make this a pathset to push first sample Go in front of the first sample
-    private final Pose sample1Pos = new Pose(63.9, 35, Math.toRadians(0));
+    private final Pose sample1Pos = new Pose(63.9, 24, Math.toRadians(0));
     private final Pose sample1control1 = new Pose(23.70, 55.83, Math.toRadians(0));
     private final Pose sample1control2 = new Pose(28.36, 6.2, Math.toRadians(0));
     private final Pose Sample1control3 = new Pose(64.25, 54.94, Math.toRadians(0));
-    private final Pose pushSample1Pos = new Pose(18, 23.26, Math.toRadians(0));
+    private final Pose pushSample1Pos = new Pose(25, 23.26, Math.toRadians(0));
 
-    private final Pose sample2Pos = new Pose(64.48, 13.07, Math.toRadians(0));
+    private final Pose sample2Pos = new Pose(64.48, 15.5 , Math.toRadians(0));
     private final Pose sample2control1 = new Pose(63.8, 29.46, Math.toRadians(0));
-    private final Pose pushSample2Pos = new Pose(18, 12.4, Math.toRadians(0));
+    private final Pose pushSample2Pos = new Pose(25, 15.5, Math.toRadians(0));
 
-    private final Pose controlToGrabPos = new Pose(27.47, 18.61, Math.toRadians(0));
-    private final Pose cycleGrabPosition = new Pose(14, 32, Math.toRadians(180));
+    private final Pose controlToGrabPos1 = new Pose(65, 15.06, Math.toRadians(0));
+    private final Pose controlToGrabPos2 = new Pose(65, 32.78, Math.toRadians(180));
+    private final Pose cycleGrabPosition = new Pose(18, 32, Math.toRadians(180));
 
     //use these to help cycle
-    private final Pose score1Pos = new Pose(34, 66.9, Math.toRadians(0));
-    private final Pose score2Pos = new Pose(34, 71.8, Math.toRadians(0));
-    private final Pose score3Pos = new Pose(34, 78.5, Math.toRadians(0));
+    private final Pose score1Pos = new Pose(36.1, 66.9, Math.toRadians(0));
+    private final Pose score2Pos = new Pose(36, 71.8, Math.toRadians(0));
+    private final Pose score3Pos = new Pose(36, 78.5, Math.toRadians(0));
 
     private final Pose park = new Pose(11, 13, Math.toRadians(0));
 
@@ -126,7 +127,7 @@ public class obzone_zoomzoom extends OpMode {
                 .addPath(new BezierLine(new Point(sample2Pos), new Point(pushSample2Pos)))
                 .setLinearHeadingInterpolation(sample2Pos.getHeading(), pushSample2Pos.getHeading())
                 //Go to grab position with bez curve
-                .addPath(new BezierCurve(new Point(pushSample2Pos), new Point(controlToGrabPos), new Point(cycleGrabPosition)))
+                .addPath(new BezierCurve(new Point(pushSample2Pos), new Point(controlToGrabPos1), new Point(controlToGrabPos2), new Point(cycleGrabPosition)))
                 .setLinearHeadingInterpolation(pushSample2Pos.getHeading(), cycleGrabPosition.getHeading())
                 .build();
                 //finished...yay... mabe
@@ -168,7 +169,6 @@ public class obzone_zoomzoom extends OpMode {
     public void autonomousPathUpdate() {
         switch (pathState) {
             case 0:
-
                 follower.followPath(scorePreload);
                 setPathState(1);
                 break;
