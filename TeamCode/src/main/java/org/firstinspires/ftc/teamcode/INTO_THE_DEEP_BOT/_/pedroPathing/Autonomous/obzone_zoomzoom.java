@@ -81,8 +81,8 @@ public class obzone_zoomzoom extends OpMode {
     private final Pose sample2control1 = new Pose(63.8, 29.46, Math.toRadians(0));
     private final Pose pushSample2Pos = new Pose(25, 15.5, Math.toRadians(0));
 
-    private final Pose controlToGrabPos1 = new Pose(70, 15.06, Math.toRadians(0));
-    private final Pose controlToGrabPos2 = new Pose(70, 32.78, Math.toRadians(180));
+    private final Pose controlToGrabPos1 = new Pose(53.39, 15.06, Math.toRadians(0));
+    private final Pose controlToGrabPos2 = new Pose(54.4, 32.78, Math.toRadians(180));
     private final Pose cycleGrabPosition = new Pose(18, 32, Math.toRadians(180));
 
     private final Pose cycleSwoopControl = new Pose (44,20,Math.toRadians(180));
@@ -96,7 +96,7 @@ public class obzone_zoomzoom extends OpMode {
 
     /* These are our Paths and PathChains that we will define in buildPaths() */
     private Path scorePreload;
-    private PathChain placePreload, pushBoth, Cycle1, Cycle2, Cycle3, Return1, Return2, Park ;
+    private PathChain pushBoth, Cycle1, Cycle2, Cycle3, Return1, Return2, Park;
 
     /** Build the paths for the auto (adds, for example, constant/linear headings while doing paths)
      * It is necessary to do this so that all the paths are built before the auto starts. **/
