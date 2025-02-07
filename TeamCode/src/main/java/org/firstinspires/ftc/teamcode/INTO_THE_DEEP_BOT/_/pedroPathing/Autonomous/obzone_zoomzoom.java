@@ -38,8 +38,8 @@ public class obzone_zoomzoom extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
-   // private AutonomousPLUS plus = new AutonomousPLUS();
-   // private Robot robot = new Robot(hardwareMap,telemetry,this);
+    public AutonomousPLUS plus;
+    public Robot robot;
 
     /** This is the variable where we store the state of our auto.
      * It is used by the pathUpdate method. */
@@ -70,16 +70,18 @@ public class obzone_zoomzoom extends OpMode {
     private final Pose sample2control1 = new Pose(63.8, 29.46, Math.toRadians(0));
     private final Pose pushSample2Pos = new Pose(25, 15.5, Math.toRadians(0));
 
-    private final Pose controlToGrabPos1 = new Pose(65, 15.06, Math.toRadians(0));
-    private final Pose controlToGrabPos2 = new Pose(65, 32.78, Math.toRadians(180));
+    private final Pose controlToGrabPos1 = new Pose(70, 15.06, Math.toRadians(0));
+    private final Pose controlToGrabPos2 = new Pose(70, 32.78, Math.toRadians(180));
     private final Pose cycleGrabPosition = new Pose(18, 32, Math.toRadians(180));
+
+    private final Pose cycleSwoopControl = new Pose(44,20, Math.toRadians(180));
 
     //use these to help cycle
     private final Pose score1Pos = new Pose(36.1, 66.9, Math.toRadians(0));
     private final Pose score2Pos = new Pose(36, 71.8, Math.toRadians(0));
     private final Pose score3Pos = new Pose(36, 78.5, Math.toRadians(0));
 
-    private final Pose park = new Pose(11, 13, Math.toRadians(0));
+    private final Pose park = new Pose(25, 13, Math.toRadians(0));
 
     /* These are our Paths and PathChains that we will define in buildPaths() */
     private Path scorePreload;
@@ -134,23 +136,23 @@ public class obzone_zoomzoom extends OpMode {
 
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         Cycle1 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(cycleGrabPosition), new Point(score1Pos)))
+                .addPath(new BezierCurve(new Point(cycleGrabPosition), new Point(cycleSwoopControl), new Point(score1Pos)))
                 .setLinearHeadingInterpolation(cycleGrabPosition.getHeading(), score1Pos.getHeading())
                 .build();
 
         Return1 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(score1Pos), new Point(cycleGrabPosition)))
+                .addPath(new BezierCurve(new Point(score1Pos), new Point(cycleSwoopControl), new Point(cycleGrabPosition)))
                 .setLinearHeadingInterpolation(score1Pos.getHeading(), cycleGrabPosition.getHeading())
                 .build();
 
 
         Cycle2 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(cycleGrabPosition), new Point(score1Pos)))
+                .addPath(new BezierCurve(new Point(cycleGrabPosition), new Point(cycleSwoopControl), new Point(score1Pos)))
                 .setLinearHeadingInterpolation(cycleGrabPosition.getHeading(), score1Pos.getHeading())
                 .build();
 
         Return2 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(score2Pos), new Point(cycleGrabPosition)))
+                .addPath(new BezierCurve(new Point(score2Pos), new Point(cycleSwoopControl),  new Point(cycleGrabPosition)))
                 .setLinearHeadingInterpolation(score2Pos.getHeading(), cycleGrabPosition.getHeading())
                 .build();
 
@@ -169,6 +171,7 @@ public class obzone_zoomzoom extends OpMode {
     public void autonomousPathUpdate() {
         switch (pathState) {
             case 0:
+                //robot.outakeclawOpenClose("CLOSED");
                 follower.followPath(scorePreload);
                 setPathState(1);
                 break;
@@ -291,6 +294,9 @@ public class obzone_zoomzoom extends OpMode {
         opmodeTimer = new Timer();
         opmodeTimer.resetTimer();
 
+        robot = new Robot(hardwareMap, telemetry, this);
+        plus = new AutonomousPLUS();
+
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
         follower.setStartingPose(startPose);
@@ -306,6 +312,7 @@ public class obzone_zoomzoom extends OpMode {
     @Override
     public void start() {
         opmodeTimer.resetTimer();
+
         setPathState(0);
     }
 
