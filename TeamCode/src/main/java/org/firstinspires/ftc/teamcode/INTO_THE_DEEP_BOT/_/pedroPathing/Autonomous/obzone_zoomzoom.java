@@ -74,7 +74,7 @@ public class obzone_zoomzoom extends OpMode {
 
     //Start Pos and go score
     private final Pose startPose = new Pose(9, 60, Math.toRadians(0)); // Basket parking is x = 2.75, y=109
-    private final Pose scorePreloadPos = new Pose(36.15, 60.26, Math.toRadians(0));
+    private final Pose scorePreloadPos = new Pose(37, 60.26, Math.toRadians(0));
 
 
     //Make this a pathset to push first sample Go in front of the first sample
@@ -82,22 +82,22 @@ public class obzone_zoomzoom extends OpMode {
     private final Pose sample1control1 = new Pose(23.70, 55.83, Math.toRadians(0));
     private final Pose sample1control2 = new Pose(28.36, 6.2, Math.toRadians(0));
     private final Pose Sample1control3 = new Pose(64.25, 54.94, Math.toRadians(0));
-    private final Pose pushSample1Pos = new Pose(25, 23.26, Math.toRadians(0));
+    private final Pose pushSample1Pos = new Pose(25, 24, Math.toRadians(0));
 
     private final Pose sample2Pos = new Pose(64.48, 15.5, Math.toRadians(0));
     private final Pose sample2control1 = new Pose(63.8, 29.46, Math.toRadians(0));
     private final Pose pushSample2Pos = new Pose(25, 15.5, Math.toRadians(0));
 
     private final Pose controlToGrabPos1 = new Pose(53.39, 15.06, Math.toRadians(0));
-    private final Pose controlToGrabPos2 = new Pose(54.4, 32.78, Math.toRadians(180));
-    private final Pose cycleGrabPosition = new Pose(22.13, 32, Math.toRadians(180));
+    private final Pose controlToGrabPos2 = new Pose(34.2, 32.78, Math.toRadians(180));
+    private final Pose cycleGrabPosition = new Pose(21, 24, Math.toRadians(180));
 
-    private final Pose cycleSwoopControl = new Pose (40,20,Math.toRadians(180));
+    private final Pose cycleSwoopControl = new Pose (29.5,20,Math.toRadians(180));
 
     //use these to help cycle
-    private final Pose score1Pos = new Pose(36, 66.9, Math.toRadians(0));
-    private final Pose score2Pos = new Pose(36, 71.8, Math.toRadians(0));
-    private final Pose score3Pos = new Pose(36, 78.5, Math.toRadians(0));
+    private final Pose score1Pos = new Pose(40, 66.9, Math.toRadians(0));
+    private final Pose score2Pos = new Pose(40, 71.8, Math.toRadians(0));
+    private final Pose score3Pos = new Pose(40, 78.5, Math.toRadians(0));
 
     private final Pose park = new Pose(25, 13, Math.toRadians(0));
 
@@ -165,8 +165,8 @@ public class obzone_zoomzoom extends OpMode {
 
 
         Cycle2 = follower.pathBuilder()
-                .addPath(new BezierCurve(new Point(cycleGrabPosition), new Point(cycleSwoopControl), new Point(score1Pos)))
-                .setLinearHeadingInterpolation(cycleGrabPosition.getHeading(), score1Pos.getHeading())
+                .addPath(new BezierCurve(new Point(cycleGrabPosition), new Point(cycleSwoopControl), new Point(score2Pos)))
+                .setLinearHeadingInterpolation(cycleGrabPosition.getHeading(), score2Pos.getHeading())
                 .build();
 
         Return2 = follower.pathBuilder()
@@ -175,8 +175,8 @@ public class obzone_zoomzoom extends OpMode {
                 .build();
 
         Cycle3 = follower.pathBuilder()
-                .addPath(new BezierCurve(new Point(cycleGrabPosition), new Point(cycleSwoopControl), new Point(score1Pos)))
-                .setLinearHeadingInterpolation(cycleGrabPosition.getHeading(), score1Pos.getHeading())
+                .addPath(new BezierCurve(new Point(cycleGrabPosition), new Point(cycleSwoopControl), new Point(score3Pos)))
+                .setLinearHeadingInterpolation(cycleGrabPosition.getHeading(), score3Pos.getHeading())
                 .build();
 
         Park = follower.pathBuilder()
@@ -229,12 +229,13 @@ public class obzone_zoomzoom extends OpMode {
             case 3:
                 if(!follower.isBusy()) {
                     robot.outakeclawOpenClose("CLOSED");
+                    actionTimer.resetTimer();
                     setPathState(4);
                 }
                 break;
             case 4:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup1Pose's position */
-                if(!follower.isBusy()) {
+                if(!follower.isBusy() && actionTimer.getElapsedTimeSeconds() >= 0.5) {
                     /* Grab Sample */
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
@@ -264,12 +265,13 @@ public class obzone_zoomzoom extends OpMode {
             case 7:
                 if(!follower.isBusy()) {
                     robot.outakeclawOpenClose("CLOSED");
+                    actionTimer.resetTimer();
                     setPathState(8);
                 }
                 break;
             case 8:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup2Pose's position */
-                if(!follower.isBusy()) {
+                if(!follower.isBusy()  && actionTimer.getElapsedTimeSeconds() >= 0.5) {
                     plus.moveArm(aboveBarHeight,1,0);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(Cycle2,true);
@@ -296,12 +298,13 @@ public class obzone_zoomzoom extends OpMode {
             case 11:
                 if(!follower.isBusy()) {
                     robot.outakeclawOpenClose("CLOSED");
+                    actionTimer.resetTimer();
                     setPathState(12);
                 }
                 break;
             case 12:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup3Pose's position */
-                if(!follower.isBusy()) {
+                if(!follower.isBusy() && actionTimer.getElapsedTimeSeconds() >= 0.5) {
                     /* Grab Sample */
                     plus.moveArmWhileSwoop(aboveBarHeight,1,0);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
@@ -366,6 +369,7 @@ public class obzone_zoomzoom extends OpMode {
     public void init() {
         pathTimer = new Timer();
         opmodeTimer = new Timer();
+        actionTimer = new Timer();
         opmodeTimer.resetTimer();
 
         robot = new Robot(hardwareMap, telemetry, this);

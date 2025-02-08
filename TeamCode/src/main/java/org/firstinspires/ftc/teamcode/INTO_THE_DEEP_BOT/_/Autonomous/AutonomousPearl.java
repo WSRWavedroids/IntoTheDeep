@@ -84,9 +84,11 @@ public abstract class AutonomousPearl extends OpMode {
 
     }
 
-    public void prepareNextAction(long pause) {
-        //sleep(pause);
-        robot.encoderReset();
+    public void prepareNextAction(double stallTime) {
+        while(getRuntime() < getRuntime()+stallTime)
+        {
+            telemetry.update();//lol stallin
+        }
     }
 
 }
