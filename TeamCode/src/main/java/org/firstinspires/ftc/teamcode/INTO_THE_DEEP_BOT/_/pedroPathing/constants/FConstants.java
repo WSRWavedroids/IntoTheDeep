@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.pedroPathing.constants;
 
+import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Localizers;
 import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.util.CustomFilteredPIDFCoefficients;
@@ -42,6 +43,8 @@ public class FConstants {
 
         FollowerConstants.zeroPowerAccelerationMultiplier = 4;
         FollowerConstants.centripetalScaling = 0.0005;
+
+        FollowerConstants.maxPower = 1;
 
         FollowerConstants.pathEndTimeoutConstraint = 500;
         FollowerConstants.pathEndTValueConstraint = 0.995;
