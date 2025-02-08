@@ -51,10 +51,17 @@ public class obzone_zoomzoom extends OpMode {
         }
     };
     public Robot robot;
+    public int pathStateNumber;
 
     /** This is the variable where we store the state of our auto.
      * It is used by the pathUpdate method. */
-    private int pathState;
+    public enum PathState {
+        PRELOAD_SCORE_SETUP, PRELOAD_SCORE_CLICK, PRELOAD_SCORE_RELEASE, SAMPLE_PUSH,
+        CYCLE_1_SETUP, CYCLE_1_GRAB, CYCLE_1_RAISE, CYCLE_1_TO_BAR, CYCLE_1_CLICK, CYCLE_1_RELEASE,
+        CYCLE_2_SETUP, CYCLE_2_GRAB, CYCLE_2_RAISE, CYCLE_2_TO_BAR, CYCLE_2_CLICK, CYCLE_2_RELEASE,
+        CYCLE_3_SETUP, CYCLE_3_GRAB, CYCLE_3_RAISE, CYCLE_3_TO_BAR, CYCLE_3_CLICK, CYCLE_3_RELEASE,
+        PARK
+    }
 
     /* Create and Define Poses + Paths
      * Poses are built with three constructors: x, y, and heading (in Radians).
@@ -83,12 +90,12 @@ public class obzone_zoomzoom extends OpMode {
 
     private final Pose controlToGrabPos1 = new Pose(53.39, 15.06, Math.toRadians(0));
     private final Pose controlToGrabPos2 = new Pose(54.4, 32.78, Math.toRadians(180));
-    private final Pose cycleGrabPosition = new Pose(18, 32, Math.toRadians(180));
+    private final Pose cycleGrabPosition = new Pose(22.13, 32, Math.toRadians(180));
 
-    private final Pose cycleSwoopControl = new Pose (44,20,Math.toRadians(180));
+    private final Pose cycleSwoopControl = new Pose (40,20,Math.toRadians(180));
 
     //use these to help cycle
-    private final Pose score1Pos = new Pose(36.1, 66.9, Math.toRadians(0));
+    private final Pose score1Pos = new Pose(36, 66.9, Math.toRadians(0));
     private final Pose score2Pos = new Pose(36, 71.8, Math.toRadians(0));
     private final Pose score3Pos = new Pose(36, 78.5, Math.toRadians(0));
 
@@ -185,13 +192,23 @@ public class obzone_zoomzoom extends OpMode {
      * Everytime the switch changes case, it will reset the timer. (This is because of the setPathState() method)
      * The followPath() function sets the follower to run the specific path, but does NOT wait for it to finish before moving on. */
     public void autonomousPathUpdate() {
-        switch (pathState) {
-            case 0:
-
+        int aboveBarHeight = 1700;
+        int snapSpecimenHeight = 1200;
+        int wallHeight = 143;
+        switch (pathStateNumber) {
+            case 0: //PRELOAD_SCORE_SETUP
                 follower.followPath(scorePreload);
+                plus.moveArmWhileSwoop(aboveBarHeight,1,0);
                 setPathState(1);
                 break;
-            case 1:
+            case 1: //PRELOAD_SCORE_CLICK and _RELEASE
+                if(!follower.isBusy()) {
+                    plus.moveArm(snapSpecimenHeight,1,0);
+                    robot.outakeclawOpenClose("OPEN");
+                    setPathState(2);
+                }
+                break;
+            case 2:
 
                 /* You could check for
                 - Follower State: "if(!follower.isBusy() {}"
@@ -205,10 +222,17 @@ public class obzone_zoomzoom extends OpMode {
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(pushBoth,true);
-                    setPathState(2);
+                    plus.moveArmWhileSwoop(wallHeight,1,0);
+                    setPathState(3);
                 }
                 break;
-            case 2:
+            case 3:
+                if(!follower.isBusy()) {
+                    robot.outakeclawOpenClose("CLOSED");
+                    setPathState(4);
+                }
+                break;
+            case 4:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup1Pose's position */
                 if(!follower.isBusy()) {
                     /* Grab Sample */
@@ -216,60 +240,93 @@ public class obzone_zoomzoom extends OpMode {
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.turnToDegrees(180);
                     follower.followPath(Cycle1,true);
-                    setPathState(3);
-                }
-                break;
-            case 3:
-                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
-                if(!follower.isBusy()) {
-                    /* Score Sample */
-
-                    /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
-                    follower.followPath(Return1,true);
-                    setPathState(4);
-                }
-                break;
-            case 4:
-                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup2Pose's position */
-                if(!follower.isBusy()) {
-                    /* Grab Sample */
-
-                    /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
-                    follower.followPath(Cycle2,true);
+                    plus.moveArmWhileSwoop(aboveBarHeight,1,0);
                     setPathState(5);
                 }
                 break;
             case 5:
-                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
-                    /* Score Sample */
-
-                    /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
-                    follower.followPath(Return2,true);
+                    plus.moveArm(snapSpecimenHeight,1,0);
+                    robot.outakeclawOpenClose("OPEN");
                     setPathState(6);
                 }
                 break;
             case 6:
-                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup3Pose's position */
+                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
-                    /* Grab Sample */
-
-                    /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
-                    follower.followPath(Cycle3, true);
+                    /* Score Sample */
+                    plus.moveArmWhileSwoop(wallHeight,1,0);
+                    /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
+                    follower.followPath(Return1,true);
                     setPathState(7);
                 }
                 break;
             case 7:
-                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
-                    /* Score Sample */
-
-                    /* Since this is a pathChain, we can have Pedro hold the end point while we are parked */
-                    follower.followPath(Park,true);
+                    robot.outakeclawOpenClose("CLOSED");
                     setPathState(8);
                 }
                 break;
             case 8:
+                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup2Pose's position */
+                if(!follower.isBusy()) {
+                    plus.moveArm(aboveBarHeight,1,0);
+                    /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
+                    follower.followPath(Cycle2,true);
+                    setPathState(9);
+                }
+                break;
+            case 9:
+                if(!follower.isBusy()) {
+                    plus.moveArm(snapSpecimenHeight,1,0);
+                    robot.outakeclawOpenClose("OPEN");
+                    setPathState(10);
+                }
+                break;
+            case 10:
+                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
+                if(!follower.isBusy()) {
+                    /* Score Sample */
+                    plus.moveArmWhileSwoop(wallHeight,1,0);
+                    /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
+                    follower.followPath(Return2,true);
+                    setPathState(11);
+                }
+                break;
+            case 11:
+                if(!follower.isBusy()) {
+                    robot.outakeclawOpenClose("CLOSED");
+                    setPathState(12);
+                }
+                break;
+            case 12:
+                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup3Pose's position */
+                if(!follower.isBusy()) {
+                    /* Grab Sample */
+                    plus.moveArmWhileSwoop(aboveBarHeight,1,0);
+                    /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
+                    follower.followPath(Cycle3, true);
+                    setPathState(13);
+                }
+                break;
+            case 13:
+                if(!follower.isBusy()) {
+                    plus.moveArm(snapSpecimenHeight,1,0);
+                    robot.outakeclawOpenClose("OPEN");
+                    setPathState(14);
+                }
+                break;
+            case 14:
+                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
+                if(!follower.isBusy()) {
+                    /* Score Sample */
+                    plus.moveArmWhileSwoop(0,1,0);
+                    /* Since this is a pathChain, we can have Pedro hold the end point while we are parked */
+                    follower.followPath(Park,true);
+                    setPathState(15);
+                }
+                break;
+            case 15:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
                     /* Level 1 Ascent */
@@ -284,7 +341,7 @@ public class obzone_zoomzoom extends OpMode {
     /** These change the states of the paths and actions
      * It will also reset the timers of the individual switches **/
     public void setPathState(int pState) {
-        pathState = pState;
+        pathStateNumber = pState;
         pathTimer.resetTimer();
     }
 
@@ -297,7 +354,7 @@ public class obzone_zoomzoom extends OpMode {
         autonomousPathUpdate();
 
         // Feedback to Driver Hub
-        telemetry.addData("path state", pathState);
+        telemetry.addData("path state", pathStateNumber);
         telemetry.addData("x", follower.getPose().getX());
         telemetry.addData("y", follower.getPose().getY());
         telemetry.addData("heading", follower.getPose().getHeading());
@@ -312,10 +369,12 @@ public class obzone_zoomzoom extends OpMode {
         opmodeTimer.resetTimer();
 
         robot = new Robot(hardwareMap, telemetry, this);
+        plus.runOpMode(robot);
 
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
         follower.setStartingPose(startPose);
+        robot.prepareAuto();
         buildPaths();
     }
 
@@ -328,7 +387,6 @@ public class obzone_zoomzoom extends OpMode {
     @Override
     public void start() {
         opmodeTimer.resetTimer();
-        robot.prepareAuto();
         setPathState(0);
     }
 

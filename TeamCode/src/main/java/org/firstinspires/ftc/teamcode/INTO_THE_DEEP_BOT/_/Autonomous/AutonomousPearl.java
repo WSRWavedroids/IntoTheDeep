@@ -55,8 +55,8 @@ public abstract class AutonomousPearl extends OpMode {
     //DO NOT DELETE THIS LINE! CAPITALIZATION IS VERY IMPORTANT!!!
     public Robot robot = null;
 
-    public void runOpMode() {
-        robot = new Robot(hardwareMap, telemetry, this);
+    public void runOpMode(Robot ribbit) {
+        robot = ribbit;
     }
 
     public void moveArm(int ticks, double power, long pause) {
@@ -72,6 +72,16 @@ public abstract class AutonomousPearl extends OpMode {
             robot.tellMotorOutput();
         }
         //sleep(pause);
+    }
+
+    public void moveArmWhileSwoop(int ticks, double power, long pause) {
+        robot.liftyL.setPower(power);
+        robot.liftyR.setPower(power);
+        robot.liftyL.setTargetPosition(ticks);
+        robot.liftyR.setTargetPosition(ticks);
+        robot.liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
     }
 
     public void prepareNextAction(long pause) {
