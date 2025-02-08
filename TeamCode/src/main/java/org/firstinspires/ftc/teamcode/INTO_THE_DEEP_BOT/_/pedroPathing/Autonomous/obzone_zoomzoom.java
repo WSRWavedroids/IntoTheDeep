@@ -73,7 +73,7 @@ public class obzone_zoomzoom extends OpMode {
      * Lets assume the Robot is facing the human player and we want to score in the bucket */
 
     //Start Pos and go score
-    private final Pose startPose = new Pose(9, 60, Math.toRadians(0)); // Basket parking is x = 2.75, y=109
+    private final Pose startPose = new Pose(9, 55, Math.toRadians(0)); // Basket parking is x = 2.75, y=109
     private final Pose scorePreloadPos = new Pose(37, 60.26, Math.toRadians(0));
 
 
@@ -92,12 +92,12 @@ public class obzone_zoomzoom extends OpMode {
     private final Pose controlToGrabPos2 = new Pose(34.2, 32.78, Math.toRadians(180));
     private final Pose cycleGrabPosition = new Pose(21, 24, Math.toRadians(180));
 
-    private final Pose cycleSwoopControl = new Pose (29.5,20,Math.toRadians(180));
+    private final Pose cycleSwoopControl = new Pose (29.5,30,Math.toRadians(180));
 
     //use these to help cycle
-    private final Pose score1Pos = new Pose(40, 66.9, Math.toRadians(0));
-    private final Pose score2Pos = new Pose(40, 71.8, Math.toRadians(0));
-    private final Pose score3Pos = new Pose(40, 78.5, Math.toRadians(0));
+    private final Pose score1Pos = new Pose(39, 66.9, Math.toRadians(0));
+    private final Pose score2Pos = new Pose(39, 71.8, Math.toRadians(0));
+    private final Pose score3Pos = new Pose(39, 78.5, Math.toRadians(0));
 
     private final Pose park = new Pose(25, 13, Math.toRadians(0));
 
@@ -193,7 +193,7 @@ public class obzone_zoomzoom extends OpMode {
      * The followPath() function sets the follower to run the specific path, but does NOT wait for it to finish before moving on. */
     public void autonomousPathUpdate() {
         int aboveBarHeight = 1700;
-        int snapSpecimenHeight = 1200;
+        int snapSpecimenHeight = 1185;
         int wallHeight = 143;
         switch (pathStateNumber) {
             case 0: //PRELOAD_SCORE_SETUP
