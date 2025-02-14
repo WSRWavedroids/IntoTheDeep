@@ -47,7 +47,7 @@ public class LocationFinder extends OpMode {
      * Lets assume the Robot is facing the human player and we want to score in the bucket */
 
     /** Start Pose of our robot */
-    private final Pose startPose = new Pose(9, 58, Math.toRadians(0)); // Basket parking is x = 2.75, y=109
+    private final Pose startPose = new Pose(9, 9, Math.toRadians(0)); // Basket parking is x = 2.75, y=109
 
 
     @Override

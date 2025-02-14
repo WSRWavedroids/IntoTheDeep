@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPLUS;
+import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPearl;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPlatinum;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.pedroPathing.constants.FConstants;
@@ -36,8 +37,17 @@ public class basket_zoomzoom extends OpMode {
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
 
-    public AutonomousPLUS autonomousPLUS;
-    public AutonomousPlatinum autonomousPlatinum;
+    public AutonomousPearl plus = new AutonomousPearl() {
+        @Override
+        public void init() {
+
+        }
+
+        @Override
+        public void loop() {
+
+        }
+    };
 
     /** This is the variable where we store the state of our auto.
      * It is used by the pathUpdate method. */
@@ -53,19 +63,19 @@ public class basket_zoomzoom extends OpMode {
      * Lets assume the Robot is facing the human player and we want to score in the bucket */
 
     /** Start Pose of our robot */
-    private final Pose startPose = new Pose(9, 111, Math.toRadians(0));
+    private final Pose startPose = new Pose(9, 95.75, Math.toRadians(90));
 
-    /** Scoring Pose of our robot. It is facing the submersible at a -45 degree (315 degree) angle. */
-    private final Pose scorePose = new Pose(14, 129, Math.toRadians(315));
+    /** Scoring Pose of our robot */
+    private final Pose scorePose = new Pose(17.5, 116.5, Math.toRadians(135));
 
     /** Lowest (First) Sample from the Spike Mark */
-    private final Pose pickup1Pose = new Pose(37, 121, Math.toRadians(0));
+    private final Pose pickup1Pose = new Pose(22, 116.25, Math.toRadians(180));
 
     /** Middle (Second) Sample from the Spike Mark */
-    private final Pose pickup2Pose = new Pose(43, 130, Math.toRadians(0));
+    private final Pose pickup2Pose = new Pose(22, 126, Math.toRadians(180));
 
     /** Highest (Third) Sample from the Spike Mark */
-    private final Pose pickup3Pose = new Pose(49, 135, Math.toRadians(0));
+    private final Pose pickup3Pose = new Pose(26.75, 123.75, Math.toRadians(225));
 
     /** Park Pose for our robot, after we do all of the scoring. */
     private final Pose parkPose = new Pose(60, 98, Math.toRadians(90));
@@ -135,14 +145,14 @@ public class basket_zoomzoom extends OpMode {
                 .build();
 
         /* This is our scorePickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        scorePickup3 = follower.pathBuilder()
-                .addPath(new BezierLine(new Point(pickup3Pose), new Point(scorePose)))
-                .setLinearHeadingInterpolation(pickup3Pose.getHeading(), scorePose.getHeading())
-                .build();
+        //scorePickup3 = follower.pathBuilder()
+        //        .addPath(new BezierLine(new Point(pickup3Pose), new Point(scorePose)))
+        //        .setLinearHeadingInterpolation(pickup3Pose.getHeading(), scorePose.getHeading())
+        //        .build();
 
         /* This is our park path. We are using a BezierCurve with 3 points, which is a curved line that is curved based off of the control point */
-        park = new Path(new BezierCurve(new Point(scorePose), /* Control Point */ new Point(parkControlPose), new Point(parkPose)));
-        park.setLinearHeadingInterpolation(scorePose.getHeading(), parkPose.getHeading());
+        //park = new Path(new BezierCurve(new Point(scorePose), /* Control Point */ new Point(parkControlPose), new Point(parkPose)));
+        //park.setLinearHeadingInterpolation(scorePose.getHeading(), parkPose.getHeading());
     }
 
     /** This switch is called continuously and runs the pathing, at certain points, it triggers the action state.
@@ -208,7 +218,7 @@ public class basket_zoomzoom extends OpMode {
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(grabPickup3,true);
-                    setPathState(6);
+                    setPathState(-6);
                 }
                 break;
             case 6:
