@@ -380,6 +380,7 @@ public class obzone_zoomzoom extends OpMode {
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
         follower.setStartingPose(startPose);
+        follower.setMaxPower(1.0);
         robot.prepareAuto();
         buildPaths();
     }
