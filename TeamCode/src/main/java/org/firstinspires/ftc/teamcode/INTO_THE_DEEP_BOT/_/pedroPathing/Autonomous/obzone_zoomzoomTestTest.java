@@ -29,7 +29,7 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.pedroPathing.constants
  * @version 2.0, 11/28/2024
  */
 
-@Autonomous(name = "Pedro go obzone", group = "Pedro's Autos")
+@Autonomous(name = "Pedro no no dont run", group = "Pedro's Autos")
 public class obzone_zoomzoomTestTest extends OpMode {
 
     private Follower follower;
@@ -69,36 +69,36 @@ public class obzone_zoomzoomTestTest extends OpMode {
 
     //Start Pos and go score
     private final Pose startPose = new Pose(9, 55, Math.toRadians(0)); // Basket parking is x = 2.75, y=109
-    private final Pose scorePreloadPos = new Pose(37, 60.26, Math.toRadians(0));
+    private final Pose scorePreloadPos = new Pose(36.2255, 57.9, Math.toRadians(0));
 
 
     //Make this a pathset to push first sample Go in front of the first sample
-    private final Pose sample1Pos = new Pose(63.9, 24, Math.toRadians(0));
+    private final Pose sample1Pos = new Pose(52.9, 23, Math.toRadians(0));
     private final Pose sample1control1 = new Pose(23.70, 55.83, Math.toRadians(0));
-    private final Pose sample1control2 = new Pose(28.36, 6.2, Math.toRadians(0));
-    private final Pose Sample1control3 = new Pose(64.25, 54.94, Math.toRadians(0));
-    private final Pose pushSample1Pos = new Pose(25, 24, Math.toRadians(0));
+    private final Pose sample1control2 = new Pose(31.24, 10.41, Math.toRadians(0));
+    private final Pose Sample1control3 = new Pose(42.54, 53.61, Math.toRadians(0));
+    private final Pose pushSample1Pos = new Pose(12.36, 23, Math.toRadians(0));
 
-    private final Pose sample2Pos = new Pose(64.48, 15.5, Math.toRadians(0));
+    private final Pose sample2Pos = new Pose(52.9, 14, Math.toRadians(0));
     private final Pose sample2control1 = new Pose(63.8, 29.46, Math.toRadians(0));
-    private final Pose pushSample2Pos = new Pose(25, 15.5, Math.toRadians(0));
+    private final Pose pushSample2Pos = new Pose(12.36, 16.02, Math.toRadians(0));
 
     private final Pose controlToGrabPos1 = new Pose(53.39, 15.06, Math.toRadians(0));
     private final Pose controlToGrabPos2 = new Pose(34.2, 32.78, Math.toRadians(180));
 
-    private final Pose preWallGrabPosition = new Pose(28.95, 23.94, Math.toRadians(180));
+    private final Pose preWallGrabPosition = new Pose(14.1, 23.54, Math.toRadians(180));
 
-    private final Pose cycleGrabPosition = new Pose(21, 24, Math.toRadians(180));
+    private final Pose cycleGrabPosition = new Pose(9.2, 23.54, Math.toRadians(180));
 
     private final Pose cycleSwoopControl = new Pose (30.69,69.10,Math.toRadians(180));
 
 
     //use these to help cycle
-    private final Pose score1Pos = new Pose(39, 66.9, Math.toRadians(0));
-    private final Pose score2Pos = new Pose(39, 71.8, Math.toRadians(0));
-    private final Pose score3Pos = new Pose(39, 78.5, Math.toRadians(0));
+    private final Pose score1Pos = new Pose(36.2255, 63.8, Math.toRadians(0));
+    private final Pose score2Pos = new Pose(36.2255, 65.8, Math.toRadians(0));
+    private final Pose score3Pos = new Pose(36.2255, 67.8, Math.toRadians(0));
 
-    private final Pose park = new Pose(25, 13, Math.toRadians(0));
+    private final Pose park = new Pose(14.1, 23.54, Math.toRadians(0));
 
     /* These are our Paths and PathChains that we will define in buildPaths() */
     private Path scorePreload;

@@ -80,7 +80,7 @@ public class obzone_zoomzoom extends OpMode {
     //Make this a pathset to push first sample Go in front of the first sample
     private final Pose sample1Pos = new Pose(63.9, 24, Math.toRadians(0));
     private final Pose sample1control1 = new Pose(23.70, 55.83, Math.toRadians(0));
-    private final Pose sample1control2 = new Pose(28.36, 6.2, Math.toRadians(0));
+    private final Pose sample1control2 = new Pose(28.36, 2, Math.toRadians(0));
     private final Pose Sample1control3 = new Pose(64.25, 54.94, Math.toRadians(0));
     private final Pose pushSample1Pos = new Pose(25, 24, Math.toRadians(0));
 
@@ -90,16 +90,17 @@ public class obzone_zoomzoom extends OpMode {
 
     private final Pose controlToGrabPos1 = new Pose(53.39, 15.06, Math.toRadians(0));
     private final Pose controlToGrabPos2 = new Pose(34.2, 32.78, Math.toRadians(180));
-    private final Pose cycleGrabPosition = new Pose(21, 24, Math.toRadians(180));
+    private final Pose preWallGrabPosition = new Pose(18, 24, Math.toRadians(180));
+    private final Pose cycleGrabPosition = new Pose(13, 24, Math.toRadians(180));
 
     private final Pose cycleSwoopControl = new Pose (29.5,30,Math.toRadians(180));
 
     private final Pose cycleWallControl1 = new Pose(32,24);
 
     //use these to help cycle
-    private final Pose score1Pos = new Pose(39, 66.9, Math.toRadians(0));
-    private final Pose score2Pos = new Pose(39, 71.8, Math.toRadians(0));
-    private final Pose score3Pos = new Pose(39, 78.5, Math.toRadians(0));
+    private final Pose score1Pos = new Pose(39, 62, Math.toRadians(0));
+    private final Pose score2Pos = new Pose(39, 64, Math.toRadians(0));
+    private final Pose score3Pos = new Pose(39, 66, Math.toRadians(0));
 
     private final Pose park = new Pose(25, 13, Math.toRadians(0));
 
@@ -150,19 +151,24 @@ public class obzone_zoomzoom extends OpMode {
                 .setLinearHeadingInterpolation(sample2Pos.getHeading(), pushSample2Pos.getHeading())
                 //Go to grab position with bez curve
                 .addPath(new BezierCurve(new Point(pushSample2Pos), new Point(controlToGrabPos1), new Point(controlToGrabPos2), new Point(cycleGrabPosition)))
-                .setLinearHeadingInterpolation(pushSample2Pos.getHeading(), cycleGrabPosition.getHeading())
+                .setLinearHeadingInterpolation(pushSample2Pos.getHeading(), preWallGrabPosition.getHeading())
+                .addPath(new BezierLine(new Point(preWallGrabPosition), new Point(cycleGrabPosition)))
+                .setLinearHeadingInterpolation(preWallGrabPosition.getHeading(), cycleGrabPosition.getHeading())
                 .build();
-                //finished...yay... mabe
+        //finished...yay... mabe
 
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         Cycle1 = follower.pathBuilder()
+
                 .addPath(new BezierCurve(new Point(cycleGrabPosition), new Point(cycleSwoopControl), new Point(score1Pos)))
                 .setLinearHeadingInterpolation(cycleGrabPosition.getHeading(), score1Pos.getHeading())
                 .build();
 
         Return1 = follower.pathBuilder()
-                .addPath(new BezierCurve(new Point(score1Pos), new Point (cycleSwoopControl), new Point(cycleGrabPosition)))
-                .setLinearHeadingInterpolation(score1Pos.getHeading(), cycleGrabPosition.getHeading())
+                .addPath(new BezierCurve(new Point(score1Pos), new Point (cycleSwoopControl), new Point(preWallGrabPosition)))
+                .setLinearHeadingInterpolation(score1Pos.getHeading(), preWallGrabPosition.getHeading())
+                .addPath(new BezierLine( new Point (preWallGrabPosition), new Point(cycleGrabPosition)))
+                .setLinearHeadingInterpolation(preWallGrabPosition.getHeading(), cycleGrabPosition.getHeading())
                 .build();
 
 
@@ -172,9 +178,12 @@ public class obzone_zoomzoom extends OpMode {
                 .build();
 
         Return2 = follower.pathBuilder()
-                .addPath(new BezierCurve(new Point(score2Pos), new Point (cycleSwoopControl), new Point(cycleGrabPosition)))
-                .setLinearHeadingInterpolation(score2Pos.getHeading(), cycleGrabPosition.getHeading())
+                .addPath(new BezierCurve(new Point(score2Pos), new Point (cycleSwoopControl), new Point(preWallGrabPosition)))
+                .setLinearHeadingInterpolation(score2Pos.getHeading(), preWallGrabPosition.getHeading())
+                .addPath(new BezierLine( new Point (preWallGrabPosition), new Point(cycleGrabPosition)))
+                .setLinearHeadingInterpolation(preWallGrabPosition.getHeading(), cycleGrabPosition.getHeading())
                 .build();
+
 
         Cycle3 = follower.pathBuilder()
                 .addPath(new BezierCurve(new Point(cycleGrabPosition), new Point(cycleSwoopControl), new Point(score3Pos)))
