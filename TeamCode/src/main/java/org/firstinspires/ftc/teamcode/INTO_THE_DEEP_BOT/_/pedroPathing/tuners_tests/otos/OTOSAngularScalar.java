@@ -26,11 +26,12 @@ public class OTOSAngularScalar extends LinearOpMode {
         telemetry.addLine("Then copy the scalar into LConstants.");
         telemetry.update();
         waitForStart();
+
         while (opModeIsActive()) {
             poseUpdater.update();
-            degreesTurned = poseUpdater.getPose().getHeading(); //TODO: Fix this from being an infinite adding thing
-            //radsTurned += drive.pose.heading.minus(lastHeading);
-            //lastHeading = drive.pose.heading;
+
+            degreesTurned = poseUpdater.getTotalHeading();
+
             telemetry.addData("Degrees Turned", Math.toDegrees(degreesTurned));
             telemetry.addData("Calculated Angular Scalar", 3600 / Math.toDegrees(degreesTurned));
             telemetry.update();
