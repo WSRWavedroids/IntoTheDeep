@@ -82,11 +82,11 @@ public class obzone_zoomzoom extends OpMode {
     private final Pose sample1control1 = new Pose(23.70, 55.83, Math.toRadians(0));
     private final Pose sample1control2 = new Pose(28.36, 2, Math.toRadians(0));
     private final Pose Sample1control3 = new Pose(64.25, 54.94, Math.toRadians(0));
-    private final Pose pushSample1Pos = new Pose(25, 24, Math.toRadians(0));
+    private final Pose pushSample1Pos = new Pose(25.25, 24, Math.toRadians(0));
 
     private final Pose sample2Pos = new Pose(64.48, 15.5, Math.toRadians(0));
     private final Pose sample2control1 = new Pose(63.8, 29.46, Math.toRadians(0));
-    private final Pose pushSample2Pos = new Pose(25, 15.5, Math.toRadians(0));
+    private final Pose pushSample2Pos = new Pose(25.25, 15.5, Math.toRadians(0));
 
     private final Pose controlToGrabPos1 = new Pose(53.39, 15.06, Math.toRadians(0));
     private final Pose controlToGrabPos2 = new Pose(34.2, 32.78, Math.toRadians(180));
@@ -98,9 +98,9 @@ public class obzone_zoomzoom extends OpMode {
     private final Pose cycleWallControl1 = new Pose(32,24);
 
     //use these to help cycle
-    private final Pose score1Pos = new Pose(39, 62, Math.toRadians(0));
-    private final Pose score2Pos = new Pose(39, 64, Math.toRadians(0));
-    private final Pose score3Pos = new Pose(39, 66, Math.toRadians(0));
+    private final Pose score1Pos = new Pose(39.25, 62, Math.toRadians(0));
+    private final Pose score2Pos = new Pose(39.5, 64, Math.toRadians(0));
+    private final Pose score3Pos = new Pose(39.25, 66, Math.toRadians(0));
 
     private final Pose park = new Pose(25, 13, Math.toRadians(0));
 
