@@ -43,6 +43,6 @@ dependencies {
     implementation "com.acmerobotics.dashboard:dashboard:0.4.16"
     //implementation "page.j5155.roadrunner:ftc-otos:0.1.2+0.1.14"
 
-    implementation 'com.pedropathing:beta:1.0.8-beta2'
+    implementation 'com.pedropathing:beta:1.0.8-beta3'
     implementation 'com.acmerobotics.dashboard:dashboard:0.4.16'
 }
