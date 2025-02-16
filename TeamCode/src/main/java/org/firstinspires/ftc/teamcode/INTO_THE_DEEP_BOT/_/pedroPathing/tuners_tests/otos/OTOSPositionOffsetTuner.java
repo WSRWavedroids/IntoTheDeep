@@ -31,7 +31,7 @@ public class OTOSPositionOffsetTuner extends LinearOpMode {
             poseUpdater.update();
 
             poseX = poseUpdater.getPose().getX();
-            poseY = poseUpdater.getPose().getX();
+            poseY = poseUpdater.getPose().getY();
             poseHeading = poseUpdater.getPose().getHeading();
 
             telemetry.addData("Heading (deg)",Math.toDegrees(poseHeading));
