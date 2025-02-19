@@ -64,16 +64,16 @@ public class basket_zoomzoom extends OpMode {
      * Lets assume the Robot is facing the human player and we want to score in the bucket */
 
     /** Start Pose of our robot */
-    private final Pose startPose = new Pose(9, 102, Math.toRadians(90));
+    private final Pose startPose = new Pose(9, 115, Math.toRadians(90));
 
     /** Scoring Pose of our robot */
-    private final Pose scorePose = new Pose(15, 119, Math.toRadians(135));
+    private final Pose scorePose = new Pose(15, 120, Math.toRadians(135));
 
     /** Lowest (First) Sample from the Spike Mark */
-    private final Pose pickup1Pose = new Pose(22, 114.5, Math.toRadians(180));
+    private final Pose pickup1Pose = new Pose(22, 144-13, Math.toRadians(180));
 
     /** Middle (Second) Sample from the Spike Mark */
-    private final Pose pickup2Pose = new Pose(22, 124.25, Math.toRadians(180));
+    private final Pose pickup2Pose = new Pose(22, 144-13+8.25, Math.toRadians(180));
 
     /** Highest (Third) Sample from the Spike Mark */
     private final Pose pickup3Pose = new Pose(26.75, 123.75, Math.toRadians(225));
@@ -164,8 +164,11 @@ public class basket_zoomzoom extends OpMode {
     public void autonomousPathUpdate() {
         int bottomHeight = 0;
         int basketHeight = 1901;
+        double scoreTime = 2;
+        double waitBeforeScoreTime = .25;
         switch (pathState) {
             case 0:
+                // We move to score the preloaded sample in the top basket
                 plus.moveArm(basketHeight,1,0);
                 plus.autoSlides(.05);
                 follower.followPath(scorePreload);
@@ -173,29 +176,24 @@ public class basket_zoomzoom extends OpMode {
                 setPathState(1);
                 break;
             case 1:
-                if(!follower.isBusy() && actionTimer.getElapsedTimeSeconds() >= .25) {
+                // Score preloaded sample
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= waitBeforeScoreTime) {
                     robot.tempOutakePos("UP");
                     actionTimer.resetTimer();
                     setPathState(2);
                 }
                 break;
             case 2:
-
-                /* You could check for
-                - Follower State: "if(!follower.isBusy() {}"
-                - Time: "if(pathTimer.getElapsedTimeSeconds() > 1) {}"
-                - Robot Position: "if(follower.getPose().getX() > 36) {}"
-                */
-
-                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
-                if(!follower.isBusy() && actionTimer.getElapsedTimeSeconds() >= 2) {
+                // Lower arm and go to pick up the first pickup
+                if(!follower.isBusy() && actionTimer.getElapsedTimeSeconds() >= scoreTime) {
                     robot.tempOutakePos("DOWN");
                     follower.followPath(grabPickup1,true);
-                    plus.moveArm(bottomHeight,1,0);
+                    plus.moveArmWhileSwoop(bottomHeight,1,0);
                     setPathState(3);
                 }
                 break;
             case 3:
+                // Pickup
                 if(!follower.isBusy()) {
                     plus.autoSlides(.3);
                     plus.pickupSample(1500,0);
@@ -204,69 +202,98 @@ public class basket_zoomzoom extends OpMode {
                 }
                 break;
             case 4:
-                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup1Pose's position */
+                // Move to score
                 if(!follower.isBusy()) {
-                    /* Grab Sample */
-
-                    /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(scorePickup1,true);
-                    plus.moveArm(basketHeight,1,0);
-                    setPathState(-5);
-                }
-                break;
-
-            case 5:
-                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
-                if(!follower.isBusy()) {
-                    /* Score Sample */
-
-                    /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
-                    follower.followPath(grabPickup2,true);
-                    setPathState(-6);
-                }
-                break;
-            case 6:
-                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup2Pose's position */
-                if(!follower.isBusy()) {
-                    /* Grab Sample */
-
-                    /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
-                    follower.followPath(scorePickup2,true);
+                    plus.moveArmWhileSwoop(basketHeight,1,0);
                     setPathState(5);
                 }
                 break;
-            case 7:
-                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
-                if(!follower.isBusy()) {
-                    /* Score Sample */
-
-                    /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
-                    follower.followPath(grabPickup3,true);
-                    setPathState(-6);
+            case 5:
+                // Score
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= waitBeforeScoreTime) {
+                    robot.tempOutakePos("UP");
+                    actionTimer.resetTimer();
+                    setPathState(6);
                 }
                 break;
-            case 8:
-                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup3Pose's position */
-                if(!follower.isBusy()) {
-                    /* Grab Sample */
-
-                    /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
-                    follower.followPath(scorePickup3, true);
+            case 6:
+                // Move to pickup
+                if(!follower.isBusy() && actionTimer.getElapsedTimeSeconds() >= scoreTime) {
+                    follower.followPath(grabPickup2,true);
+                    robot.tempOutakePos("DOWN");
+                    plus.moveArmWhileSwoop(bottomHeight,1,0);
                     setPathState(7);
                 }
                 break;
-            case 9:
-                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
+            case 7:
+                // Pickup
                 if(!follower.isBusy()) {
-                    /* Score Sample */
-
-                    /* Since this is a pathChain, we can have Pedro hold the end point while we are parked */
-                    follower.followPath(park,true);
+                    plus.autoSlides(.3);
+                    plus.pickupSample(1500,0);
+                    robot.TransferSequence();
                     setPathState(8);
                 }
                 break;
+            case 8:
+                // Move to score
+                if(!follower.isBusy()) {
+                    follower.followPath(scorePickup2,true);
+                    plus.moveArmWhileSwoop(basketHeight,1,0);
+                    setPathState(9);
+                }
+                break;
+            case 9:
+                // Score
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= waitBeforeScoreTime) {
+                    robot.tempOutakePos("UP");
+                    actionTimer.resetTimer();
+                    setPathState(10);
+                }
+                break;
             case 10:
-                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
+                // Move to pickup
+                if(!follower.isBusy() && actionTimer.getElapsedTimeSeconds() >= scoreTime) {
+                    follower.followPath(grabPickup3,true);
+                    robot.tempOutakePos("DOWN");
+                    plus.moveArmWhileSwoop(basketHeight,1,0);
+                    setPathState(11);
+                }
+                break;
+            case 11:
+                // Pickup
+                if(!follower.isBusy()) {
+                    plus.autoSlides(.3);
+                    plus.pickupSample(1500,0);
+                    robot.TransferSequence();
+                    setPathState(12);
+                }
+                break;
+            case 12:
+                // Move to score
+                if(!follower.isBusy()) {
+                    follower.followPath(scorePickup3, true);
+                    plus.moveArmWhileSwoop(basketHeight,1,0);
+                    setPathState(13);
+                }
+                break;
+            case 13:
+                // Score
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= waitBeforeScoreTime) {
+                    robot.tempOutakePos("UP");
+                    actionTimer.resetTimer();
+                    setPathState(-14);
+                }
+                break;
+            case 14:
+                // Park
+                if(!follower.isBusy() && actionTimer.getElapsedTimeSeconds() >= scoreTime) {
+                    follower.followPath(park,true);
+                    setPathState(15);
+                }
+                break;
+            case 15:
+                // Touch bar
                 if(!follower.isBusy()) {
                     /* Level 1 Ascent */
 
