@@ -13,11 +13,11 @@ public class LConstants {
         OTOSConstants.hardwareMapName = "sparkFunSparkJoy";
         OTOSConstants.linearUnit = DistanceUnit.INCH;
         OTOSConstants.angleUnit = AngleUnit.RADIANS;
-        OTOSConstants.offset = new SparkFunOTOS.Pose2D(-5.23, -0.4866, 4.69769); // Heading isn't 0? y = -0.4866, x=-5.23
-        OTOSConstants.linearScalar = 1.074507936;
-        OTOSConstants.angularScalar = 0.9953;
-    }
-}
+       //        OTOSConstants.offset = new SparkFunOTOS.Pose2D(-5.23, -0.4866, 4.69769); // Heading isn't 0? y = -0.4866, x=-5.23
+        OTOSConstants.offset = new SparkFunOTOS.Pose2D(-6.0254, -0.4866, 4.69769); // Heading isn't 0? y = -0.4866, x=-5.23
+        OTOSConstants.linearScalar = 0.9573793193;
+        OTOSConstants.angularScalar = 1;
+}}
 
 
 

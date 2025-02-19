@@ -91,18 +91,18 @@ public class obzone_zoomzoom extends OpMode {
     private final Pose controlToGrabPos1 = new Pose(53.39, 15.06, Math.toRadians(0));
     private final Pose controlToGrabPos2 = new Pose(34.2, 32.78, Math.toRadians(180));
     private final Pose preWallGrabPosition = new Pose(18, 24, Math.toRadians(180));
-    private final Pose cycleGrabPosition = new Pose(13, 24, Math.toRadians(180));
+    private final Pose cycleGrabPosition = new Pose(10, 24, Math.toRadians(180));
 
     private final Pose cycleSwoopControl = new Pose (29.5,30,Math.toRadians(180));
 
     private final Pose cycleWallControl1 = new Pose(32,24);
 
     //use these to help cycle
-    private final Pose score1Pos = new Pose(39.25, 62, Math.toRadians(0));
-    private final Pose score2Pos = new Pose(39.5, 64, Math.toRadians(0));
-    private final Pose score3Pos = new Pose(39.25, 66, Math.toRadians(0));
+    private final Pose score1Pos = new Pose(38.5, 62, Math.toRadians(0));
+    private final Pose score2Pos = new Pose(38.5, 64, Math.toRadians(0));
+    private final Pose score3Pos = new Pose(38.5, 66, Math.toRadians(0));
 
-    private final Pose park = new Pose(25, 13, Math.toRadians(0));
+    private final Pose park = new Pose(13, 13, Math.toRadians(0));
 
     /* These are our Paths and PathChains that we will define in buildPaths() */
     private Path scorePreload;
@@ -283,7 +283,7 @@ public class obzone_zoomzoom extends OpMode {
             case 8:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup2Pose's position */
                 if(!follower.isBusy()  && actionTimer.getElapsedTimeSeconds() >= 0.5) {
-                    plus.moveArm(aboveBarHeight,1,0);
+                    plus.moveArmWhileSwoop(aboveBarHeight,1,0);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(Cycle2,true);
                     setPathState(9);

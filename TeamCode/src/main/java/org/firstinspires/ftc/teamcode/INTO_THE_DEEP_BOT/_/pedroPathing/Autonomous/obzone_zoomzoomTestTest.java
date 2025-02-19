@@ -95,10 +95,12 @@ public class obzone_zoomzoomTestTest extends OpMode {
 
     private final Pose controlToGrabPos1 = new Pose(53.39, 15.06, Math.toRadians(0));
     private final Pose controlToGrabPos2 = new Pose(34.2, 32.78, Math.toRadians(180));
-    private final Pose preWallGrabPosition = new Pose(18, 24, Math.toRadians(180));
+    private final Pose preWallGrabPosition = new Pose(20, 24, Math.toRadians(180));
     private final Pose cycleGrabPosition = new Pose(13, 24, Math.toRadians(180));
 
     private final Pose cycleSwoopControl = new Pose (29.5,30,Math.toRadians(180));
+
+    private final Pose theSuperSwoopyControl = new Pose(27,30, Math.toRadians(180));
 
     private final Pose cycleWallControl1 = new Pose(32,24);
 
@@ -169,15 +171,18 @@ public class obzone_zoomzoomTestTest extends OpMode {
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         Cycle1 = follower.pathBuilder()
 
-                .addPath(new BezierCurve(new Point(pushSample3), new Point(cycleSwoopControl), new Point(score1Pos)))
+                .addPath(new BezierCurve(new Point(pushSample3), new Point(theSuperSwoopyControl), new Point(score1Pos)))
                 .setLinearHeadingInterpolation(cycleGrabPosition.getHeading(), score1Pos.getHeading())
                 .build();
 
         Return1 = follower.pathBuilder()
-                .addPath(new BezierCurve(new Point(score1Pos), new Point (cycleSwoopControl), new Point(preWallGrabPosition)))
+                /*.addPath(new BezierCurve(new Point(score1Pos), new Point (cycleSwoopControl), new Point(preWallGrabPosition)))
                 .setLinearHeadingInterpolation(score1Pos.getHeading(), preWallGrabPosition.getHeading())
                 .addPath(new BezierLine( new Point (preWallGrabPosition), new Point(cycleGrabPosition)))
-                .setLinearHeadingInterpolation(preWallGrabPosition.getHeading(), cycleGrabPosition.getHeading())
+                .setLinearHeadingInterpolation(preWallGrabPosition.getHeading(), cycleGrabPosition.getHeading())*/
+                .addPath(new BezierCurve(new Point(score1Pos), new Point (cycleSwoopControl), new Point(cycleGrabPosition)))
+                .setLinearHeadingInterpolation(score1Pos.getHeading(), cycleGrabPosition.getHeading())
+
                 .build();
 
 
@@ -187,10 +192,13 @@ public class obzone_zoomzoomTestTest extends OpMode {
                 .build();
 
         Return2 = follower.pathBuilder()
-                .addPath(new BezierCurve(new Point(score2Pos), new Point (cycleSwoopControl), new Point(preWallGrabPosition)))
+                /*.addPath(new BezierCurve(new Point(score2Pos), new Point (cycleSwoopControl), new Point(preWallGrabPosition)))
                 .setLinearHeadingInterpolation(score2Pos.getHeading(), preWallGrabPosition.getHeading())
                 .addPath(new BezierLine( new Point (preWallGrabPosition), new Point(cycleGrabPosition)))
-                .setLinearHeadingInterpolation(preWallGrabPosition.getHeading(), cycleGrabPosition.getHeading())
+                .setLinearHeadingInterpolation(preWallGrabPosition.getHeading(), cycleGrabPosition.getHeading())*/
+                .addPath(new BezierCurve(new Point(score2Pos), new Point (cycleSwoopControl), new Point(cycleGrabPosition)))
+                .setLinearHeadingInterpolation(score2Pos.getHeading(), cycleGrabPosition.getHeading())
+
                 .build();
 
 
@@ -200,10 +208,13 @@ public class obzone_zoomzoomTestTest extends OpMode {
                 .build();
 
         Return3 = follower.pathBuilder()
-                .addPath(new BezierCurve(new Point(score3Pos), new Point (cycleSwoopControl), new Point(preWallGrabPosition)))
+                /*.addPath(new BezierCurve(new Point(score3Pos), new Point (cycleSwoopControl), new Point(preWallGrabPosition)))
                 .setLinearHeadingInterpolation(score3Pos.getHeading(), preWallGrabPosition.getHeading())
                 .addPath(new BezierLine( new Point (preWallGrabPosition), new Point(cycleGrabPosition)))
-                .setLinearHeadingInterpolation(preWallGrabPosition.getHeading(), cycleGrabPosition.getHeading())
+                .setLinearHeadingInterpolation(preWallGrabPosition.getHeading(), cycleGrabPosition.getHeading())*/
+
+                .addPath(new BezierCurve(new Point(score3Pos), new Point (cycleSwoopControl), new Point(cycleGrabPosition)))
+                .setLinearHeadingInterpolation(score3Pos.getHeading(), cycleGrabPosition.getHeading())
                 .build();
 
         Cycle4 = follower.pathBuilder()
@@ -305,7 +316,7 @@ public class obzone_zoomzoomTestTest extends OpMode {
             case 8:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup2Pose's position */
                 if(!follower.isBusy()  && actionTimer.getElapsedTimeSeconds() >= 0.5) {
-                    plus.moveArm(aboveBarHeight,1,0);
+                    plus.moveArmWhileSwoop(aboveBarHeight,1,0);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(Cycle2,true);
                     setPathState(9);
@@ -353,13 +364,13 @@ public class obzone_zoomzoomTestTest extends OpMode {
                 }
                 break;
             case 14:
-            if(!follower.isBusy()) {
-                /* Score Sample */
-                plus.moveArmWhileSwoop(wallHeight,1,0);
-                /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
-                follower.followPath(Return3,true);
-                setPathState(15);
-            }
+                if(!follower.isBusy()) {
+                    /* Score Sample */
+                    plus.moveArmWhileSwoop(wallHeight,1,0);
+                    /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
+                    follower.followPath(Return3,true);
+                    setPathState(15);
+                }
 
             case 15:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup1Pose's position */
@@ -439,7 +450,6 @@ public class obzone_zoomzoomTestTest extends OpMode {
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
         follower.setStartingPose(startPose);
-        follower.setMaxPower(1);
         follower.setMaxPower(1.0);
         robot.prepareAuto();
         buildPaths();

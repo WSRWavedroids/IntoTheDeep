@@ -48,6 +48,7 @@ public class basket_zoomzoom extends OpMode {
 
         }
     };
+    public Robot robot;
 
     /** This is the variable where we store the state of our auto.
      * It is used by the pathUpdate method. */
@@ -63,16 +64,16 @@ public class basket_zoomzoom extends OpMode {
      * Lets assume the Robot is facing the human player and we want to score in the bucket */
 
     /** Start Pose of our robot */
-    private final Pose startPose = new Pose(9, 95.75, Math.toRadians(90));
+    private final Pose startPose = new Pose(9, 102, Math.toRadians(90));
 
     /** Scoring Pose of our robot */
-    private final Pose scorePose = new Pose(17.5, 116.5, Math.toRadians(135));
+    private final Pose scorePose = new Pose(15, 119, Math.toRadians(135));
 
     /** Lowest (First) Sample from the Spike Mark */
-    private final Pose pickup1Pose = new Pose(22, 116.25, Math.toRadians(180));
+    private final Pose pickup1Pose = new Pose(22, 114.5, Math.toRadians(180));
 
     /** Middle (Second) Sample from the Spike Mark */
-    private final Pose pickup2Pose = new Pose(22, 126, Math.toRadians(180));
+    private final Pose pickup2Pose = new Pose(22, 124.25, Math.toRadians(180));
 
     /** Highest (Third) Sample from the Spike Mark */
     private final Pose pickup3Pose = new Pose(26.75, 123.75, Math.toRadians(225));
@@ -85,8 +86,8 @@ public class basket_zoomzoom extends OpMode {
     private final Pose parkControlPose = new Pose(60, 98, Math.toRadians(90));
 
     /* These are our Paths and PathChains that we will define in buildPaths() */
-    private Path scorePreload, park;
-    private PathChain grabPickup1, grabPickup2, grabPickup3, scorePickup1, scorePickup2, scorePickup3;
+    private Path park;
+    private PathChain scorePreload, grabPickup1, grabPickup2, grabPickup3, scorePickup1, scorePickup2, scorePickup3;
 
     /** Build the paths for the auto (adds, for example, constant/linear headings while doing paths)
      * It is necessary to do this so that all the paths are built before the auto starts. **/
@@ -108,8 +109,10 @@ public class basket_zoomzoom extends OpMode {
          * Here is a explanation of the difference between Paths and PathChains <https://pedropathing.com/commonissues/pathtopathchain.html> */
 
         /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
-        scorePreload = new Path(new BezierLine(new Point(startPose), new Point(scorePose)));
-        scorePreload.setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading());
+        scorePreload = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(startPose), new Point(scorePose)))
+                .setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading())
+                .build();
 
         /* Here is an example for Constant Interpolation
         scorePreload.setConstantInterpolation(startPose.getHeading()); */
@@ -159,12 +162,24 @@ public class basket_zoomzoom extends OpMode {
      * Everytime the switch changes case, it will reset the timer. (This is because of the setPathState() method)
      * The followPath() function sets the follower to run the specific path, but does NOT wait for it to finish before moving on. */
     public void autonomousPathUpdate() {
+        int bottomHeight = 0;
+        int basketHeight = 1901;
         switch (pathState) {
             case 0:
+                plus.moveArm(basketHeight,1,0);
+                plus.autoSlides(.05);
                 follower.followPath(scorePreload);
+                actionTimer.resetTimer();
                 setPathState(1);
                 break;
             case 1:
+                if(!follower.isBusy() && actionTimer.getElapsedTimeSeconds() >= .25) {
+                    robot.tempOutakePos("UP");
+                    actionTimer.resetTimer();
+                    setPathState(2);
+                }
+                break;
+            case 2:
 
                 /* You could check for
                 - Follower State: "if(!follower.isBusy() {}"
@@ -173,35 +188,44 @@ public class basket_zoomzoom extends OpMode {
                 */
 
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
-                if(!follower.isBusy()) {
-                    /* Score Preload */
-
-                    /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
+                if(!follower.isBusy() && actionTimer.getElapsedTimeSeconds() >= 2) {
+                    robot.tempOutakePos("DOWN");
                     follower.followPath(grabPickup1,true);
-                    setPathState(2);
+                    plus.moveArm(bottomHeight,1,0);
+                    setPathState(3);
                 }
                 break;
-            case 2:
+            case 3:
+                if(!follower.isBusy()) {
+                    plus.autoSlides(.3);
+                    plus.pickupSample(1500,0);
+                    robot.TransferSequence();
+                    setPathState(4);
+                }
+                break;
+            case 4:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup1Pose's position */
                 if(!follower.isBusy()) {
                     /* Grab Sample */
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(scorePickup1,true);
-                    setPathState(3);
+                    plus.moveArm(basketHeight,1,0);
+                    setPathState(-5);
                 }
                 break;
-            case 3:
+
+            case 5:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
                     /* Score Sample */
 
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(grabPickup2,true);
-                    setPathState(4);
+                    setPathState(-6);
                 }
                 break;
-            case 4:
+            case 6:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup2Pose's position */
                 if(!follower.isBusy()) {
                     /* Grab Sample */
@@ -211,7 +235,7 @@ public class basket_zoomzoom extends OpMode {
                     setPathState(5);
                 }
                 break;
-            case 5:
+            case 7:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
                     /* Score Sample */
@@ -221,7 +245,7 @@ public class basket_zoomzoom extends OpMode {
                     setPathState(-6);
                 }
                 break;
-            case 6:
+            case 8:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup3Pose's position */
                 if(!follower.isBusy()) {
                     /* Grab Sample */
@@ -231,7 +255,7 @@ public class basket_zoomzoom extends OpMode {
                     setPathState(7);
                 }
                 break;
-            case 7:
+            case 9:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
                     /* Score Sample */
@@ -241,7 +265,7 @@ public class basket_zoomzoom extends OpMode {
                     setPathState(8);
                 }
                 break;
-            case 8:
+            case 10:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
                     /* Level 1 Ascent */
@@ -281,11 +305,17 @@ public class basket_zoomzoom extends OpMode {
     public void init() {
         pathTimer = new Timer();
         opmodeTimer = new Timer();
+        actionTimer = new Timer();
         opmodeTimer.resetTimer();
+
+        robot = new Robot(hardwareMap, telemetry, this);
+        plus.runOpMode(robot);
 
         Constants.setConstants(FConstants.class, LConstants.class);
         follower = new Follower(hardwareMap);
         follower.setStartingPose(startPose);
+        follower.setMaxPower(0.8);
+        robot.prepareAuto();
         buildPaths();
     }
 
