@@ -103,7 +103,7 @@ public class Robot {
         backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
         backRightDrive.setDirection(DcMotor.Direction.FORWARD);
         liftyL.setDirection(DcMotor.Direction.FORWARD);//Might need inverted
-        liftyR.setDirection(DcMotorSimple.Direction.FORWARD);//Might need inverted
+        liftyR.setDirection(DcMotorSimple.Direction.REVERSE);//Might need inverted
 
         // This tells the motors to chill when we're not powering them.
         frontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

@@ -196,7 +196,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
         //A bunch of slide nonsense. PLS don't touch unless u know what ur doing
         int liftyTopLimit = 4100;//temp value
-        int liftyBottomLimit = -20;//temp value
+        int liftyBottomLimit = 75;//temp value
         int liftyGoControlerVal = robot.liftyL.getCurrentPosition() - ((int) armStickY * 260);
         robot.liftyR.setPower(1);
         robot.liftyL.setPower(1);
@@ -205,18 +205,18 @@ public class Basic_TeleOp_NewBot extends OpMode {
         if (Math.abs(gamepad2.left_stick_y) < 0.1 && gamepad2.left_stick_button)
         {
             //Wall Position
-            robot.liftyL.setTargetPosition(143);
-            robot.liftyR.setTargetPosition(143);
-            if(robot.liftyL.getCurrentPosition() > 133 && robot.liftyL.getCurrentPosition() < 153)
+            robot.liftyL.setTargetPosition(206);
+            robot.liftyR.setTargetPosition(206);//inverted
+            if(robot.liftyL.getCurrentPosition() > 329 && robot.liftyL.getCurrentPosition() < 349)
             {
                 gamepad2.rumble(500);
             }
         }
         else if(Math.abs(gamepad2.left_stick_y) < 0.1 && gamepad2.dpad_up)
         {
-            robot.liftyL.setTargetPosition(1901);
-            robot.liftyR.setTargetPosition(1901);
-            if(robot.liftyL.getCurrentPosition() > 1891 && robot.liftyL.getCurrentPosition() < 1911)
+            robot.liftyL.setTargetPosition(2085);
+            robot.liftyR.setTargetPosition(2085);
+            if(robot.liftyL.getCurrentPosition() > 2150 && robot.liftyL.getCurrentPosition() < 2170)
             {
                 gamepad2.rumble(500);
             }
