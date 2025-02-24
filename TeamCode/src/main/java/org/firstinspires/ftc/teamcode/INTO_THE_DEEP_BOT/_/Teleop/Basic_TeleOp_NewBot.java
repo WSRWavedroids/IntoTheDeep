@@ -212,11 +212,11 @@ public class Basic_TeleOp_NewBot extends OpMode {
                 gamepad2.rumble(500);
             }
         }
-        else if(Math.abs(gamepad2.left_stick_y) < 0.1 && gamepad2.dpad_up)
+        else if(Math.abs(gamepad2.left_stick_y) < 0.1 && gamepad2.dpad_right)
         {
-            robot.liftyL.setTargetPosition(2085);
-            robot.liftyR.setTargetPosition(2085);
-            if(robot.liftyL.getCurrentPosition() > 2150 && robot.liftyL.getCurrentPosition() < 2170)
+            robot.liftyL.setTargetPosition(2500);
+            robot.liftyR.setTargetPosition(2500);
+            if(robot.liftyL.getCurrentPosition() > 2490 && robot.liftyL.getCurrentPosition() < 2510)
             {
                 gamepad2.rumble(500);
             }

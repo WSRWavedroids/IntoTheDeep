@@ -1,10 +1,8 @@
 package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.pedroPathing.Autonomous;
 
 
-
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
-import com.pedropathing.localization.constants.OTOSConstants;
 import com.pedropathing.pathgen.BezierCurve;
 import com.pedropathing.pathgen.BezierLine;
 import com.pedropathing.pathgen.Path;
@@ -12,16 +10,13 @@ import com.pedropathing.pathgen.PathChain;
 import com.pedropathing.pathgen.Point;
 import com.pedropathing.util.Constants;
 import com.pedropathing.util.Timer;
-import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-//import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPLUS;
-import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPLUS;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPearl;
-import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPlatinum;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
-import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.pedroPathing.constants.*;
+import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.pedroPathing.constants.FConstants;
+import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.pedroPathing.constants.LConstants;
 
 
 /**
@@ -34,8 +29,8 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.pedroPathing.constants
  * @version 2.0, 11/28/2024
  */
 
-@Autonomous(name = "Pedro go obzone", group = "Pedro's Autos")
-public class obzone_zoomzoom extends OpMode {
+@Autonomous(name = "Pedro Spin Move", group = "Pedro's Autos")
+public class pedroSpinmove extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
@@ -84,14 +79,14 @@ public class obzone_zoomzoom extends OpMode {
     private final Pose Sample1control3 = new Pose(64.25, 54.94, Math.toRadians(0));
     private final Pose pushSample1Pos = new Pose(25.25, 24, Math.toRadians(0));
 
-    private final Pose sample2Pos = new Pose(59, 15.5, Math.toRadians(0));//64.48
-    private final Pose sample2control1 = new Pose(63.8, 29.46, Math.toRadians(0));
-    private final Pose pushSample2Pos = new Pose(25.25, 15.5, Math.toRadians(0));//x was 25.25
+    private final Pose sample2Pos = new Pose(59, 15.5, Math.toRadians(180));//64.48
+    private final Pose sample2control1 = new Pose(63.8, 29.46, Math.toRadians(180));
+    private final Pose pushSample2Pos = new Pose(7.7, 15.5, Math.toRadians(180));//x was 25.25
 
     private final Pose controlToGrabPos1 = new Pose(53.39, 15.06, Math.toRadians(0));
     private final Pose controlToGrabPos2 = new Pose(34.2, 32.78, Math.toRadians(180));
     private final Pose preWallGrabPosition = new Pose(18, 24, Math.toRadians(180));
-    private final Pose cycleGrabPosition = new Pose(7, 24, Math.toRadians(180));//was 9.4
+    private final Pose cycleGrabPosition = new Pose(7.7, 24, Math.toRadians(180));//was 9.4
 
     private final Pose cycleSwoopControl = new Pose (18,51,Math.toRadians(180));//was 20
 
@@ -100,7 +95,7 @@ public class obzone_zoomzoom extends OpMode {
     //use these to help cycle
     private final Pose score1Pos = new Pose(37.5, 62, Math.toRadians(360));//was 39.5
     private final Pose score2Pos = new Pose(37.5, 64, Math.toRadians(360));
-    private final Pose score3Pos = new Pose(37.5, 66, Math.toRadians(360));
+    private final Pose score3Pos = new Pose(37.5, 68, Math.toRadians(360));
 
     private final Pose park = new Pose(13, 13, Math.toRadians(0));
 
@@ -150,10 +145,10 @@ public class obzone_zoomzoom extends OpMode {
                 .addPath(new BezierLine(new Point(sample2Pos), new Point(pushSample2Pos)))
                 .setLinearHeadingInterpolation(sample2Pos.getHeading(), pushSample2Pos.getHeading())
                 //Go to grab position with bez curve
-                .addPath(new BezierCurve(new Point(pushSample2Pos), new Point(controlToGrabPos1), new Point(controlToGrabPos2), new Point(preWallGrabPosition)))
+                /*.addPath(new BezierCurve(new Point(pushSample2Pos), new Point(controlToGrabPos1), new Point(controlToGrabPos2), new Point(preWallGrabPosition)))
                 .setLinearHeadingInterpolation(pushSample2Pos.getHeading(), preWallGrabPosition.getHeading())
                 .addPath(new BezierLine(new Point(preWallGrabPosition), new Point(cycleGrabPosition)))
-                .setLinearHeadingInterpolation(preWallGrabPosition.getHeading(), cycleGrabPosition.getHeading())
+                .setLinearHeadingInterpolation(preWallGrabPosition.getHeading(), cycleGrabPosition.getHeading())*/
 
                 .build();
         //finished...yay... mabe
@@ -161,7 +156,7 @@ public class obzone_zoomzoom extends OpMode {
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         Cycle1 = follower.pathBuilder()
 
-                .addPath(new BezierCurve(new Point(cycleGrabPosition), new Point(cycleSwoopControl), new Point(score1Pos)))
+                .addPath(new BezierCurve(new Point(pushSample2Pos), new Point(cycleSwoopControl), new Point(score1Pos)))
                 .setLinearHeadingInterpolation(cycleGrabPosition.getHeading(), score1Pos.getHeading())
                 .build();
 

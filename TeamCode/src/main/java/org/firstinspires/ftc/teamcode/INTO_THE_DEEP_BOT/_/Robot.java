@@ -378,7 +378,7 @@ public class Robot {
             tellMotorOutput();
         }
         timer.reset();
-        while (timer.milliseconds() < 1000 )
+        while (timer.milliseconds() < 800 )
         {
             intake_spin(-.5);
         }

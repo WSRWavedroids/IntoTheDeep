@@ -64,30 +64,31 @@ public class basket_zoomzoom extends OpMode {
      * Lets assume the Robot is facing the human player and we want to score in the bucket */
 
     /** Start Pose of our robot */
-    private final Pose startPose = new Pose(9, 115, Math.toRadians(90));
+    private final Pose startPose = new Pose(9.5, 115.5, Math.toRadians(90));
 
     /** Scoring Pose of our robot */
-    private final Pose scorePose = new Pose(15, 120, Math.toRadians(135));
+    private final Pose scorePose = new Pose(16, 136.5, Math.toRadians(135));
 
     /** Lowest (First) Sample from the Spike Mark */
-    private final Pose pickup1Pose = new Pose(22, 144-13, Math.toRadians(180));
+    private final Pose pickup1Pose = new Pose(22, 131, Math.toRadians(180));
 
     /** Middle (Second) Sample from the Spike Mark */
-    private final Pose pickup2Pose = new Pose(22, 144-13+8.25, Math.toRadians(180));
+    private final Pose pickup2Pose = new Pose(22, 138.75, Math.toRadians(180));
 
     /** Highest (Third) Sample from the Spike Mark */
-    private final Pose pickup3Pose = new Pose(26.75, 123.75, Math.toRadians(225));
+    private final Pose pickup3Pose = new Pose(30.5, 132, Math.toRadians(240));
 
+    private final Pose preParkPose = new Pose(62, 105, Math.toRadians(270));
     /** Park Pose for our robot, after we do all of the scoring. */
-    private final Pose parkPose = new Pose(60, 98, Math.toRadians(90));
+    private final Pose parkPose = new Pose(62, 100.5, Math.toRadians(270));
 
     /** Park Control Pose for our robot, this is used to manipulate the bezier curve that we will create for the parking.
      * The Robot will not go to this pose, it is used a control point for our bezier curve. */
-    private final Pose parkControlPose = new Pose(60, 98, Math.toRadians(90));
+    private final Pose parkControlPose = new Pose(60, 150, Math.toRadians(270));
 
     /* These are our Paths and PathChains that we will define in buildPaths() */
-    private Path park;
-    private PathChain scorePreload, grabPickup1, grabPickup2, grabPickup3, scorePickup1, scorePickup2, scorePickup3;
+    //private Path placeholder;
+    private PathChain scorePreload, grabPickup1, grabPickup2, grabPickup3, scorePickup1, scorePickup2, scorePickup3, park;
 
     /** Build the paths for the auto (adds, for example, constant/linear headings while doing paths)
      * It is necessary to do this so that all the paths are built before the auto starts. **/
@@ -148,12 +149,20 @@ public class basket_zoomzoom extends OpMode {
                 .build();
 
         /* This is our scorePickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        //scorePickup3 = follower.pathBuilder()
-        //        .addPath(new BezierLine(new Point(pickup3Pose), new Point(scorePose)))
-        //        .setLinearHeadingInterpolation(pickup3Pose.getHeading(), scorePose.getHeading())
-        //        .build();
+        scorePickup3 = follower.pathBuilder()
+                .addPath(new BezierLine(new Point(pickup3Pose), new Point(scorePose)))
+                .setLinearHeadingInterpolation(pickup3Pose.getHeading(), scorePose.getHeading())
+                .build();
 
         /* This is our park path. We are using a BezierCurve with 3 points, which is a curved line that is curved based off of the control point */
+        park = follower.pathBuilder()
+                .addPath(new BezierCurve(new Point(scorePose), new Point(parkControlPose), new Point(preParkPose)))
+                .setLinearHeadingInterpolation(scorePose.getHeading(), preParkPose.getHeading())
+                .addPath(new BezierLine(new Point(preParkPose), new Point(parkPose)))
+                .setLinearHeadingInterpolation(preParkPose.getHeading(), parkPose.getHeading())
+                .build();
+
+        // This is the old code for the park path
         //park = new Path(new BezierCurve(new Point(scorePose), /* Control Point */ new Point(parkControlPose), new Point(parkPose)));
         //park.setLinearHeadingInterpolation(scorePose.getHeading(), parkPose.getHeading());
     }
@@ -163,13 +172,14 @@ public class basket_zoomzoom extends OpMode {
      * The followPath() function sets the follower to run the specific path, but does NOT wait for it to finish before moving on. */
     public void autonomousPathUpdate() {
         int bottomHeight = 0;
-        int basketHeight = 1901;
-        double scoreTime = 2;
-        double waitBeforeScoreTime = .25;
+        int basketHeight = 2600;
+        double scoreTime = 1.5;
+        double waitBeforeScoreTime = .5;
+        int pickupTime = 1000;
         switch (pathState) {
             case 0:
                 // We move to score the preloaded sample in the top basket
-                plus.moveArm(basketHeight,1,0);
+                plus.moveArmWhileSwoop(basketHeight,1,0);
                 plus.autoSlides(.05);
                 follower.followPath(scorePreload);
                 actionTimer.resetTimer();
@@ -195,8 +205,8 @@ public class basket_zoomzoom extends OpMode {
             case 3:
                 // Pickup
                 if(!follower.isBusy()) {
-                    plus.autoSlides(.3);
-                    plus.pickupSample(1500,0);
+                    plus.autoSlides(.25);
+                    plus.pickupSample(pickupTime,0);
                     robot.TransferSequence();
                     setPathState(4);
                 }
@@ -229,8 +239,8 @@ public class basket_zoomzoom extends OpMode {
             case 7:
                 // Pickup
                 if(!follower.isBusy()) {
-                    plus.autoSlides(.3);
-                    plus.pickupSample(1500,0);
+                    plus.autoSlides(.25);
+                    plus.pickupSample(pickupTime,0);
                     robot.TransferSequence();
                     setPathState(8);
                 }
@@ -256,15 +266,15 @@ public class basket_zoomzoom extends OpMode {
                 if(!follower.isBusy() && actionTimer.getElapsedTimeSeconds() >= scoreTime) {
                     follower.followPath(grabPickup3,true);
                     robot.tempOutakePos("DOWN");
-                    plus.moveArmWhileSwoop(basketHeight,1,0);
+                    plus.moveArmWhileSwoop(bottomHeight,1,0);
                     setPathState(11);
                 }
                 break;
             case 11:
                 // Pickup
                 if(!follower.isBusy()) {
-                    plus.autoSlides(.3);
-                    plus.pickupSample(1500,0);
+                    plus.autoSlides(.4);
+                    plus.pickupSample(pickupTime + 1000,0);
                     robot.TransferSequence();
                     setPathState(12);
                 }
@@ -282,22 +292,21 @@ public class basket_zoomzoom extends OpMode {
                 if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= waitBeforeScoreTime) {
                     robot.tempOutakePos("UP");
                     actionTimer.resetTimer();
-                    setPathState(-14);
+                    setPathState(14);
                 }
                 break;
             case 14:
                 // Park
                 if(!follower.isBusy() && actionTimer.getElapsedTimeSeconds() >= scoreTime) {
                     follower.followPath(park,true);
+                    plus.moveArmWhileSwoop(75,1,0);
                     setPathState(15);
                 }
                 break;
             case 15:
                 // Touch bar
                 if(!follower.isBusy()) {
-                    /* Level 1 Ascent */
-
-                    /* Set the state to a Case we won't use or define, so it just stops running an new paths */
+                    plus.autoSlides(.5);
                     setPathState(-1);
                 }
                 break;
