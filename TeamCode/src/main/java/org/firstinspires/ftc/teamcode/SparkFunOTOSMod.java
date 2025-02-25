@@ -276,18 +276,6 @@ public class SparkFunOTOSMod extends I2cDeviceSynchDevice<I2cDeviceSynch> {
     protected DistanceUnit _distanceUnit;
     protected AngleUnit _angularUnit;
 
-    public SparkFunOTOS(I2cDeviceSynch deviceClient)
-    {
-        // Initialize the base class
-        super(deviceClient, true);
-
-        // Set the I2C address to the default
-        deviceClient.setI2cAddress(I2cAddr.create7bit(DEFAULT_ADDRESS));
-
-        super.registerArmingStateCallback(false);
-        this.deviceClient.engage();
-    }
-
     @Override
     protected boolean doInitialize()
     {
