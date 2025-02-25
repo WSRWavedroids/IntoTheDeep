@@ -236,9 +236,9 @@ public class obzone_zoomzoomTestTest extends OpMode {
      * Everytime the switch changes case, it will reset the timer. (This is because of the setPathState() method)
      * The followPath() function sets the follower to run the specific path, but does NOT wait for it to finish before moving on. */
     public void autonomousPathUpdate() {
-        int aboveBarHeight = 1700;
-        int snapSpecimenHeight = 1185;
-        int wallHeight = 143;
+        int aboveBarHeight = 1460;
+        int snapSpecimenHeight = 1040;
+        int wallHeight = 195;
         switch (pathStateNumber) {
             case 0: //PRELOAD_SCORE_SETUP
                 follower.followPath(scorePreload);
