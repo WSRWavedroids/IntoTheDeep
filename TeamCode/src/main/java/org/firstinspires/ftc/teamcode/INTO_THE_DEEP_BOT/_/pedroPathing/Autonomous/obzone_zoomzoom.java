@@ -78,31 +78,31 @@ public class obzone_zoomzoom extends OpMode {
 
 
     //Make this a pathset to push first sample Go in front of the first sample
-    private final Pose sample1Pos = new Pose(63.9, 24, Math.toRadians(0));
+    private final Pose sample1Pos = new Pose(59, 26, Math.toRadians(0));//63.9
     private final Pose sample1control1 = new Pose(23.70, 55.83, Math.toRadians(0));
     private final Pose sample1control2 = new Pose(28.36, 2, Math.toRadians(0));
     private final Pose Sample1control3 = new Pose(64.25, 54.94, Math.toRadians(0));
     private final Pose pushSample1Pos = new Pose(25.25, 24, Math.toRadians(0));
 
-    private final Pose sample2Pos = new Pose(64.48, 15.5, Math.toRadians(0));
+    private final Pose sample2Pos = new Pose(59, 15.5, Math.toRadians(0));//64.48
     private final Pose sample2control1 = new Pose(63.8, 29.46, Math.toRadians(0));
-    private final Pose pushSample2Pos = new Pose(25.25, 15.5, Math.toRadians(0));
+    private final Pose pushSample2Pos = new Pose(25.25, 15.5, Math.toRadians(0));//x was 25.25
 
     private final Pose controlToGrabPos1 = new Pose(53.39, 15.06, Math.toRadians(0));
     private final Pose controlToGrabPos2 = new Pose(34.2, 32.78, Math.toRadians(180));
     private final Pose preWallGrabPosition = new Pose(18, 24, Math.toRadians(180));
-    private final Pose cycleGrabPosition = new Pose(13, 24, Math.toRadians(180));
+    private final Pose cycleGrabPosition = new Pose(7, 24, Math.toRadians(180));//was 9.4
 
-    private final Pose cycleSwoopControl = new Pose (29.5,30,Math.toRadians(180));
+    private final Pose cycleSwoopControl = new Pose (18,51,Math.toRadians(180));//was 20
 
     private final Pose cycleWallControl1 = new Pose(32,24);
 
     //use these to help cycle
-    private final Pose score1Pos = new Pose(39.25, 62, Math.toRadians(0));
-    private final Pose score2Pos = new Pose(39.5, 64, Math.toRadians(0));
-    private final Pose score3Pos = new Pose(39.25, 66, Math.toRadians(0));
+    private final Pose score1Pos = new Pose(37.5, 62, Math.toRadians(360));//was 39.5
+    private final Pose score2Pos = new Pose(37.5, 64, Math.toRadians(360));
+    private final Pose score3Pos = new Pose(37.5, 66, Math.toRadians(360));
 
-    private final Pose park = new Pose(25, 13, Math.toRadians(0));
+    private final Pose park = new Pose(13, 13, Math.toRadians(0));
 
     /* These are our Paths and PathChains that we will define in buildPaths() */
     private Path scorePreload;
@@ -150,10 +150,11 @@ public class obzone_zoomzoom extends OpMode {
                 .addPath(new BezierLine(new Point(sample2Pos), new Point(pushSample2Pos)))
                 .setLinearHeadingInterpolation(sample2Pos.getHeading(), pushSample2Pos.getHeading())
                 //Go to grab position with bez curve
-                .addPath(new BezierCurve(new Point(pushSample2Pos), new Point(controlToGrabPos1), new Point(controlToGrabPos2), new Point(cycleGrabPosition)))
+                .addPath(new BezierCurve(new Point(pushSample2Pos), new Point(controlToGrabPos1), new Point(controlToGrabPos2), new Point(preWallGrabPosition)))
                 .setLinearHeadingInterpolation(pushSample2Pos.getHeading(), preWallGrabPosition.getHeading())
                 .addPath(new BezierLine(new Point(preWallGrabPosition), new Point(cycleGrabPosition)))
                 .setLinearHeadingInterpolation(preWallGrabPosition.getHeading(), cycleGrabPosition.getHeading())
+
                 .build();
         //finished...yay... mabe
 
@@ -203,13 +204,15 @@ public class obzone_zoomzoom extends OpMode {
      * Everytime the switch changes case, it will reset the timer. (This is because of the setPathState() method)
      * The followPath() function sets the follower to run the specific path, but does NOT wait for it to finish before moving on. */
     public void autonomousPathUpdate() {
-        int aboveBarHeight = 1700;
-        int snapSpecimenHeight = 1185;
-        int wallHeight = 143;
+        int aboveBarHeight = 2040;
+        int snapSpecimenHeight = 1600;
+        int wallHeight = 206;
         switch (pathStateNumber) {
             case 0: //PRELOAD_SCORE_SETUP
-                follower.followPath(scorePreload);
                 plus.moveArmWhileSwoop(aboveBarHeight,1,0);
+                plus.prepareNextAction(.5);
+                follower.followPath(scorePreload);
+
                 setPathState(1);
                 break;
             case 1: //PRELOAD_SCORE_CLICK and _RELEASE
@@ -230,7 +233,7 @@ public class obzone_zoomzoom extends OpMode {
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if(!follower.isBusy()) {
                     /* Score Preload */
-
+                    robot.slidesIn();
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
                     follower.followPath(pushBoth,true);
                     plus.moveArmWhileSwoop(wallHeight,1,0);
@@ -283,7 +286,7 @@ public class obzone_zoomzoom extends OpMode {
             case 8:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup2Pose's position */
                 if(!follower.isBusy()  && actionTimer.getElapsedTimeSeconds() >= 0.5) {
-                    plus.moveArm(aboveBarHeight,1,0);
+                    plus.moveArmWhileSwoop(aboveBarHeight,1,0);
                     /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
                     follower.followPath(Cycle2,true);
                     setPathState(9);
