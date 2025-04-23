@@ -24,8 +24,8 @@ import org.firstinspires.ftc.teamcode.OLD.ChonkRobot;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import java.util.Objects;
 
-public class Record extends LinearOpMode {
-
+public class Record {
+//This is the general record class
 
     public Robot robot;
     public OpMode opmode;
@@ -33,23 +33,29 @@ public class Record extends LinearOpMode {
     public RipConfig rip;
     public TeleOp_Recording recSource;
 
+    //This constructor populates the null scripts once everything is initalized
+    public Record(Robot robot, RipConfig rip, TeleOp_Recording recSource) {
+        this.robot = robot;
+        this.rip = rip;
+        this.recSource = recSource;
 
-    @Override
-    public void runOpMode() throws InterruptedException {robot = new Robot(hardwareMap, telemetry, this);}
+    }
 
-    public void recordMotorTest()
-    {
-        //rip = new RipConfig();
+        public void recordMotorTest() {
         if (rip.ripMotors[0] != null)
         {
-            for (DcMotorEx i: rip.ripMotors) //foreach motor make a line
+            for (DcMotorEx i: rip.ripMotors)
             {
                 recSource.reportToOther(i.getVelocity());
             }
         }
+        }
+
     }
 
 
 
 
-}
+
+
+

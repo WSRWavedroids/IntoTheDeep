@@ -15,13 +15,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
-
 import java.util.Objects;
 
-public class RipConfig extends LinearOpMode {
+public class RipConfig {
 
     public Robot robot;
     public OpMode opmode;
@@ -31,18 +29,18 @@ public class RipConfig extends LinearOpMode {
     public int servoCount = 5; //Max = 12- CRServoCount
     public int CRServoCount = 2; //Max = 12-servoCount
 
-   public  DcMotorEx[] ripMotors = new DcMotorEx[motorCount];
-   public Servo[] ripServos = new Servo[servoCount];
-   public CRServo[] ripCRServos = new CRServo[CRServoCount];
+   public  DcMotorEx[] ripMotors;
+   public Servo[] ripServos;
+   public CRServo[] ripCRServos;
 
-    @Override
-    public void runOpMode() throws InterruptedException  {robot = new Robot(hardwareMap, telemetry, this);}
-
-
-   public void SharedInit()
-           //SharedInit is should run at the start of both auto and recording for consintency.
-           //Copy and paste your autos init here and call this function in that script
+    //Constructor will get values when called so we know its safe
+   public RipConfig(Robot robot)
    {
+       ripMotors = new DcMotorEx[motorCount];
+       ripServos = new Servo[servoCount];
+       ripCRServos = new CRServo[CRServoCount];
+
+       //Now Lets populate them with hardware
 
        //MOTORS
        ripMotors[0] = robot.frontLeftDrive;
@@ -62,6 +60,14 @@ public class RipConfig extends LinearOpMode {
        //CR Servos
        ripCRServos[0] = robot.leftIntake;
        ripCRServos[1] = robot.rightIntake;
+
+   }
+
+   public void SharedInit()
+           //SharedInit is should run at the start of both auto and recording for consintency.
+           //Copy and paste your autos init here and call this function in that script
+   {
+
    }
 
 

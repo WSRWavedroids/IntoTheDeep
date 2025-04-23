@@ -94,7 +94,7 @@ public class TeleOp_Recording extends OpMode {
 
         // Call the initialization protocol from the Robot class.
         robot = new Robot(hardwareMap, telemetry, this);
-        //rip.SharedInit();
+        rip.SharedInit();
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
