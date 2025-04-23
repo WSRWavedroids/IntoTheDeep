@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Riptide;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
@@ -20,20 +21,57 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
 
 import java.util.Objects;
 
-public class RipConfig {
+public class RipConfig extends LinearOpMode {
 
     public Robot robot;
     public OpMode opmode;
     public HardwareMap hardwareMap;
 
-   public  DcMotorEx[] ripMotors = {robot.frontLeftDrive, robot.frontRightDrive, robot.backLeftDrive, robot.backRightDrive};
+    public int motorCount = 6; //Max = 8
+    public int servoCount = 5; //Max = 12- CRServoCount
+    public int CRServoCount = 2; //Max = 12-servoCount
 
-   public Servo[] ripServos = {robot.intakeFlipper, robot.grabbyOutakeServoL, robot.grabbyOutakeServoR, robot.leftSlide, robot.rightSlide};
+   public  DcMotorEx[] ripMotors = new DcMotorEx[motorCount];
+   public Servo[] ripServos = new Servo[servoCount];
+   public CRServo[] ripCRServos = new CRServo[CRServoCount];
 
-   public CRServo[] ripCRServos = {robot.leftIntake, robot.rightIntake}
+    @Override
+    public void runOpMode() throws InterruptedException  {robot = new Robot(hardwareMap, telemetry, this);}
 
 
-    //
+   public void SharedInit()
+           //SharedInit is should run at the start of both auto and recording for consintency.
+           //Copy and paste your autos init here and call this function in that script
+   {
+
+       //MOTORS
+       ripMotors[0] = robot.frontLeftDrive;
+       ripMotors[1] = robot.frontRightDrive;
+       ripMotors[2] = robot.backLeftDrive;
+       ripMotors[3] = robot.backRightDrive;
+       ripMotors[4] = robot.liftyL;
+       ripMotors[5] = robot.liftyR;
+
+       //SERVOS
+       ripServos[0] = robot.intakeFlipper;
+       ripServos[1] = robot.grabbyOutakeServoL;
+       ripServos[2] = robot.grabbyOutakeServoR;
+       ripServos[3] = robot.leftSlide;
+       ripServos[4] = robot.rightSlide;
+
+       //CR Servos
+       ripCRServos[0] = robot.leftIntake;
+       ripCRServos[1] = robot.rightIntake;
+   }
+
+
+   public void EmergencyStop() //If we miss frames lets maybe not kill the robot
+   {
+       for (DcMotorEx i : ripMotors)
+       {
+           i.setPower(0);
+       }
+   }
 
 
 
