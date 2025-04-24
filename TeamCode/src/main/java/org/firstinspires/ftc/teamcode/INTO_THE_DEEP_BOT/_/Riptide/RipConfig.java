@@ -64,7 +64,7 @@ public class RipConfig {
    }
 
    public void SharedInit()
-           //SharedInit is should run at the start of both auto and recording for consintency.
+           //SharedInit is should run at the start of both auto and recording for consistency.
            //Copy and paste your autos init here and call this function in that script
    {
 

@@ -34,21 +34,48 @@ public class Record {
     public TeleOp_Recording recSource;
 
     //This constructor populates the null scripts once everything is initalized
-    public Record(Robot robot, RipConfig rip, TeleOp_Recording recSource) {
+    public Record(Robot robot, RipConfig rip) {
         this.robot = robot;
         this.rip = rip;
-        this.recSource = recSource;
+        //this.recSource = recSource;
 
     }
 
-        public void recordMotorTest() {
+        /*public void recordMotorTest() {
         if (rip.ripMotors[0] != null)
         {
             for (DcMotorEx i: rip.ripMotors)
             {
-                recSource.reportToOther(i.getVelocity());
+                recSource.reportToOther("Motor", i.getDeviceName() , i.getVelocity());
             }
         }
+        }*/
+
+        public void recordFrame()
+        {
+            //Open File to new entry
+
+            //enter date
+
+
+            //Motors
+            for (DcMotorEx i: rip.ripMotors)
+            {
+                recSource.reportToOther("Motor", i.getDeviceName() , i.getVelocity());
+            }
+            //Servos
+            for (Servo i: rip.ripServos)
+            {
+                recSource.reportToOther("Servo", i.getDeviceName() , i.getPosition());
+            }
+            //CR Servo
+            for (CRServo i: rip.ripCRServos)
+            {
+                //need to grab direction
+                //i.getDirection();
+                //and power
+                recSource.reportToOther("CR", i.getDeviceName(), i.getPower());
+            }
         }
 
     }

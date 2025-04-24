@@ -94,6 +94,10 @@ public class TeleOp_Recording extends OpMode {
 
         // Call the initialization protocol from the Robot class.
         robot = new Robot(hardwareMap, telemetry, this);
+
+        //Prepare for a riptide
+        rip = new RipConfig(robot); // give config proper hardwareMap
+        ripRec = new Record(robot, rip); // same with recording
         rip.SharedInit();
 
         // Tell the driver that initialization is complete.
@@ -351,7 +355,7 @@ public class TeleOp_Recording extends OpMode {
         }
         if (gamepad1.triangle && signalNotFired)
         {
-            ripRec.recordMotorTest();
+            ripRec.recordFrame();
             signalNotFired = false;
         }
 
@@ -537,9 +541,9 @@ public class TeleOp_Recording extends OpMode {
         return max;
     }
 
-    public void reportToOther(double velocity)
+    public void reportToOther(String hardwareType, String name, double speed)
     {
-       telemetry.addLine(""+velocity);//lolz
+            telemetry.addLine(name + " " + speed);//lolz
     }
 
 }
