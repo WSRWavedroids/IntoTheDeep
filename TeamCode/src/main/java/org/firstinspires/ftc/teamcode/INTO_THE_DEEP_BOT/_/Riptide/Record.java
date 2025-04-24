@@ -1,34 +1,20 @@
 package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Riptide;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
-import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Teleop.TeleOp_Recording;
-import org.firstinspires.ftc.teamcode.OLD.ChonkRobot;
-
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import java.util.Objects;
 
 public class Record {
 //This is the general record class
 
     public Robot robot;
     public OpMode opmode;
+    public Telemetry telemetry;
     public HardwareMap hardwareMap;
     public RipConfig rip;
     public TeleOp_Recording recSource;
@@ -59,22 +45,23 @@ public class Record {
 
 
             //Motors
+            telemetry.addLine("Motors");
             for (DcMotorEx i: rip.ripMotors)
             {
-                recSource.reportToOther("Motor", i.getDeviceName() , i.getVelocity());
+                telemetry.addLine(i.getDeviceName() + " Velocity is:" + i.getVelocity());
             }
             //Servos
+            telemetry.addLine("Servos");
             for (Servo i: rip.ripServos)
             {
-                recSource.reportToOther("Servo", i.getDeviceName() , i.getPosition());
+                telemetry.addLine(i.getDeviceName() + " Position is:"+ i.getPosition());
+
             }
             //CR Servo
+            telemetry.addLine("CR Servos");
             for (CRServo i: rip.ripCRServos)
             {
-                //need to grab direction
-                //i.getDirection();
-                //and power
-                recSource.reportToOther("CR", i.getDeviceName(), i.getPower());
+                telemetry.addLine(i.getDeviceName() + " Direction is:"+ i.getDirection() + " Power is:"+i.getPower());
             }
         }
 

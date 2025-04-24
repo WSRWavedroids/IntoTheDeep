@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Teleop;
+package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Riptide;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -37,8 +37,6 @@ import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Riptide.Record;
-import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Riptide.RipConfig;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
 
 

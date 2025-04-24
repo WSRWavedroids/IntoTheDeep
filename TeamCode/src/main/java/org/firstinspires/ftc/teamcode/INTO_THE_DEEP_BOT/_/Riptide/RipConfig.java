@@ -23,6 +23,7 @@ public class RipConfig {
 
     public Robot robot;
     public OpMode opmode;
+    public Telemetry telemetry;
     public HardwareMap hardwareMap;
 
     public int motorCount = 6; //Max = 8
@@ -36,6 +37,13 @@ public class RipConfig {
     //Constructor will get values when called so we know its safe
    public RipConfig(Robot robot)
    {
+       this.robot = robot;
+       this.hardwareMap = hardwareMap;
+       this.telemetry = telemetry;
+       this.opmode = opmode;
+
+
+
        ripMotors = new DcMotorEx[motorCount];
        ripServos = new Servo[servoCount];
        ripCRServos = new CRServo[CRServoCount];
@@ -67,17 +75,12 @@ public class RipConfig {
            //SharedInit is should run at the start of both auto and recording for consistency.
            //Copy and paste your autos init here and call this function in that script
    {
+        robot.outakeclawOpenClose("CLOSED");
 
    }
 
 
-   public void EmergencyStop() //If we miss frames lets maybe not kill the robot
-   {
-       for (DcMotorEx i : ripMotors)
-       {
-           i.setPower(0);
-       }
-   }
+
 
 
 
