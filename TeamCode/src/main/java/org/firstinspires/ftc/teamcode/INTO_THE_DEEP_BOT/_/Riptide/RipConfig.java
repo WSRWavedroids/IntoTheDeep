@@ -38,9 +38,6 @@ public class RipConfig {
    public RipConfig(Robot robot)
    {
        this.robot = robot;
-       this.hardwareMap = hardwareMap;
-       this.telemetry = telemetry;
-       this.opmode = opmode;
 
 
 

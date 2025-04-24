@@ -96,7 +96,7 @@ public class TeleOp_Recording extends OpMode {
         //Prepare for a riptide
         rip = new RipConfig(robot); // give config proper hardwareMap
         ripRec = new Record(robot, rip); // same with recording
-        rip.SharedInit();
+        //rip.SharedInit();
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
