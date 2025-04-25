@@ -17,6 +17,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
 public class RipConfig {
@@ -74,6 +77,13 @@ public class RipConfig {
    {
         robot.outakeclawOpenClose("CLOSED");
 
+   }
+
+   public String grabTime()
+   {
+       SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+       Date date = new Date(System.currentTimeMillis()); // or just `new Date()` works too
+       return formatter.format(date);
    }
 
 

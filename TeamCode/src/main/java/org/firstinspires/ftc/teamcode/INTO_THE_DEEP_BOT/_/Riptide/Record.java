@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.ftccommon.internal.manualcontrol.commands.AnalogCommands;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
 
@@ -40,9 +41,7 @@ public class Record {
         public void recordFrame()
         {
             //Open File to new entry
-
-            //enter date
-
+            telemetry.addLine(rip.grabTime());
 
             //Motors
             telemetry.addLine("Motors");
@@ -63,7 +62,11 @@ public class Record {
             {
                 telemetry.addLine(i.getDeviceName() + " Direction is:"+ i.getDirection() + " Power is:"+i.getPower());
             }
+
+            telemetry.addLine("Yay No Errors");
         }
+
+
 
     }
 
