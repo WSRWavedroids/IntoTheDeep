@@ -354,6 +354,7 @@ public class TeleOp_Recording extends OpMode {
         if (gamepad1.triangle && signalNotFired)
         {
             ripRec.recordFrame();
+            telemetry.addLine(rip.grabTime());
             signalNotFired = false;
         }
 

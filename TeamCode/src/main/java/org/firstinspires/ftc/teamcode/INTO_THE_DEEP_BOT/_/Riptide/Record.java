@@ -24,19 +24,15 @@ public class Record {
     public Record(Robot robot, RipConfig rip) {
         this.robot = robot;
         this.rip = rip;
+        this.telemetry = robot.telemetry;
+        this.hardwareMap = robot.hardwareMap;
+        this.opmode = robot.opmode;
+
         //this.recSource = recSource;
 
     }
 
-        /*public void recordMotorTest() {
-        if (rip.ripMotors[0] != null)
-        {
-            for (DcMotorEx i: rip.ripMotors)
-            {
-                recSource.reportToOther("Motor", i.getDeviceName() , i.getVelocity());
-            }
-        }
-        }*/
+
 
         public void recordFrame()
         {

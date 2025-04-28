@@ -41,7 +41,9 @@ public class RipConfig {
    public RipConfig(Robot robot)
    {
        this.robot = robot;
-
+       this.telemetry = robot.telemetry;
+       this.hardwareMap = robot.hardwareMap;
+       this.opmode = robot.opmode;
 
 
        ripMotors = new DcMotorEx[motorCount];
