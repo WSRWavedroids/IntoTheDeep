@@ -63,6 +63,10 @@ public class TeleOp_Recording extends OpMode {
     // This section tells the program all of the different pieces of hardware that are on our robot that we will use in the program.
     private ElapsedTime runtime = new ElapsedTime();
     private double speed = 0.75;
+
+    public ElapsedTime frameTimer;
+    public boolean isRecording = false;
+    double lastFrameTime = 0;
     //private double storedSpeed;
     public Robot robot = null;
     public RipConfig rip;
@@ -97,6 +101,7 @@ public class TeleOp_Recording extends OpMode {
         rip = new RipConfig(robot); // give config proper hardwareMap
         ripRec = new Record(robot, rip); // same with recording
         //rip.SharedInit();
+        frameTimer = new ElapsedTime();
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -351,12 +356,12 @@ public class TeleOp_Recording extends OpMode {
         {
             robot.outakeclawOpenClose("OPEN");
         }
-        if (gamepad1.triangle && signalNotFired)
+        if (gamepad1.triangle && isRecording == false)
         {
-            ripRec.recordFrame();
-            telemetry.addLine(rip.grabTime());
-            signalNotFired = false;
+            prepRecording();
         }
+
+        checkToRecord();
 
         //Transfer Sequence Switch Statement (Added by Claire)
 
@@ -540,9 +545,40 @@ public class TeleOp_Recording extends OpMode {
         return max;
     }
 
-    public void reportToOther(String hardwareType, String name, double speed)
+    public void prepRecording ()
     {
-            telemetry.addLine(name + " " + speed);//lolz
+        rip.SharedInit();
+        ElapsedTime countdown = new ElapsedTime();
+        countdown.reset();
+
+        while(countdown.seconds() < 5.0)
+        {
+            telemetry.addData("Recording Starts In: ", 5-countdown.seconds());
+        }
+
+        ripRec.fileName = ("Recording: " + rip.grabTime());
+
+        gamepad1.rumble(500);
+        gamepad2.rumble(500);
+
+        frameTimer.reset();
+        ripRec.recordFrame();
+
+
+        //
+        checkToRecord();
+
+
+    }
+
+    public void checkToRecord()
+    {
+        double currentTime = frameTimer.seconds();
+        if(isRecording && currentTime-lastFrameTime >=0.02 && ripRec.acceptingFrames)
+        {
+            ripRec.recordFrame();
+            lastFrameTime = currentTime;
+        }
     }
 
 }

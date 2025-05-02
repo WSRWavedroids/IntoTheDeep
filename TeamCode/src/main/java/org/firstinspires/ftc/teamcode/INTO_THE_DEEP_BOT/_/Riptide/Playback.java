@@ -5,7 +5,14 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import org.json.JSONObject;
+import java.util.List;
+import java.util.ArrayList;
+import java.io.FileWriter;
+import java.io.IOException;
 
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
 
 public class Playback {
@@ -13,6 +20,7 @@ public class Playback {
 
     public Robot robot;
     public OpMode opmode;
+    public Telemetry telemetry;
     public HardwareMap hardwareMap;
     public RipConfig rip;
     public TeleOp_Recording recSource;
@@ -20,7 +28,9 @@ public class Playback {
     //This constructor populates the null scripts once everything is initalized
     public Playback(Robot robot, RipConfig rip) {
         this.robot = robot;
-        this.rip = rip;
+        this.telemetry = robot.telemetry;
+        this.hardwareMap = robot.hardwareMap;
+        this.opmode = robot.opmode;
         //this.recSource = recSource;
 
     }

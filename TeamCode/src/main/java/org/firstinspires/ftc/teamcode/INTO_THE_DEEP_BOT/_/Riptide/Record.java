@@ -6,6 +6,13 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.json.JSONObject;
+import java.util.List;
+import java.util.ArrayList;
+import java.io.FileWriter;
+import java.io.IOException;
+
+
 import org.firstinspires.ftc.ftccommon.internal.manualcontrol.commands.AnalogCommands;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
@@ -20,6 +27,10 @@ public class Record {
     public RipConfig rip;
     public TeleOp_Recording recSource;
 
+    public int framesIn = 1;
+    public String fileName;
+    public boolean acceptingFrames;
+
     //This constructor populates the null scripts once everything is initalized
     public Record(Robot robot, RipConfig rip) {
         this.robot = robot;
@@ -33,11 +44,16 @@ public class Record {
     }
 
 
+        public void startRecording()
+        {
+            fileName = ("Recording: " + rip.grabTime());
+            recordFrame();
+        }
 
         public void recordFrame()
         {
             //Open File to new entry
-            telemetry.addLine(rip.grabTime());
+            telemetry.addLine("Current Frame: " + framesIn);
 
             //Motors
             telemetry.addLine("Motors");
@@ -59,8 +75,12 @@ public class Record {
                 telemetry.addLine(i.getDeviceName() + " Direction is:"+ i.getDirection() + " Power is:"+i.getPower());
             }
 
-            telemetry.addLine("Yay No Errors");
+            telemetry.update();
+
+            framesIn++;
         }
+
+
 
 
 
