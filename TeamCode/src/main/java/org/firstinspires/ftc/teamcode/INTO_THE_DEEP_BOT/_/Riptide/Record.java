@@ -9,8 +9,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.json.JSONObject;
 import java.util.List;
 import java.util.ArrayList;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import android.os.Environment;
 
 
 import org.firstinspires.ftc.ftccommon.internal.manualcontrol.commands.AnalogCommands;
@@ -30,6 +32,10 @@ public class Record {
     public int framesIn = 1;
     public String fileName;
     public boolean acceptingFrames;
+
+    public List<Frame> cachedFrames;
+
+    public File File;
 
     //This constructor populates the null scripts once everything is initalized
     public Record(Robot robot, RipConfig rip) {
@@ -52,6 +58,11 @@ public class Record {
 
         public void recordFrame()
         {
+            long timeStamp = System.currentTimeMillis();
+            Frame frame = new Frame(framesIn, timeStamp);
+
+
+
             //Open File to new entry
             telemetry.addLine("Current Frame: " + framesIn);
 
@@ -59,6 +70,8 @@ public class Record {
             telemetry.addLine("Motors");
             for (DcMotorEx i: rip.ripMotors)
             {
+                //String name = motor.getDeviceName();
+                //
                 telemetry.addLine(i.getDeviceName() + " Velocity is:" + i.getVelocity());
             }
             //Servos
@@ -66,25 +79,67 @@ public class Record {
             for (Servo i: rip.ripServos)
             {
                 telemetry.addLine(i.getDeviceName() + " Position is:"+ i.getPosition());
-
+                //
+                //
             }
             //CR Servo
             telemetry.addLine("CR Servos");
             for (CRServo i: rip.ripCRServos)
             {
+                //
+                //
                 telemetry.addLine(i.getDeviceName() + " Direction is:"+ i.getDirection() + " Power is:"+i.getPower());
             }
 
+            //*cachedFrames.add(frame);
+
+            // Feedback
+            //telemetry.addLine("Cached Frame: " + framesIn);
             telemetry.update();
 
             framesIn++;
+        }
+
+        public void dumpRecording(String fileName, String jsonString)
+        {
+            try {
+                // Make sure the filename ends with .json
+                if (!fileName.endsWith(".json")) {
+                    fileName += ".json";
+                }
+
+                // Get external storage directory
+                File path = new File(Environment.getExternalStorageDirectory(), "recordings");
+
+                // Make sure the recordings folder exists
+                if (!path.exists()) {
+                    path.mkdirs();
+                }
+
+                // Create the file
+                File file = new File(path, fileName);
+
+                // Write to the file
+                FileWriter writer = new FileWriter(file);
+                writer.write(jsonString);
+                writer.close();
+
+                telemetry.addLine("Recording saved to: " + file.getAbsolutePath());
+
+            } catch (IOException e) {
+                telemetry.addLine("Failed to write file: " + e.getMessage());
+            }
+
+            telemetry.update();
+        }
         }
 
 
 
 
 
-    }
+
+
 
 
 
