@@ -36,6 +36,31 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import com.google.gson.Gson;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
+
+import org.json.JSONObject;
+import java.util.List;
+import java.util.ArrayList;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import android.os.Environment;
+
+
+import java.util.ArrayList;
+import java.util.List;
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.firstinspires.ftc.ftccommon.internal.manualcontrol.commands.AnalogCommands;
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
 
@@ -360,8 +385,12 @@ public class TeleOp_Recording extends OpMode {
         {
             prepRecording();
         }
+        else if (gamepad1.triangle && isRecording == true && signalNotFired)
+        {
+            endRecording();
+        }
 
-        checkToRecord();
+
 
         //Transfer Sequence Switch Statement (Added by Claire)
 
@@ -437,6 +466,7 @@ public class TeleOp_Recording extends OpMode {
         if (gamepad2.y && auxState != AuxState.NORMAL_OPS) {
           auxState = AuxState.NORMAL_OPS;
         }
+        checkToRecord();
 
     }
 
@@ -553,6 +583,7 @@ public class TeleOp_Recording extends OpMode {
 
         while(countdown.seconds() < 5.0)
         {
+            robot.stopAllMotors();
             telemetry.addData("Recording Starts In: ", 5-countdown.seconds());
         }
 
@@ -562,11 +593,11 @@ public class TeleOp_Recording extends OpMode {
         gamepad2.rumble(500);
 
         frameTimer.reset();
-        ripRec.recordFrame();
+        ripRec.startRecording();
+        isRecording = true;
 
 
-        //
-        checkToRecord();
+
 
 
     }
@@ -579,6 +610,12 @@ public class TeleOp_Recording extends OpMode {
             ripRec.recordFrame();
             lastFrameTime = currentTime;
         }
+    }
+
+    public void endRecording()
+    {
+        ripRec.endRecording();
+        isRecording = false;
     }
 
 }
