@@ -56,7 +56,7 @@ public class Record {
         this.hardwareMap = robot.hardwareMap;
         this.opmode = robot.opmode;
         this.cachedFrames = new ArrayList<>();
-        //this.recSource = recSource;
+        this.recSource = recSource;
 
     }
 
@@ -163,6 +163,7 @@ public class Record {
         public void endRecording()
         {
             acceptingFrames = false;
+
             for (DcMotorEx i: rip.ripMotors)
             {
                 i.setPower(0);
@@ -171,7 +172,7 @@ public class Record {
             {
                 i.setPower(0);
             }
-
+            recSource.isRecording = false;
             dumpRecording();
 
         }
