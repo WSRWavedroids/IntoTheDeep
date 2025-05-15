@@ -69,7 +69,7 @@ public class Record {
             recordTimeLimit.reset();
         }
 
-        public void recordFrame()
+        public void recordFrame() //Adds frames to cache
         {
             if(recordTimeLimit.seconds() > 30 && acceptingFrames || framesIn > 1501)
             {
@@ -122,7 +122,7 @@ public class Record {
 
         }
 
-        public void dumpRecording()
+        public void dumpRecording() //Takes memory cache and dumps to file. This takes about 100ms so it will mess up the loop if done live
         {
             Gson gson = new Gson();
             String jsonString = gson.toJson(cachedFrames);
@@ -172,7 +172,7 @@ public class Record {
             {
                 i.setPower(0);
             }
-            recSource.isRecording = false;
+            //recSource.isRecording = false;
             dumpRecording();
 
         }

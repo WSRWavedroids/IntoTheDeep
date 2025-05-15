@@ -81,7 +81,7 @@ public class RipConfig {
 
    }
 
-   public String grabTime()
+   public String grabTime() //Gets the current date and time for naming the file
    {
        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
        Date date = new Date(System.currentTimeMillis()); // or just `new Date()` works too

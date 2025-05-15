@@ -55,13 +55,9 @@ public class Playback {
         this.opmode = robot.opmode;
         this.file = file;
         this.cachedFrames = new ArrayList<>();
-
-
     }
 
-
-
-    public void cacheFile()
+    public void cacheFile() //We need to save the entire file to memory during init to help processing time
     {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -75,7 +71,7 @@ public class Playback {
         }
     }
 
-    public void runFrames(int start, int end)
+    public void runFrames(int start, int end) //Times frames and sends data to commander
     {
         currentFrame = start;
         frameTimer.reset();
@@ -89,7 +85,7 @@ public class Playback {
         }
     }
 
-    void commandHardware(Frame current)
+    void commandHardware(Frame current) // Receives data and commands hardware for frame
     {
         for (Frame.MotorData motorData : current.motors) {
             for (DcMotorEx motor : rip.ripMotors) {
