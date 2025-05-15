@@ -91,6 +91,7 @@ public class Record {
                 {
                     String name = i.getDeviceName();
                     double velocity = i.getVelocity();
+                    frame.motors.add(new Frame.MotorData(name, velocity));
                     telemetry.addLine(i.getDeviceName() + " Velocity is:" + i.getVelocity());
                 }
                 //Servos
@@ -100,6 +101,7 @@ public class Record {
                     telemetry.addLine(i.getDeviceName() + " Position is:"+ i.getPosition());
                     String name = i.getDeviceName();
                     double position = i.getPosition();
+                    frame.servos.add(new Frame.ServoData(name, position));
                 }
                 //CR Servo
                 telemetry.addLine("CR Servos");
@@ -109,6 +111,7 @@ public class Record {
                     String direction = i.getDirection().toString(); // FORWARD or REVERSE
                     double power = i.getPower();
                     telemetry.addLine(i.getDeviceName() + " Direction is:"+ i.getDirection() + " Power is:"+i.getPower());
+                    frame.crServos.add(new Frame.CRServoData(name, direction, power));
                 }
 
                 cachedFrames.add(frame);
