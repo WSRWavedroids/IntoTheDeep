@@ -24,7 +24,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.prefs.BackingStoreException;
-
+import android.os.Environment;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
@@ -53,7 +53,7 @@ public class Playback {
         this.telemetry = robot.telemetry;
         this.hardwareMap = robot.hardwareMap;
         this.opmode = robot.opmode;
-        this.file = file;
+        //this.file = file;
         this.cachedFrames = new ArrayList<>();
     }
 
@@ -65,6 +65,8 @@ public class Playback {
             Frame[] framesArray = gson.fromJson(reader, Frame[].class);
             cachedFrames = new ArrayList<>(Arrays.asList(framesArray));
             reader.close();
+            telemetry.addLine("Done loading");
+            telemetry.update();
         } catch (IOException e) {
             telemetry.addLine("Failed to load recording: " + e.getMessage());
             telemetry.update();
@@ -87,42 +89,50 @@ public class Playback {
 
     void commandHardware(Frame current) // Receives data and commands hardware for frame
     {
-        for (Frame.MotorData motorData : current.motors) {
-            for (DcMotorEx motor : rip.ripMotors) {
-                if (motor.getDeviceName().equals(motorData.name)) {
-                    // You probably want to use velocity control, but this example sets power
-                    motor.setVelocity(motorData.velocity);
-                    break;
-                }
-            }
+        if (current == null)
+        {
+            EmergencyStop();
         }
-
-        for (Frame.ServoData servoData : current.servos) {
-            for (Servo servo : rip.ripServos) {
-                if (servo.getDeviceName().equals(servoData.name)) {
-                    servo.setPosition(servoData.position);
-                    break;
-                }
-            }
-        }
-
-        for (Frame.CRServoData crServoData : current.crServos) {
-            for (CRServo crServo : rip.ripCRServos) {
-                if (crServo.getDeviceName().equals(crServoData.name)) {
-                    if (crServoData.direction == "FORWARD")
-                    {
-                        crServo.setDirection(DcMotorSimple.Direction.FORWARD);
+        else
+        {
+            for (Frame.MotorData motorData : current.motors) {
+                for (DcMotorEx motor : rip.ripMotors) {
+                    if (motor.getDeviceName().equals(motorData.name)) {
+                        // You probably want to use velocity control, but this example sets power
+                        motor.setVelocity(motorData.velocity);
+                        break;
                     }
-                    else
-                    {
-                        crServo.setDirection(DcMotorSimple.Direction.FORWARD);
-                    }
-                    crServo.setPower(crServoData.power);
-                    break;
+                }
+            }
 
+            for (Frame.ServoData servoData : current.servos) {
+                for (Servo servo : rip.ripServos) {
+                    if (servo.getDeviceName().equals(servoData.name)) {
+                        servo.setPosition(servoData.position);
+                        break;
+                    }
+                }
+            }
+
+            for (Frame.CRServoData crServoData : current.crServos) {
+                for (CRServo crServo : rip.ripCRServos) {
+                    if (crServo.getDeviceName().equals(crServoData.name)) {
+                        if (crServoData.direction == "FORWARD")
+                        {
+                            crServo.setDirection(DcMotorSimple.Direction.FORWARD);
+                        }
+                        else
+                        {
+                            crServo.setDirection(DcMotorSimple.Direction.FORWARD);
+                        }
+                        crServo.setPower(crServoData.power);
+                        break;
+
+                    }
                 }
             }
         }
+
     }
 
     public void EmergencyStop() //If we miss frames lets maybe not kill the robot
@@ -136,6 +146,13 @@ public class Playback {
             i.setPower(0);
         }
     }
+
+    public void getRecordingFile(String fileName)
+    {
+        File dir = new File(Environment.getExternalStorageDirectory(), "FIRST/recordings");
+        file = dir;
+    }
+
     }
 
 
