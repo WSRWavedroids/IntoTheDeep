@@ -75,16 +75,22 @@ public class Playback {
 
     public void runFrames(int start, int end) //Times frames and sends data to commander
     {
+        isPlaying = true;
         currentFrame = start;
         frameTimer.reset();
 
         double currentTime = frameTimer.seconds();
-        if(isPlaying && currentTime-lastFrameTime >=0.02 && currentFrame <= end)
+
+        while (isPlaying && currentFrame<=end)
         {
-            commandHardware(cachedFrames.get(currentFrame));
-            lastFrameTime = currentTime;
-            currentFrame++;
+            if(currentTime-lastFrameTime >= 0.02)
+            {
+                commandHardware(cachedFrames.get(currentFrame));
+                lastFrameTime = currentTime;
+                currentFrame++;
+            }
         }
+
     }
 
     void commandHardware(Frame current) // Receives data and commands hardware for frame
