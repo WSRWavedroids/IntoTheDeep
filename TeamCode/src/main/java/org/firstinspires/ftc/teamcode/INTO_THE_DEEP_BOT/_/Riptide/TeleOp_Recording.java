@@ -404,6 +404,7 @@ public class TeleOp_Recording extends OpMode {
                 if (gamepad2.y){
                     robot.tempOutakePos("DOWN");
 
+
                     canManuallyControlVerticalSlides = false;
 
                     robot.liftyL.setPower(1);
@@ -595,11 +596,6 @@ public class TeleOp_Recording extends OpMode {
         frameTimer.reset();
         ripRec.startRecording();
         isRecording = true;
-
-
-
-
-
     }
 
     public void checkToRecord()
@@ -616,6 +612,8 @@ public class TeleOp_Recording extends OpMode {
     {
         ripRec.endRecording();
         isRecording = false;
+        signalNotFired = true;
     }
+
 
 }
