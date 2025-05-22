@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.Riptide;
 
+import android.os.Environment;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import java.io.File;
@@ -14,17 +16,21 @@ public class Test extends AutonomousPLUS {
     public String target;
     public RipConfig rip;
     public Playback playback;
-    public File file = null;// need to get path to working file
+    ///public File file = null;// need to get path to working file
 
 
     public void runOpMode() {
 
+
+
+
         super.runOpMode();
 
+        //file = new File(Environment.getExternalStorageDirectory(), "FIRST/recordings/2025-05-20_19-20-21.json");
         //Initalize the scripts, then set the file via this script
         rip = new RipConfig(robot);
-        playback = new Playback(robot,rip, file);
-        playback.getRecordingFile(" 2025-05-13_20-46-40.json");
+        playback = new Playback(robot,rip);
+        playback.setRecordingFile("2025-05-20_19-20-21.json");
         playback.cacheFile();
 
         waitForStart();

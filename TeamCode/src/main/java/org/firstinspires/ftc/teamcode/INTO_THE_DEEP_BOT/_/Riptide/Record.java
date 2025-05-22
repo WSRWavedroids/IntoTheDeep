@@ -175,7 +175,7 @@ public class Record {
             {
                 i.setPower(0);
             }
-            recSource.isRecording = false;
+            //recSource.isRecording = false;
             dumpRecording();
 
         }

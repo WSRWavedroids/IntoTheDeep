@@ -24,6 +24,7 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.prefs.BackingStoreException;
+
 import android.os.Environment;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -48,13 +49,15 @@ public class Playback {
     public List<Frame> cachedFrames;
 
     //This constructor populates the null scripts once everything is initalized
-    public Playback(Robot robot, RipConfig rip, File file) {
+    public Playback(Robot robot, RipConfig rip) {
         this.robot = robot;
+        this.rip = rip;
         this.telemetry = robot.telemetry;
         this.hardwareMap = robot.hardwareMap;
         this.opmode = robot.opmode;
         //this.file = file;
         this.cachedFrames = new ArrayList<>();
+        this.frameTimer = new ElapsedTime();
     }
 
     public void cacheFile() //We need to save the entire file to memory during init to help processing time
@@ -153,10 +156,10 @@ public class Playback {
         }
     }
 
-    public void getRecordingFile(String fileName)
-    {
-        File dir = new File(Environment.getExternalStorageDirectory(), "FIRST/recordings");
-        file = dir;
+    public void setRecordingFile(String fileName) {
+        File dir = new File(Environment.getExternalStorageDirectory(), "/FIRST/recordings");
+        if (!dir.exists()) dir.mkdirs();
+        this.file = new File(dir, fileName);
     }
 
     }
