@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Autonomous;
+package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous;
 
 /*
     SPDX-License-Identifier: MIT
@@ -12,9 +12,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
 
 /*

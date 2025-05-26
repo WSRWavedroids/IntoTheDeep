@@ -1,12 +1,13 @@
-package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Autonomous.Red;
+package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.Red;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Autonomous.AutonomousPLUS;
+import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPLUS;
+
 @Disabled
 @Autonomous(group = "Basic", name = "Red Basic Net Zone")
-public class RedBasicNetZone extends AutonomousPLUS {
+public class RedBasicNetZone extends AutonomousPLUS.AutonomousPLUS {
 
     public String currentPosition;
     public String target;

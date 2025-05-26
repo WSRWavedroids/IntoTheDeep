@@ -29,7 +29,6 @@ package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous;
  */
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -55,12 +54,12 @@ public class AutonomousPLUS extends LinearOpMode {
     public double slidePos;
 
     //DO NOT DELETE THIS LINE! CAPITALIZATION IS VERY IMPORTANT!!!
-    public Robot robot;
+    public org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot robot = null;
 
     public AutonomousPLUS(){
         robot = new Robot(hardwareMap, telemetry, this);
     }
-
+    @Override
     public void runOpMode() {
         robot = new Robot(hardwareMap, telemetry, this);
     }
@@ -375,8 +374,8 @@ public class AutonomousPLUS extends LinearOpMode {
 
     public void pickupSample(int pickupTime, long pause) {
         // REQUIREMENTS TO USE FUNCTION (plz don't ignore):
-        // Needs a wait before the function if the most recent movement was the slides
-        // Function can't run until the servos get over their start-of-auto crisis (about 2.5 seconds). This is really obscure, but it might be a problem for somebody someday.
+            // Needs a wait before the function if the most recent movement was the slides
+            // Function can't run until the servos get over their start-of-auto crisis (about 2.5 seconds). This is really obscure, but it might be a problem for somebody someday.
         double distance = robot.rightSlide.getPosition() + .20;
         robot.intake_spin(.75);
         prepareNextAction(100);
@@ -390,7 +389,6 @@ public class AutonomousPLUS extends LinearOpMode {
         prepareNextAction(pause);
     }
     public void prepareAuto() {
-        //robot = new Robot(hardwareMap, telemetry, this);
         robot.liftyL.setPower(0);
         robot.liftyR.setPower(0);
         robot.intakePosition("UP");
@@ -398,13 +396,13 @@ public class AutonomousPLUS extends LinearOpMode {
         robot.slidesIn();
         //CHASE WAS HERE ;)
         robot.outakeclawOpenClose("CLOSED");
-        /*robot.frontLeftDrive.setTargetPositionTolerance(12);
+        robot.frontLeftDrive.setTargetPositionTolerance(12);
         robot.frontRightDrive.setTargetPositionTolerance(12);
         robot.backLeftDrive.setTargetPositionTolerance(12);
-        robot.backRightDrive.setTargetPositionTolerance(12);*/
+        robot.backRightDrive.setTargetPositionTolerance(12);
         robot.liftyL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.liftyR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //robot.encoderReset();
+        robot.encoderReset();
     }
 
     public void setMotorTolerance(int ticks) {
@@ -487,4 +485,11 @@ public class AutonomousPLUS extends LinearOpMode {
 
         }
     }*/
+
+    /**
+     * This is the autonomous mode. It moves the robot without us having to touch the controller.
+     * Previous programmers really sucked at explaining what any of this meant, so we're trying to do better.
+     * This is our third year now of using this file. It's kind of poetic and also adorable.
+     */
+
 }

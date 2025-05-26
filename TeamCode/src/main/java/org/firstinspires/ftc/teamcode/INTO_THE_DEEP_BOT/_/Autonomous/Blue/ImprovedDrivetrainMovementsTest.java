@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Autonomous.Blue;
+package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.Blue;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Autonomous.AutonomousPLUS;
+import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPLUS;
 
 @Autonomous(group = "Basic", name = "Improved Movements?")
 public class ImprovedDrivetrainMovementsTest extends AutonomousPLUS {
