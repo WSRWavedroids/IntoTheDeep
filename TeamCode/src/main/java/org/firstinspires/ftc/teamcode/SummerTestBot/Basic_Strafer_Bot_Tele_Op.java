@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Outreach;
+package org.firstinspires.ftc.teamcode.SummerTestBot;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -58,7 +58,7 @@ public class Basic_Strafer_Bot_Tele_Op extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private double speed = 0.75;
     //private double storedSpeed;
-    public org.firstinspires.ftc.teamcode.Outreach.Basic_Strafer_Bot Bot = new Basic_Strafer_Bot();
+    public Basic_Strafer_Bot Bot = new Basic_Strafer_Bot();
 
     /*
      * Code to run ONCE when the driver hits INIT

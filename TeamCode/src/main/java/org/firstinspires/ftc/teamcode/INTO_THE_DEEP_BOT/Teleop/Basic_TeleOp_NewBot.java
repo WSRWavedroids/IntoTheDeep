@@ -27,7 +27,8 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Teleop;
+package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Teleop;
+//package edu.wpi.first.wpilibj;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
@@ -37,8 +38,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.IMU;
 
+
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Robot;
+import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
 
 
 /**
@@ -68,6 +71,19 @@ public class Basic_TeleOp_NewBot extends OpMode {
     public Robot robot = null;
     public IMU imu;
 
+    public enum AuxState {
+        VERTS_IN,
+        LINEARS_IN,
+        OUTTAKING,
+        RESETTING,
+        NORMAL_OPS
+    }
+
+    public boolean canManuallyControlVerticalSlides = true;
+
+    AuxState auxState = AuxState.NORMAL_OPS;
+    ElapsedTime outtakeTimer = new ElapsedTime();
+
     //public SparkFunOTOS sparky = hardwareMap.get(SparkFunOTOS.class, "sparkFunSparkJoy"); // Field Centric IMU is garbage
     /*
      * Code to run ONCE when the driver hits INIT
@@ -80,10 +96,12 @@ public class Basic_TeleOp_NewBot extends OpMode {
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
 
+        outtakeTimer.reset();
+
         if (robot.controlMode=="Field Centric")
         {
 
-              imu = hardwareMap.get(IMU.class, "imu");
+            imu = hardwareMap.get(IMU.class, "imu");
             IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
                     RevHubOrientationOnRobot.LogoFacingDirection.UP,
                     RevHubOrientationOnRobot.UsbFacingDirection.RIGHT)); //Forward = left fsr
@@ -120,6 +138,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
         singleJoystickDrive();
         // This little section updates the driver hub on the runtime and the motor powers.
         // It's mostly used for troubleshooting.
+        telemetry.addData("Aux State", auxState);
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         robot.tellMotorOutput();
 
@@ -134,10 +153,14 @@ public class Basic_TeleOp_NewBot extends OpMode {
             if (robot.controlMode == "Robot Centric"){
                 robot.controlMode = "Field Centric";
                 telemetry.addData("Control Mode", "Field Centric Controls");
-            } else if (robot.controlMode == "Field Centric"){
+            } else if (robot.controlMode == "Field Centric") {
                 robot.controlMode = "Robot Centric";
                 telemetry.addData("Control Mode", "Robot Centric Controls");
             }
+        }
+
+        if (gamepad1.options && robot.controlMode == "Field Centric") {
+            imu.resetYaw();
         }
 
         if (gamepad1.dpad_up || gamepad1.right_trigger >= 0.5) {
@@ -149,6 +172,15 @@ public class Basic_TeleOp_NewBot extends OpMode {
         } else if (gamepad1.dpad_right) {
             speed = 0.75;
         }
+
+        if(gamepad1.touchpad)
+        {
+            robot.tempOutakePos("MOREUP");
+        }
+
+
+        telemetry.addData("Trackpad X", gamepad1.touchpad_finger_1_x);
+        telemetry.addData("Trackpad Y", gamepad1.touchpad_finger_1_y);
 
         if (speed == 1) {
             telemetry.addData("Speed", "Fast Boi");
@@ -176,48 +208,48 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
         //A bunch of slide nonsense. PLS don't touch unless u know what ur doing
         int liftyTopLimit = 4100;//temp value
-        int liftyBottomLimit = -20;//temp value
-            int liftyGoControlerVal = robot.liftyL.getCurrentPosition() - ((int) armStickY * 260);
-            robot.liftyR.setPower(1);
-            robot.liftyL.setPower(1);
+        int liftyBottomLimit = 116;//temp value
+        int liftyGoControlerVal = robot.liftyL.getCurrentPosition() - ((int) armStickY * 260);
+        robot.liftyR.setPower(1);
+        robot.liftyL.setPower(1);
 
-            //This needs tested. If a button is pressed but stick isn't, go to preset 1 or 2
-            if (Math.abs(gamepad2.left_stick_y) < 0.1 && gamepad2.left_stick_button)
+        //This needs tested. If a button is pressed but stick isn't, go to preset 1 or 2
+        if (Math.abs(gamepad2.left_stick_y) < 0.2 && gamepad2.left_stick_button)
+        {
+            //Wall Position
+            robot.liftyL.setTargetPosition(206);
+            robot.liftyR.setTargetPosition(206);//inverted
+            if(robot.liftyL.getCurrentPosition() > 329 && robot.liftyL.getCurrentPosition() < 349)
             {
-                //Wall Position
-                robot.liftyL.setTargetPosition(143);
-                robot.liftyR.setTargetPosition(143);
-                if(robot.liftyL.getCurrentPosition() > 133 && robot.liftyL.getCurrentPosition() < 153)
-                {
-                    gamepad2.rumble(500);
-                }
+                gamepad2.rumble(500);
             }
-            else if(Math.abs(gamepad2.left_stick_y) < 0.1 && gamepad2.dpad_up)
+        }
+        else if(Math.abs(gamepad2.left_stick_y) < 0.2 && gamepad2.dpad_right)
+        {
+            robot.liftyL.setTargetPosition(2500);
+            robot.liftyR.setTargetPosition(2500);
+            if(robot.liftyL.getCurrentPosition() > 2490 && robot.liftyL.getCurrentPosition() < 2510)
             {
-                robot.liftyL.setTargetPosition(1901);
-                robot.liftyR.setTargetPosition(1901);
-                if(robot.liftyL.getCurrentPosition() > 1891 && robot.liftyL.getCurrentPosition() < 1911)
-                {
-                    gamepad2.rumble(500);
-                }
+                gamepad2.rumble(500);
             }
-            else
-            {
-                //if not going to preset positions, use the left stick
-                robot.liftyR.setTargetPosition(liftyGoControlerVal);
-                robot.liftyL.setTargetPosition(liftyGoControlerVal);
-            }
-            //Limits
-            if (robot.liftyL.getCurrentPosition() > liftyTopLimit || liftyGoControlerVal > liftyTopLimit) {
-                robot.liftyR.setTargetPosition(liftyTopLimit);
-                robot.liftyL.setTargetPosition(liftyTopLimit);
-            } else if (robot.liftyL.getCurrentPosition() < liftyBottomLimit || liftyGoControlerVal < liftyBottomLimit) {
-                robot.liftyR.setTargetPosition(liftyBottomLimit);
-                robot.liftyL.setTargetPosition(liftyBottomLimit);
-            }
-            //Go to Targets
-            robot.liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+        else if (canManuallyControlVerticalSlides)
+        {
+            //if not going to preset positions, use the left stick
+            robot.liftyR.setTargetPosition(liftyGoControlerVal);
+            robot.liftyL.setTargetPosition(liftyGoControlerVal);
+        }
+        //Limits
+        if (robot.liftyL.getCurrentPosition() > liftyTopLimit || liftyGoControlerVal > liftyTopLimit) {
+            robot.liftyR.setTargetPosition(liftyTopLimit);
+            robot.liftyL.setTargetPosition(liftyTopLimit);
+        } else if (robot.liftyL.getCurrentPosition() < liftyBottomLimit || liftyGoControlerVal < liftyBottomLimit) {
+            robot.liftyR.setTargetPosition(liftyBottomLimit);
+            robot.liftyL.setTargetPosition(liftyBottomLimit);
+        }
+        //Go to Targets
+        robot.liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
 
@@ -269,11 +301,11 @@ public class Basic_TeleOp_NewBot extends OpMode {
         }
         else if (gamepad2.y)
         {
-            robot.frontLeftDrive.setPower(0);
-            robot.backLeftDrive.setPower(0);
-            robot.frontRightDrive.setPower(0);
-            robot.backRightDrive.setPower(0);
-            robot.TransferSequence();
+            //robot.frontLeftDrive.setPower(0);
+            //robot.backLeftDrive.setPower(0);
+            //robot.frontRightDrive.setPower(0);
+            //robot.backRightDrive.setPower(0);
+            //robot.TransferSequence(); - Replaced by switch statement :)
             gamepad1.rumbleBlips(2);
             gamepad2.rumbleBlips(2);
         }
@@ -322,6 +354,84 @@ public class Basic_TeleOp_NewBot extends OpMode {
         {
             robot.outakeclawOpenClose("OPEN");
         }
+
+
+
+        //Transfer Sequence Switch Statement (Added by Claire)
+
+
+
+        switch (auxState){
+            case NORMAL_OPS:
+
+                canManuallyControlVerticalSlides = true;
+
+                if (gamepad2.y){
+                    robot.tempOutakePos("DOWN");
+
+                    canManuallyControlVerticalSlides = false;
+
+                    robot.liftyL.setPower(1);
+                    robot.liftyR.setPower(1);
+                    robot.liftyL.setTargetPositionTolerance(4);
+                    robot.liftyR.setTargetPositionTolerance(4);
+                    robot.liftyL.setTargetPosition(0);
+                    robot.liftyR.setTargetPosition(0);
+                    robot.liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+                    auxState = AuxState.VERTS_IN;
+                }
+                break;
+            case VERTS_IN:
+                if ((robot.liftyL.getCurrentPosition() > -20 && robot.liftyL.getCurrentPosition() < 20) && robot.leftFlippyOutakeServo.getPosition() < 0.1){
+                    robot.intakePosition("IN");
+                    robot.slidesIn();
+
+                    robot.liftyL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                    robot.liftyR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+                    auxState = AuxState.LINEARS_IN;
+                }
+                break;
+            case LINEARS_IN:
+                if (robot.leftSlide.getPosition() == 1 && robot.intakeFlipper.getPosition() == 1){
+
+                    canManuallyControlVerticalSlides = true;
+
+                    robot.intake_spin(-1);
+
+                    outtakeTimer.reset();
+
+                    auxState = AuxState.OUTTAKING;
+                }
+                break;
+            case OUTTAKING:
+
+                robot.intake_spin(-1);
+
+                if (outtakeTimer.milliseconds() >= 1000){
+                    robot.intake_spin(0);
+                    robot.intakePosition("UP");
+
+                    auxState = AuxState.RESETTING;
+                }
+                break;
+            case RESETTING:
+                if (robot.intakeFlipper.getPosition() == 0.75){
+                    auxState = AuxState.NORMAL_OPS;
+                }
+                break;
+            default:
+                auxState = AuxState.NORMAL_OPS;
+
+        }
+
+        //This is a panic button. If anything goes wrong and you want to stop the transfer sequence, just press y again.
+        if (gamepad2.y && auxState != AuxState.NORMAL_OPS) {
+          auxState = AuxState.NORMAL_OPS;
+        }
+
     }
 
     /*

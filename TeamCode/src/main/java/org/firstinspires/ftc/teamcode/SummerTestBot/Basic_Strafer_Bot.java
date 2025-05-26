@@ -1,15 +1,13 @@
-package org.firstinspires.ftc.teamcode.Outreach;
+package org.firstinspires.ftc.teamcode.SummerTestBot;
 
 import android.annotation.SuppressLint;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
 import java.util.Objects;
 
@@ -43,10 +41,10 @@ public class Basic_Strafer_Bot {
 
         // This section turns the names of the pieces of hardware into variables that we can program with.
         // Make sure that the device name is the exact same thing you typed in on the configuration on the driver hub.
-        frontRightDrive = hardwareMap.get(DcMotor.class, "frontRightDrive");
-        frontLeftDrive = hardwareMap.get(DcMotor.class, "frontLeftDrive");
-        backLeftDrive = hardwareMap.get(DcMotor.class, "backLeftDrive");
-        backRightDrive = hardwareMap.get(DcMotor.class, "backRightDrive");
+        frontRightDrive = hardwareMap.get(DcMotor.class, "FrontRight");
+        frontLeftDrive = hardwareMap.get(DcMotor.class, "FrontLeft");
+        backLeftDrive = hardwareMap.get(DcMotor.class, "BackLeft");
+        backRightDrive = hardwareMap.get(DcMotor.class, "BackRight");
 
         //add arms to map
         /*
