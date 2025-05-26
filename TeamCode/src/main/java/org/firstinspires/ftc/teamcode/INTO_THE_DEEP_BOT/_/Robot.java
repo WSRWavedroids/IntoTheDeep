@@ -315,9 +315,11 @@ public class Robot {
         }
         if (pos == "MOREUP")
         {
-            leftFlippyOutakeServo.setPosition(.8);
-            rightFlippyOutakeServo.setPosition(.8);
+            leftFlippyOutakeServo.setPosition(.85);
+            rightFlippyOutakeServo.setPosition(.85);
         }
+
+
 
 
     }

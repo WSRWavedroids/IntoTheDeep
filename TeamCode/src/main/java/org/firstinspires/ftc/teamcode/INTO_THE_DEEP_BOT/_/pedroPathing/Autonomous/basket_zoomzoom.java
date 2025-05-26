@@ -70,10 +70,10 @@ public class basket_zoomzoom extends OpMode {
     private final Pose scorePose = new Pose(16, 136.5, Math.toRadians(135));
 
     /** Lowest (First) Sample from the Spike Mark */
-    private final Pose pickup1Pose = new Pose(22, 131, Math.toRadians(180));
+    private final Pose pickup1Pose = new Pose(22, 132, Math.toRadians(180));
 
     /** Middle (Second) Sample from the Spike Mark */
-    private final Pose pickup2Pose = new Pose(22, 138.75, Math.toRadians(180));
+    private final Pose pickup2Pose = new Pose(22, 139.25, Math.toRadians(180));
 
     /** Highest (Third) Sample from the Spike Mark */
     private final Pose pickup3Pose = new Pose(30.5, 132, Math.toRadians(240));
@@ -205,7 +205,7 @@ public class basket_zoomzoom extends OpMode {
             case 3:
                 // Pickup
                 if(!follower.isBusy()) {
-                    plus.autoSlides(.25);
+                    plus.autoSlides(.20);
                     plus.pickupSample(pickupTime,0);
                     robot.TransferSequence();
                     setPathState(4);
@@ -239,7 +239,7 @@ public class basket_zoomzoom extends OpMode {
             case 7:
                 // Pickup
                 if(!follower.isBusy()) {
-                    plus.autoSlides(.25);
+                    plus.autoSlides(.20);
                     plus.pickupSample(pickupTime,0);
                     robot.TransferSequence();
                     setPathState(8);
@@ -273,7 +273,7 @@ public class basket_zoomzoom extends OpMode {
             case 11:
                 // Pickup
                 if(!follower.isBusy()) {
-                    plus.autoSlides(.4);
+                    plus.autoSlides(.35);
                     plus.pickupSample(pickupTime + 1000,0);
                     robot.TransferSequence();
                     setPathState(12);

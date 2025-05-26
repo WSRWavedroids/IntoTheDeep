@@ -28,6 +28,7 @@
  */
 
 package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Teleop;
+//package edu.wpi.first.wpilibj;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
@@ -36,6 +37,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.IMU;
+
+
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
@@ -150,7 +153,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
             if (robot.controlMode == "Robot Centric"){
                 robot.controlMode = "Field Centric";
                 telemetry.addData("Control Mode", "Field Centric Controls");
-            } else if (robot.controlMode == "Field Centric"){
+            } else if (robot.controlMode == "Field Centric") {
                 robot.controlMode = "Robot Centric";
                 telemetry.addData("Control Mode", "Robot Centric Controls");
             }
@@ -169,6 +172,15 @@ public class Basic_TeleOp_NewBot extends OpMode {
         } else if (gamepad1.dpad_right) {
             speed = 0.75;
         }
+
+        if(gamepad1.touchpad)
+        {
+            robot.tempOutakePos("MOREUP");
+        }
+
+
+        telemetry.addData("Trackpad X", gamepad1.touchpad_finger_1_x);
+        telemetry.addData("Trackpad Y", gamepad1.touchpad_finger_1_y);
 
         if (speed == 1) {
             telemetry.addData("Speed", "Fast Boi");
@@ -196,13 +208,13 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
         //A bunch of slide nonsense. PLS don't touch unless u know what ur doing
         int liftyTopLimit = 4100;//temp value
-        int liftyBottomLimit = 75;//temp value
+        int liftyBottomLimit = 116;//temp value
         int liftyGoControlerVal = robot.liftyL.getCurrentPosition() - ((int) armStickY * 260);
         robot.liftyR.setPower(1);
         robot.liftyL.setPower(1);
 
         //This needs tested. If a button is pressed but stick isn't, go to preset 1 or 2
-        if (Math.abs(gamepad2.left_stick_y) < 0.1 && gamepad2.left_stick_button)
+        if (Math.abs(gamepad2.left_stick_y) < 0.2 && gamepad2.left_stick_button)
         {
             //Wall Position
             robot.liftyL.setTargetPosition(206);
@@ -212,7 +224,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
                 gamepad2.rumble(500);
             }
         }
-        else if(Math.abs(gamepad2.left_stick_y) < 0.1 && gamepad2.dpad_right)
+        else if(Math.abs(gamepad2.left_stick_y) < 0.2 && gamepad2.dpad_right)
         {
             robot.liftyL.setTargetPosition(2500);
             robot.liftyR.setTargetPosition(2500);
@@ -342,6 +354,8 @@ public class Basic_TeleOp_NewBot extends OpMode {
         {
             robot.outakeclawOpenClose("OPEN");
         }
+
+
 
         //Transfer Sequence Switch Statement (Added by Claire)
 
