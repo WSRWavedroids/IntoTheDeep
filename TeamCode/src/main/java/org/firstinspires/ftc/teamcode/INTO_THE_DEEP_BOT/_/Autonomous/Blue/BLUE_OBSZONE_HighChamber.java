@@ -20,7 +20,7 @@ public class BLUE_OBSZONE_HighChamber extends AutonomousPLUS {
         prepareAuto();
         robot.intakePosition("UP");
         speed = .65;
-        moveDiagonalLeft(495, 0); //Trusting Pythagorus
+        moveDiagonalLeft(495, 0); //Trusting Pythagoras
         moveRobotForward(150, 0);
 
         //moveRobotForward(500, 0);
@@ -33,7 +33,7 @@ public class BLUE_OBSZONE_HighChamber extends AutonomousPLUS {
         robot.outakeclawOpenClose("OPEN"); //Releases said specimen
 
 
-        moveRobotBackward(500,500);//Back away
+        moveRobotBackward(500,500); //Back away
 
         //go push the sample to the obszone
         speed = 1;

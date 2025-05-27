@@ -40,11 +40,6 @@ public class BLUE_NETZONE_HighChamber extends AutonomousPLUS {
         turnRobotRight(1530, 0);
         setMotorTolerance(10);
         autoSlides(.50, 2000);
-        /*robot.intake_spin(.5); //Pick up yellow sample
-        prepareNextAction(750);
-        robot.intakeFlipper.setPosition(.15);
-        prepareNextAction(2000);
-        robot.intake_spin(0);*/ //So this whole block will hopefully be made obsolete by the new pickupSample() function
         pickupSample(2000,0);
         robot.TransferSequence();
         turnRobotRight(450, 0);

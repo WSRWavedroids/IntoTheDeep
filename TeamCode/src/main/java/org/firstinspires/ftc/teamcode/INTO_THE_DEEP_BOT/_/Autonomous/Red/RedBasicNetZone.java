@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousP
 
 @Disabled
 @Autonomous(group = "Basic", name = "Red Basic Net Zone")
-public class RedBasicNetZone extends AutonomousPLUS.AutonomousPLUS {
+public class RedBasicNetZone extends AutonomousPLUS {
 
     public String currentPosition;
     public String target;
