@@ -61,6 +61,8 @@ public class AutonomousPLUS extends LinearOpMode {
         robot = new Robot(hardwareMap, telemetry, this);
     }
 
+
+    @Override//If this goes missing bad things happen i think
     public void runOpMode() {
         robot = new Robot(hardwareMap, telemetry, this);
     }
