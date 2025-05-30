@@ -36,7 +36,7 @@ public class SparkFunSparkJoy extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        /*
+
 
         robot = new Robot(hardwareMap, telemetry, this);
 
@@ -171,5 +171,5 @@ public class SparkFunSparkJoy extends LinearOpMode {
         telemetry.addLine(String.format("OTOS Hardware Version: v%d.%d", hwVersion.major, hwVersion.minor));
         telemetry.addLine(String.format("OTOS Firmware Version: v%d.%d", fwVersion.major, fwVersion.minor));
         telemetry.update();
-    }*/}
-}
+    }}
+

@@ -29,9 +29,9 @@ package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous;
  */
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
 
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
 //import org.firstinspires.ftc.teamcode.OLD.Autonomous.AprilTags.MayFlowers;
@@ -47,7 +47,7 @@ public class AutonomousPLUS extends LinearOpMode {
     // This section tells the program all of the different pieces of hardware that are on our robot that we will use in the program.
     private ElapsedTime runtime = new ElapsedTime();
 
-
+//🛫🏢🏢:)
     public double speed = 0.6;
     public int sleepTime;
     public boolean inMarker;
@@ -56,7 +56,7 @@ public class AutonomousPLUS extends LinearOpMode {
 
     //DO NOT DELETE THIS LINE! CAPITALIZATION IS VERY IMPORTANT!!!
     //public org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot robot = null;
-    public Robot robot; // if no work comment out and bring back the line above
+    public Robot robot = null; // if no work comment out and bring back the line above
 
     public AutonomousPLUS(){
         robot = new Robot(hardwareMap, telemetry, this);

@@ -9,7 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class OTOSConstants {
     public static boolean useCorrectedOTOSClass = false;
-    public static String hardwareMapName = "sensor_otos";
+    public static String hardwareMapName = "sparkFunSparkJoy";
     public static DistanceUnit linearUnit;
     public static AngleUnit angleUnit;
     public static SparkFunOTOS.Pose2D offset;
