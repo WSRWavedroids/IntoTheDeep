@@ -150,7 +150,7 @@ public class TeleOp_Recording extends OpMode {
     /*
      * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
      */
-    public void init_loop() {telemetry.addData("HYPE", "ARE! YOU! READY?!?!?!?!");}
+    public void init_loop() {telemetry.addData("\uD83C\uDF0A HYPE", "ARE! YOU! READY?!?!?!?!");}
 
     /*
      * Code to run ONCE when the driver hits PLAY
@@ -158,7 +158,7 @@ public class TeleOp_Recording extends OpMode {
     public void start() {
         //rip = new RipConfig();
         runtime.reset();
-        telemetry.addData("HYPE", "Let's do this!!!");
+        telemetry.addData("HYPE", "Let's do this!!! \uD83C\uDF0A\uD83C\uDF0A\uD83C\uDF0A\uD83C\uDF0A");
         gamepad1.setLedColor(0, 0, 255, 100000000);
         gamepad2.setLedColor(0, 0, 255, 100000000);
         robot.tempOutakePos("DOWN");

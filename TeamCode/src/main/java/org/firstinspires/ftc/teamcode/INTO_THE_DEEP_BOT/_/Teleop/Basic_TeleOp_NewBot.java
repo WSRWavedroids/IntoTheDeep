@@ -58,7 +58,7 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot;
  * did a horrible job of doing that.
  */
 
-@TeleOp(name=" STEEVE", group="CompBot")
+@TeleOp(name="STEEVE \uD83C\uDF0A ", group="CompBot")
 public class Basic_TeleOp_NewBot extends OpMode {
 
     // This section tells the program all of the different pieces of hardware that are on our robot that we will use in the program.
@@ -112,7 +112,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
     /*
      * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
      */
-    public void init_loop() {telemetry.addData("HYPE", "ARE! YOU! READY?!?!?!?!");}
+    public void init_loop() {telemetry.addData("HYPE  \uD83C\uDF0A " , "ARE! YOU! READY?!?!?!?!");}
 
     /*
      * Code to run ONCE when the driver hits PLAY
