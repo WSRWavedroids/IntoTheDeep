@@ -47,7 +47,7 @@ public class AutonomousPLUS extends LinearOpMode {
     // This section tells the program all of the different pieces of hardware that are on our robot that we will use in the program.
     private ElapsedTime runtime = new ElapsedTime();
 
-//🛫🏢🏢:)
+
     public double speed = 0.6;
     public int sleepTime;
     public boolean inMarker;
@@ -58,9 +58,9 @@ public class AutonomousPLUS extends LinearOpMode {
     //public org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot robot = null;
     public Robot robot = null; // if no work comment out and bring back the line above
 
-    public AutonomousPLUS(){
+    /*public AutonomousPLUS(){
         robot = new Robot(hardwareMap, telemetry, this);
-    }
+    }*/
     @Override
     public void runOpMode() {
         robot = new Robot(hardwareMap, telemetry, this);
