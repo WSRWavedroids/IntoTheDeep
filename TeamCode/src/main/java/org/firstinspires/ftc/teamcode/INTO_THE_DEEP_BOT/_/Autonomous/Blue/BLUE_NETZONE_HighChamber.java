@@ -12,8 +12,7 @@ public class BLUE_NETZONE_HighChamber extends AutonomousPLUS {
 
     public void runOpMode() {
 
-        super.runOpMode();
-
+        super.runOpMode(); // Robot constructor
 
         waitForStart();
         prepareAuto();
@@ -66,7 +65,6 @@ public class BLUE_NETZONE_HighChamber extends AutonomousPLUS {
         robot.TransferSequence();*/
         
         prepareNextAction(2000);
-
 
     }
 }
