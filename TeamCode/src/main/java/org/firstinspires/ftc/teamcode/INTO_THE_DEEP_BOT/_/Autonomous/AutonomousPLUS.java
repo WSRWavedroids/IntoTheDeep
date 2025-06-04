@@ -56,9 +56,9 @@ public class AutonomousPLUS extends LinearOpMode {
     //DO NOT DELETE THIS LINE! CAPITALIZATION IS VERY IMPORTANT!!!
     public org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Robot robot = null;
 
-    public AutonomousPLUS(){
+    /*public AutonomousPLUS(){
         robot = new Robot(hardwareMap, telemetry, this);
-    }
+    }*/
     @Override
     public void runOpMode() {
         robot = new Robot(hardwareMap, telemetry, this);
