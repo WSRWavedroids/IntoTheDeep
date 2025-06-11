@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Riptide;
 
+import static java.lang.Thread.sleep;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -86,11 +89,21 @@ public class Playback {
 
         while (isPlaying && currentFrame<=end)
         {
+            currentTime = frameTimer.seconds();
             if(currentTime-lastFrameTime >= 0.02)
             {
                 commandHardware(cachedFrames.get(currentFrame));
                 lastFrameTime = currentTime;
                 currentFrame++;
+            }
+
+            // Prevent CPU overload, doesn't affect timing logic
+            try {
+                Thread.sleep(5); // 0.005 seconds
+            } catch (InterruptedException e) {
+                telemetry.addLine("Playback interrupted.");
+                telemetry.update();
+                break;
             }
         }
 
@@ -98,6 +111,9 @@ public class Playback {
 
     void commandHardware(Frame current) // Receives data and commands hardware for frame
     {
+        telemetry.addData("We on frame", current);
+        telemetry.addLine();
+        telemetry.update();
         if (current == null)
         {
             EmergencyStop();
@@ -107,8 +123,11 @@ public class Playback {
             for (Frame.MotorData motorData : current.motors) {
                 for (DcMotorEx motor : rip.ripMotors) {
                     if (motor.getDeviceName().equals(motorData.name)) {
-                        // You probably want to use velocity control, but this example sets power
+                        // You probably want to use velocity control
+                        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                         motor.setVelocity(motorData.velocity);
+                        telemetry.addData(motorData.name, " Velocity:"+motorData.velocity);
+                        telemetry.update();
                         break;
                     }
                 }
@@ -118,6 +137,8 @@ public class Playback {
                 for (Servo servo : rip.ripServos) {
                     if (servo.getDeviceName().equals(servoData.name)) {
                         servo.setPosition(servoData.position);
+                        telemetry.addData(servoData.name," Position:"+ servoData.position);
+                        telemetry.update();
                         break;
                     }
                 }
@@ -135,6 +156,8 @@ public class Playback {
                             crServo.setDirection(DcMotorSimple.Direction.FORWARD);
                         }
                         crServo.setPower(crServoData.power);
+
+                        telemetry.addData(crServoData.name, " Direction:"+ crServoData.direction, " Power:"+ crServoData.power);
                         break;
 
                     }
@@ -157,9 +180,22 @@ public class Playback {
     }
 
     public void setRecordingFile(String fileName) {
-        File dir = new File(Environment.getExternalStorageDirectory(), "/FIRST/recordings");
+        File dir = new File(Environment.getExternalStorageDirectory(), "recordings");
         if (!dir.exists()) dir.mkdirs();
         this.file = new File(dir, fileName);
+    }
+
+    public void setAbsoluteFilePath(String absoultePath)
+    {
+        this.file = new File(absoultePath);
+    }
+
+    public void setRipPower(double power)
+    {
+        robot.frontLeftDrive.setPower(power);
+        robot.backLeftDrive.setPower(power);
+        robot.frontRightDrive.setPower(power);
+        robot.backRightDrive.setPower(power);
     }
 
     }
