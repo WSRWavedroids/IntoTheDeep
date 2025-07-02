@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.Outreach.middleSchool;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT._.Autonomous.AutonomousPLUS;
+import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Autonomous.AutonomousPLUS;
 
 @Autonomous(group = "Basic", name = "Middle School Group 1")
 public class group1 extends AutonomousPLUS {
