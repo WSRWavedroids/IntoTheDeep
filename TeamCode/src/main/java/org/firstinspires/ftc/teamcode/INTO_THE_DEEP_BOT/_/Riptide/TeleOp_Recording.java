@@ -585,6 +585,7 @@ public class TeleOp_Recording extends OpMode {
         while(countdown.seconds() < 5.0)
         {
             robot.stopAllMotors();
+            robot.encoderReset();
             telemetry.addData("Recording Starts In: ", 5-countdown.seconds());
         }
 

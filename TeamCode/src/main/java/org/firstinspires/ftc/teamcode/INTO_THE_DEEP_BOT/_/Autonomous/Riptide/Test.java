@@ -30,11 +30,12 @@ public class Test extends AutonomousPLUS {
         //Initalize the scripts, then set the file via this script
         rip = new RipConfig(robot);
         playback = new Playback(robot,rip);
-        playback.setRecordingFile("2025-05-20_19-20-21.json");
+        //playback.setRecordingFile("2025-05-20_19-20-21.json");
+        playback.setAbsoluteFilePath("/storage/emulated/0/recordings/Recording: 2025-06-10_20-12-18.json");
         playback.cacheFile();
 
         waitForStart();
-        playback.runFrames(1, 327);//lol lets see if it works
+        playback.runFrames(0, 327);//lol lets see if it works
 
 
     }
