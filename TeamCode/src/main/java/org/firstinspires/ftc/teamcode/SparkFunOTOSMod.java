@@ -9,6 +9,7 @@ package org.firstinspires.ftc.teamcode;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynchDevice;
@@ -18,6 +19,8 @@ import com.qualcomm.robotcore.hardware.configuration.annotations.I2cDeviceType;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
+import kotlin.Suppress;
+
 /**
  * {@link SparkFunOTOSMod} is the Java driver for the SparkFun Qwiic Optical Tracking Odometry Sensor
  * (OTOS). This is a port of the Arduino library.
@@ -26,12 +29,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
  * @see <a href="https://github.com/sparkfun/SparkFun_Qwiic_OTOS_Arduino_Library/">Arduino Library</a>
  */
 @I2cDeviceType
+@Disabled //TODO remove this if it doesn't work
 @DeviceProperties(
         name = "SparkFun OTOS (Modified)",
         xmlTag = "SparkFunOTOSMod",
         description = "SparkFun Qwiic Optical Tracking Odometry Sensor (Added Lateral Scalar)"
 )
 public class SparkFunOTOSMod extends I2cDeviceSynchDevice<I2cDeviceSynch> {
+
     // Default I2C addresses of the Qwiic OTOS
     public static final byte DEFAULT_ADDRESS = 0x17;
     // Minimum scalar value for the linear and angular scalars
