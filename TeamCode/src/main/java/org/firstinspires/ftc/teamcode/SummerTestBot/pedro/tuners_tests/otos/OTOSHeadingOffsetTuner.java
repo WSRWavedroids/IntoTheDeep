@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.SummerTestBot.pedro.tuners_tests.otos;
 
 import com.pedropathing.localization.PoseUpdater;
 import com.pedropathing.util.Constants;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -20,6 +21,7 @@ import org.firstinspires.ftc.teamcode.SummerTestBot.pedro.constants.LConstants;
  */
 
 @TeleOp(name="OTOS Heading Offset Tuner", group="OTOS Tuning")
+@Disabled
 public class OTOSHeadingOffsetTuner extends LinearOpMode {
 
     private PoseUpdater poseUpdater;

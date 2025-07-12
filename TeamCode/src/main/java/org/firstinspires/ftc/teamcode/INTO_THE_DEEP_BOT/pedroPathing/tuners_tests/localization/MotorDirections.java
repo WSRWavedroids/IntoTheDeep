@@ -12,6 +12,7 @@ import static com.pedropathing.follower.FollowerConstants.rightRearMotorName;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.pedropathing.util.Constants;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -26,6 +27,7 @@ import java.util.List;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.pedroPathing.constants.*;
 
 @TeleOp(name = "Motor Directions", group = "Teleop Test")
+@Disabled
 public class MotorDirections extends OpMode {
     private Telemetry telemetryA;
 

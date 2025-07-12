@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.pedroPathing.tuners_tes
 
 import com.pedropathing.localization.PoseUpdater;
 import com.pedropathing.util.Constants;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -21,6 +22,7 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.pedroPathing.constants.L
  */
 
 @TeleOp(name="OTOS Heading Offset Tuner", group="OTOS Tuning")
+@Disabled
 public class OTOSHeadingOffsetTuner extends LinearOpMode {
 
     private PoseUpdater poseUpdater;
