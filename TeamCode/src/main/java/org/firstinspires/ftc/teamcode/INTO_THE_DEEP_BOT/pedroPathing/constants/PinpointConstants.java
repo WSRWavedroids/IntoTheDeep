@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.pedroPathing.constants;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
+import com.pedropathing.localization.GoBildaPinpointDriver;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 

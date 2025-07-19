@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.pedroPathing.constants.LConstants;
 
@@ -48,7 +50,6 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.pedroPathing.constants.L
  * @version 1.0, 3/13/2024
  */
 @Config
-@Disabled
 @Autonomous(name = "Forward Velocity Tuner", group = "Automatic Tuners")
 public class ForwardVelocityTuner extends OpMode {
     private ArrayList<Double> velocities = new ArrayList<>();
@@ -142,7 +143,7 @@ public class ForwardVelocityTuner extends OpMode {
 
         poseUpdater.update();
         if (!end) {
-            if (Math.abs(poseUpdater.getPose().getX()) > DISTANCE) {
+            if (Math.abs(poseUpdater.getPose().getY()) > DISTANCE) {
                 end = true;
                 for (DcMotorEx motor : motors) {
                     motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -152,6 +153,11 @@ public class ForwardVelocityTuner extends OpMode {
                 double currentVelocity = Math.abs(MathFunctions.dotProduct(poseUpdater.getVelocity(), new Vector(1, 0)));
                 velocities.add(currentVelocity);
                 velocities.remove(0);
+
+                telemetryA.addData("X coordinate (IN)", poseUpdater.getPose().getX());
+                telemetryA.addData("Y coordinate (IN)", poseUpdater.getPose().getY());
+                telemetryA.addData("Heading angle (DEGREES)", poseUpdater.getPose().getHeading());
+                telemetryA.update();
             }
         } else {
             leftFront.setPower(0);

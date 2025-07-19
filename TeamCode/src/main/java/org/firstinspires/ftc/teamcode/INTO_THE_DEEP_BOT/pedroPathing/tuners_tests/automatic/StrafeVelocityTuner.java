@@ -48,7 +48,6 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.pedroPathing.constants.L
  * @version 1.0, 3/13/2024
  */
 @Config
-@Disabled
 @Autonomous(name = "Strafe Velocity Tuner", group = "Automatic Tuners")
 public class StrafeVelocityTuner extends OpMode {
     private ArrayList<Double> velocities = new ArrayList<>();

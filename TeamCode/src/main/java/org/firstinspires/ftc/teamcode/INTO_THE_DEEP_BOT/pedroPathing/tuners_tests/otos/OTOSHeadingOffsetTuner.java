@@ -22,7 +22,6 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.pedroPathing.constants.L
  */
 
 @TeleOp(name="OTOS Heading Offset Tuner", group="OTOS Tuning")
-@Disabled
 public class OTOSHeadingOffsetTuner extends LinearOpMode {
 
     private PoseUpdater poseUpdater;

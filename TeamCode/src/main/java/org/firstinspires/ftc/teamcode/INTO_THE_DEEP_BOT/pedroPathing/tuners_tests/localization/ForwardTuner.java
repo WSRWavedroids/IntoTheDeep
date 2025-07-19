@@ -30,7 +30,6 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.pedroPathing.constants.L
  * @version 1.0, 5/6/2024
  */
 @Config
-@Disabled
 @Autonomous(name = "Forward Localizer Tuner", group = ".Localization")
 public class ForwardTuner extends OpMode {
     private PoseUpdater poseUpdater;

@@ -29,7 +29,6 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.pedroPathing.constants.*
  * @version 1.0, 5/6/2024
  */
 @Config
-@Disabled
 @Autonomous(name = "Turn Localizer Tuner", group = ".Localization")
 public class TurnTuner extends OpMode {
     private PoseUpdater poseUpdater;

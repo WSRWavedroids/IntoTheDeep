@@ -23,7 +23,6 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.pedroPathing.constants.L
  */
 
 @TeleOp(name="OTOS Linear Scalar Tuner", group="OTOS Tuning")
-@Disabled
 public class OTOSLinearScalar extends LinearOpMode{
 
     private PoseUpdater poseUpdater;

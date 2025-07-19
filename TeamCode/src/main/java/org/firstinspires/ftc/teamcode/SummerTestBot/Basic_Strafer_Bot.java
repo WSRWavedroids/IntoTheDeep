@@ -41,10 +41,10 @@ public class Basic_Strafer_Bot {
 
         // This section turns the names of the pieces of hardware into variables that we can program with.
         // Make sure that the device name is the exact same thing you typed in on the configuration on the driver hub.
-        frontRightDrive = hardwareMap.get(DcMotor.class, "FrontRight");
-        frontLeftDrive = hardwareMap.get(DcMotor.class, "FrontLeft");
-        backLeftDrive = hardwareMap.get(DcMotor.class, "BackLeft");
-        backRightDrive = hardwareMap.get(DcMotor.class, "BackRight");
+        frontRightDrive = hardwareMap.get(DcMotor.class, "frontRightDrive");
+        frontLeftDrive = hardwareMap.get(DcMotor.class, "frontLeftDrive");
+        backLeftDrive = hardwareMap.get(DcMotor.class, "backLeftDrive");
+        backRightDrive = hardwareMap.get(DcMotor.class, "backRightDrive");
 
         //add arms to map
         /*
