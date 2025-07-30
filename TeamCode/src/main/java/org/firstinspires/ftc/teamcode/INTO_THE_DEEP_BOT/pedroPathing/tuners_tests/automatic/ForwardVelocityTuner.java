@@ -156,7 +156,7 @@ public class ForwardVelocityTuner extends OpMode {
 
                 telemetryA.addData("X coordinate (IN)", poseUpdater.getPose().getX());
                 telemetryA.addData("Y coordinate (IN)", poseUpdater.getPose().getY());
-                telemetryA.addData("Heading angle (DEGREES)", poseUpdater.getPose().getHeading());
+                telemetryA.addData("Heading angle (DEGREES)", Math.toDegrees(poseUpdater.getPose().getHeading()));
                 telemetryA.update();
             }
         } else {

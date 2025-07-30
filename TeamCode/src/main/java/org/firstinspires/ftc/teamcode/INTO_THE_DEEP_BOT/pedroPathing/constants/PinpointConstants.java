@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.pedroPathing.constants;
 
+import static com.pedropathing.localization.GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_SWINGARM_POD;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.pedropathing.localization.GoBildaPinpointDriver;
 
@@ -54,7 +56,7 @@ public class PinpointConstants {
     /** The Encoder Resolution for the Pinpoint. Used if useCustomEncoderResolution is false
      * @see #useCustomEncoderResolution
      * Default Value: GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD */
-    public static GoBildaPinpointDriver.GoBildaOdometryPods encoderResolution;
+    public static GoBildaPinpointDriver.GoBildaOdometryPods encoderResolution = goBILDA_SWINGARM_POD;
 
     /** The Encoder Resolution for the Pinpoint. Only used if useCustomEncoderResolution is true
      * @see #useCustomEncoderResolution

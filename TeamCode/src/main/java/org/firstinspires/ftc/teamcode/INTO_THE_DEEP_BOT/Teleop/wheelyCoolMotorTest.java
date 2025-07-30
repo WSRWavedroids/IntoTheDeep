@@ -78,7 +78,7 @@ public class wheelyCoolMotorTest extends OpMode {
      * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
      */
     public void init_loop() {
-        telemetry.addData("HYPE", "ARE! YOU! READY?!?!?!?!");
+        telemetry.addData("Prepare to be: ", "WRONG!");
     }
 
     /*
@@ -86,7 +86,7 @@ public class wheelyCoolMotorTest extends OpMode {
      */
     public void start() {
         runtime.reset();
-        telemetry.addData("HYPE", "Let's do this!!!");
+        telemetry.addData("Its ", "Never a code issue");
         gamepad1.setLedColor(0, 0, 255, 100000000);
         gamepad2.setLedColor(0, 0, 255, 100000000);
     }
@@ -99,14 +99,13 @@ public class wheelyCoolMotorTest extends OpMode {
         // This little section updates the driver hub on the runtime and the motor powers.
         // It's mostly used for troubleshooting.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
-        Bot.tellMotorOutput();
+
 
         telemetry.addData("Gamepad 1 Left: ", "Value X: " + gamepad1.left_stick_x, "Value Y: " + gamepad1.left_stick_y);
         telemetry.addData("Gamepad 1 Right: ", "Value X: " + gamepad1.right_stick_x, "Value Y: " + gamepad1.right_stick_y);
         telemetry.addData("Gamepad 2 Left: ", "Value X: " + gamepad2.left_stick_x, "Value Y: " + gamepad2.left_stick_y);
         telemetry.addData("Gamepad 2 Left: ", "Value X: " + gamepad2.right_stick_x, "Value Y: " + gamepad2.right_stick_y);
-        // This section checks what buttons on the Dpad are being pressed and changes the speed accordingly.
-        //So Begins the input chain. At least try a bit to organise by driver
+        Bot.tellMotorOutput();
 
         //Driver 1
         if (gamepad1.back) {
@@ -168,7 +167,17 @@ public class wheelyCoolMotorTest extends OpMode {
         } else if (gamepad1.square)//right
         {
             moveDirection("Right");
-        } else {
+        } else if(gamepad1.right_bumper)
+        {
+            moveDirection("TurnRight");
+        }
+        else if(gamepad1.left_bumper)
+        {
+            moveDirection("TurnLeft");
+        }
+
+
+        else {
             stopPls();
         }
 
@@ -208,6 +217,20 @@ public class wheelyCoolMotorTest extends OpMode {
            Bot.frontRightDrive.setPower(speed);
            Bot.backLeftDrive.setPower(speed);
            Bot.backRightDrive.setPower(-speed);
+       }
+       else if(Direction == "TurnRight")
+       {
+           Bot.frontLeftDrive.setPower(speed);
+           Bot.frontRightDrive.setPower(-speed);
+           Bot.backLeftDrive.setPower(speed);
+           Bot.backRightDrive.setPower(-speed);
+       }
+       else if(Direction == "TurnLeft")
+       {
+           Bot.frontLeftDrive.setPower(-speed);
+           Bot.frontRightDrive.setPower(speed);
+           Bot.backLeftDrive.setPower(-speed);
+           Bot.backRightDrive.setPower(speed);
        }
     }
 

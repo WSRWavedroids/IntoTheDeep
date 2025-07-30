@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.pedroPathing.constants.L
  * @version 2.0, 11/28/2024
  */
 
-@Autonomous(name = "Push Pedro 2: Pinpoint Edition", group = "Pedro's Autos")
+@Autonomous(name = "Push !Pedro 2: Pinpoint Edition", group = "Pedro's Autos")
 public class pinpointLocationFinder extends OpMode {
     // Create an instance of the sensor
     GoBildaPinpointDriver pinpoint;
@@ -64,7 +64,7 @@ public class pinpointLocationFinder extends OpMode {
          *  The Y pod offset refers to how far forwards from the tracking point the Y (strafe) odometry pod is.
          *  Forward of center is a positive number, backwards is a negative number.
          */
-        pinpoint.setOffsets(-84.0, -168.0/*, DistanceUnit.MM*/); //these are tuned for 3110-0002-0001 Product Insight #1
+        pinpoint.setOffsets(-4.47, -4.85);
 
         /*
          * Set the kind of pods used by your robot. If you're using goBILDA odometry pods, select either

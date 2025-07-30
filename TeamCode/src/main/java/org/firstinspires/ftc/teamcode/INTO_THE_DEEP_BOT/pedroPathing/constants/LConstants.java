@@ -13,8 +13,9 @@ public class LConstants {
         PinpointConstants.hardwareMapName = "pinpoint";
         PinpointConstants.useYawScalar = false;
         PinpointConstants.yawScalar = 1.0;
-        PinpointConstants.useCustomEncoderResolution = false;
-        PinpointConstants.encoderResolution = GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_SWINGARM_POD;
+        PinpointConstants.useCustomEncoderResolution = true;
+        //PinpointConstants.encoderResolution = GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_SWINGARM_POD;
+        //PinpointConstants.customEncoderResolution = 13.26291192;
         PinpointConstants.customEncoderResolution = 13.26291192;
         PinpointConstants.forwardEncoderDirection = GoBildaPinpointDriver.EncoderDirection.FORWARD;
         PinpointConstants.strafeEncoderDirection = GoBildaPinpointDriver.EncoderDirection.FORWARD;
