@@ -100,11 +100,16 @@ public class wheelyCoolMotorTest extends OpMode {
         // It's mostly used for troubleshooting.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
 
-
+        //Controllers
         telemetry.addData("Gamepad 1 Left: ", "Value X: " + gamepad1.left_stick_x, "Value Y: " + gamepad1.left_stick_y);
         telemetry.addData("Gamepad 1 Right: ", "Value X: " + gamepad1.right_stick_x, "Value Y: " + gamepad1.right_stick_y);
         telemetry.addData("Gamepad 2 Left: ", "Value X: " + gamepad2.left_stick_x, "Value Y: " + gamepad2.left_stick_y);
         telemetry.addData("Gamepad 2 Left: ", "Value X: " + gamepad2.right_stick_x, "Value Y: " + gamepad2.right_stick_y);
+        //Motor encoders... redundant
+        /*telemetry.addData("Front Right", Bot.frontRightDrive.getCurrentPosition());
+        telemetry.addData("Front Left", Bot.frontLeftDrive.getCurrentPosition());
+        telemetry.addData("Back Right", Bot.backRightDrive.getCurrentPosition());
+        telemetry.addData("Back Left", Bot.backLeftDrive.getCurrentPosition());*/
         Bot.tellMotorOutput();
 
         //Driver 1

@@ -80,7 +80,6 @@ public abstract class AutonomousPearl extends OpMode {
         robot.liftyR.setTargetPosition(ticks);
         robot.liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
     }
 
     public void prepareNextAction(double stallTime) {

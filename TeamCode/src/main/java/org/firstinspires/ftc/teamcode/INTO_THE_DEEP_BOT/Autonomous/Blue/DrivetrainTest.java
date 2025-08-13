@@ -23,7 +23,7 @@ public class DrivetrainTest extends AutonomousPLUS {
             robot.tellMotorOutput();
         }
         robot.stopAllMotors();
-        prepareNextAction(1000);
+        //prepareNextAction(1000);
 
         robot.frontRightDrive.setTargetPosition(-ticks + robot.frontRightDrive.getCurrentPosition());
         robot.frontRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -31,7 +31,7 @@ public class DrivetrainTest extends AutonomousPLUS {
             robot.tellMotorOutput();
         }
         robot.stopAllMotors();
-        prepareNextAction(1000);
+        //prepareNextAction(1000);
 
         robot.backLeftDrive.setTargetPosition(-ticks - robot.backLeftDrive.getCurrentPosition());
         robot.backLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -39,7 +39,7 @@ public class DrivetrainTest extends AutonomousPLUS {
             robot.tellMotorOutput();
         }
         robot.stopAllMotors();
-        prepareNextAction(1000);
+        //prepareNextAction(1000);
 
         robot.backRightDrive.setTargetPosition(-ticks - robot.backRightDrive.getCurrentPosition());
         robot.backRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -47,7 +47,7 @@ public class DrivetrainTest extends AutonomousPLUS {
             robot.tellMotorOutput();
         }
         robot.stopAllMotors();
-        prepareNextAction(1000);
+        //prepareNextAction(1000);
 
         moveRobotForward(1000, 1000);
     }

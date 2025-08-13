@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Robot;
+import org.firstinspires.ftc.teamcode.SummerTestBot.Basic_Strafer_Bot;
 //import org.firstinspires.ftc.teamcode.OLD.Autonomous.AprilTags.MayFlowers;
 
 /**
@@ -54,18 +55,20 @@ public class AutonomousPLUS extends LinearOpMode {
     public double slidePos;
 
     //DO NOT DELETE THIS LINE! CAPITALIZATION IS VERY IMPORTANT!!!
-    public Robot robot = null;
+    public Basic_Strafer_Bot robot = null;
 
     /*public AutonomousPLUS(){
         robot = new Robot(hardwareMap, telemetry, this);
     }*/
     @Override
     public void runOpMode() {
-        robot = new Robot(hardwareMap, telemetry, this);
+        robot = new Basic_Strafer_Bot(hardwareMap, telemetry, this);
     }
 
     //These are the basic functions for mechnum movement during auto... Don't mess with these unless something is inverted
     // Remember Without ODO pods there will be some inconsistency due to mechnum slippage
+/*
+    @Deprecated
     public void autoSlides(double change, long pause)
     {
         robot.leftSlide.setPosition(1-change);
@@ -78,6 +81,67 @@ public class AutonomousPLUS extends LinearOpMode {
         }
         sleep(pause);
     }
+    public void autoSlides(double change, boolean waitForCompletion, long pause)
+    {
+        robot.leftSlide.setPosition(1-change);
+        robot.rightSlide.setPosition(0+change);
+        if (waitForCompletion) {
+            while (robot.leftSlide.getPosition() != 1 - change) {
+                robot.leftSlide.setPosition(1 - change);
+                robot.rightSlide.setPosition(0 + change);
+                robot.tellMotorOutput();
+            }
+        }
+        sleep(pause);
+    }*/
+
+    /**
+     * Moves the robot in the provided X and Y directions and turns using... some value.
+     *
+     * Positive moveRight = Right
+     * Positive moveForward = Forward
+     * Positive turn = Clockwise
+     * @param moveRight negative = left, positive = right
+     * @param moveForward positive = forwards, negative = backwards
+     * @param turn negative = counterclockwise, positive = clockwise
+     * @param waitForCompletion Stall until movement complete
+     * @param pauseMS Pause in milliseconds
+     */
+    public void moveXY(int moveRight, int moveForward, int turn, boolean waitForCompletion, long pauseMS) {
+
+        int[] motorTicks = new int[4];
+
+        motorTicks[0] = (-moveForward + moveRight + turn);
+        motorTicks[1] = (-moveForward - moveRight - turn);
+        motorTicks[2] = (-moveForward - moveRight + turn);
+        motorTicks[3] = (-moveForward + moveRight - turn);
+
+        robot.frontLeftDrive.setTargetPosition(-motorTicks[0] + robot.frontLeftDrive.getCurrentPosition());
+        robot.frontRightDrive.setTargetPosition(-motorTicks[1] + robot.frontRightDrive.getCurrentPosition());
+        robot.backLeftDrive.setTargetPosition(-motorTicks[2] + robot.backLeftDrive.getCurrentPosition());
+        robot.backRightDrive.setTargetPosition(-motorTicks[3] + robot.backRightDrive.getCurrentPosition());
+
+        if (waitForCompletion) {
+            while (opModeIsActive() && robot.isWheelsBusy()) {
+                robot.tellMotorOutput();
+            } // And we stall...
+        }
+
+        sleep(pauseMS);
+    }
+    // No turn
+    public void moveXY(int moveRight, int moveForward, boolean waitForCompletion, long pauseMS) {
+        moveXY(moveRight,moveForward,0, waitForCompletion, pauseMS);
+    }
+    //No pauseMS
+    public void moveXY(int moveRight, int moveForward, int turn, boolean waitForCompletion) {
+        moveXY(moveRight,moveForward,turn,waitForCompletion,0);
+    }
+    // No turn or pauseMS
+    public void moveXY(int moveRight, int moveForward, boolean waitForCompletion) {
+        moveXY(moveRight,moveForward,0,waitForCompletion,0);
+    }
+
     public void moveRobotForward(int ticks, long pause) {
         if (opModeIsActive()) {
             robot.setTargets("Forward", ticks); // Inverted... Lol
@@ -95,6 +159,7 @@ public class AutonomousPLUS extends LinearOpMode {
         robot.encoderReset();
     }
 
+
     public void moveRobotBackward(int ticks, long pause) {
         if (opModeIsActive()) {
             robot.setTargets("Backward", ticks);
@@ -110,7 +175,6 @@ public class AutonomousPLUS extends LinearOpMode {
             sleep(pause);
             robot.encoderReset();
         }
-
     }
 
     public void moveRobotLeft(int ticks, long pause) {
@@ -223,7 +287,6 @@ public class AutonomousPLUS extends LinearOpMode {
             robot.encoderReset();
         }
     }
-
 
     public void timeDriveForward(long time, long pause)
     {//time is in milliseconds
@@ -354,8 +417,8 @@ public class AutonomousPLUS extends LinearOpMode {
     }
 
 
-
-
+/*
+    @Deprecated
     public void moveArm(int ticks, double power, long pause) {
         //Moves the lift to the specified position...
         // Doesn't move it by the number of ticks given as the drivetrain functions expect.
@@ -372,6 +435,24 @@ public class AutonomousPLUS extends LinearOpMode {
         sleep(pause);
     }
 
+    public void moveArm(int ticks, double power, boolean waitForCompletion, long pause) {
+        //Moves the lift to the specified position...
+        // Doesn't move it by the number of ticks given as the drivetrain functions expect.
+        robot.liftyR.setPower(power);
+        robot.liftyL.setPower(power);
+        robot.liftyR.setTargetPosition(ticks);
+        robot.liftyL.setTargetPosition(ticks);
+        robot.liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        if (waitForCompletion) { // This delays the return of the function until the arm is done moving
+            while (!(robot.liftyR.getCurrentPosition() > (ticks - 10) && robot.liftyR.getCurrentPosition() < (ticks + 10)))
+            {
+                robot.tellMotorOutput();
+            }
+        }
+        sleep(pause);
+    }*/
+/*
     public void pickupSample(int pickupTime, long pause) {
         // REQUIREMENTS TO USE FUNCTION (plz don't ignore):
             // Needs a wait before the function if the most recent movement was the slides
@@ -387,10 +468,10 @@ public class AutonomousPLUS extends LinearOpMode {
         prepareNextAction(pickupTime);
         robot.intake_spin(0);
         prepareNextAction(pause);
-    }
+    }*/
     public void prepareAuto() {
-        robot.liftyL.setPower(0);
-        robot.liftyR.setPower(0);
+        /*robot.liftyL.setPower(0);
+        //robot.liftyR.setPower(0);
         robot.intakePosition("UP");
         robot.tempOutakePos("DOWN");
         robot.slidesIn();
@@ -400,17 +481,17 @@ public class AutonomousPLUS extends LinearOpMode {
         robot.frontRightDrive.setTargetPositionTolerance(12);
         robot.backLeftDrive.setTargetPositionTolerance(12);
         robot.backRightDrive.setTargetPositionTolerance(12);
-        robot.liftyL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.liftyR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //robot.liftyL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //robot.liftyR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);*/
         robot.encoderReset();
     }
 
-    public void setMotorTolerance(int ticks) {
+    /*public void setMotorTolerance(int ticks) {
         robot.frontLeftDrive.setTargetPositionTolerance(ticks);
         robot.frontRightDrive.setTargetPositionTolerance(ticks);
         robot.backLeftDrive.setTargetPositionTolerance(ticks);
         robot.backRightDrive.setTargetPositionTolerance(ticks);
-    }
+    }*/
 
     public void prepareNextAction(long pause) {
         sleep(pause);
