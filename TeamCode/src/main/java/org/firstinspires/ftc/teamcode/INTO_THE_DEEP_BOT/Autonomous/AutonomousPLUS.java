@@ -33,7 +33,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Robot;
-import org.firstinspires.ftc.teamcode.SummerTestBot.Basic_Strafer_Bot;
 //import org.firstinspires.ftc.teamcode.OLD.Autonomous.AprilTags.MayFlowers;
 
 /**
@@ -55,14 +54,14 @@ public class AutonomousPLUS extends LinearOpMode {
     public double slidePos;
 
     //DO NOT DELETE THIS LINE! CAPITALIZATION IS VERY IMPORTANT!!!
-    public Basic_Strafer_Bot robot = null;
+    public Robot robot = null;
 
     /*public AutonomousPLUS(){
         robot = new Robot(hardwareMap, telemetry, this);
     }*/
     @Override
     public void runOpMode() {
-        robot = new Basic_Strafer_Bot(hardwareMap, telemetry, this);
+        robot = new Robot(hardwareMap, telemetry, this);
     }
 
     //These are the basic functions for mechnum movement during auto... Don't mess with these unless something is inverted
@@ -476,7 +475,7 @@ public class AutonomousPLUS extends LinearOpMode {
         robot.tempOutakePos("DOWN");
         robot.slidesIn();
         //CHASE WAS HERE ;)
-        robot.outakeclawOpenClose("CLOSED");
+        robot.clawOpenClose("CLOSED");
         robot.frontLeftDrive.setTargetPositionTolerance(12);
         robot.frontRightDrive.setTargetPositionTolerance(12);
         robot.backLeftDrive.setTargetPositionTolerance(12);

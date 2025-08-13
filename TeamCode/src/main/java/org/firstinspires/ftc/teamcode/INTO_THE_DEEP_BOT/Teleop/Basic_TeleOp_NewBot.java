@@ -124,9 +124,9 @@ public class Basic_TeleOp_NewBot extends OpMode {
         telemetry.addData("HYPE", "Let's do this!!!");
         gamepad1.setLedColor(0, 0, 255, 100000000);
         gamepad2.setLedColor(0, 0, 255, 100000000);
-        robot.tempOutakePos("DOWN");
-        robot.slidesIn();
-        robot.intakePosition("UP");
+        //robot.tempOutakePos("DOWN");
+        //robot.slidesIn();
+        //robot.intakePosition("UP");
     }
 
     /*
@@ -174,7 +174,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
         if(gamepad1.touchpad)
         {
-            robot.tempOutakePos("MOREUP");
+            //robot.tempOutakePos("MOREUP");
         }
 
 
@@ -347,11 +347,11 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
         if(gamepad2.cross)
         {
-            robot.outakeclawOpenClose("CLOSED");
+            robot.clawOpenClose(Robot.openClose.OPEN);
         }
         else if (gamepad2.circle)
         {
-            robot.outakeclawOpenClose("OPEN");
+            robot.clawOpenClose(Robot.openClose.CLOSE);
         }
 
 

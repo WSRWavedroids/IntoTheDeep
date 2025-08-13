@@ -24,7 +24,7 @@ public class OLD_LowBasket extends AutonomousPLUS {
         robot.tempOutakePos("UP");
         robot.slidesIn();
         speed = .65;
-        robot.outakeclawOpenClose("CLOSED");
+        robot.clawOpenClose("CLOSED");
         //Movement Starts
         moveRobotForward(200,2);
         turnRobotLeft(850,2);
@@ -40,7 +40,7 @@ public class OLD_LowBasket extends AutonomousPLUS {
         robot.lifty.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         sleep(1500);
         moveRobotForward(360,2);
-        robot.outakeclawOpenClose("OPEN");
+        robot.clawOpenClose("OPEN");
         sleep(4000);
         */
  

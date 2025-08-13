@@ -22,7 +22,7 @@ public class ImprovedDrivetrainMovementsTest extends AutonomousPLUS {
         robot.intakePosition("UP");
         robot.slidesIn();
         speed = .65;
-        robot.outakeclawOpenClose("CLOSED");
+        robot.clawOpenClose("CLOSED");
 
 
         moveDiagonalRight(1000, 2);
