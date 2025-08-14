@@ -59,28 +59,28 @@ public abstract class AutonomousPearl extends OpMode {
     }
 
     public void moveArm(int ticks, double power, long pause) {
-        robot.liftyL.setPower(power);
-        robot.liftyR.setPower(power);
-        robot.liftyL.setTargetPosition(ticks);
-        robot.liftyR.setTargetPosition(ticks);
-        robot.liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //robot.liftyL.setPower(power);
+        //robot.liftyR.setPower(power);
+        //robot.liftyL.setTargetPosition(ticks);
+        //robot.liftyR.setTargetPosition(ticks);
+        //robot.liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //robot.liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        while (!(robot.liftyR.getCurrentPosition() > (ticks - 10) && robot.liftyR.getCurrentPosition() < (ticks + 10)))
+        //while (!(robot.liftyR.getCurrentPosition() > (ticks - 10) && robot.liftyR.getCurrentPosition() < (ticks + 10)))
         {
             robot.tellMotorOutput();
         }
         //sleep(pause);
     }
 
-    public void moveArmWhileSwoop(int ticks, double power, long pause) {
+    /*public void moveArmWhileSwoop(int ticks, double power, long pause) {
         robot.liftyL.setPower(power);
         robot.liftyR.setPower(power);
         robot.liftyL.setTargetPosition(ticks);
         robot.liftyR.setTargetPosition(ticks);
         robot.liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    }
+    }*/
 
     public void prepareNextAction(double stallTime) {
         double priorRuntime = getRuntime();
@@ -91,7 +91,7 @@ public abstract class AutonomousPearl extends OpMode {
         return;
     }
 
-    public void autoSlides(double change)
+    /*public void autoSlides(double change)
     {
         robot.leftSlide.setPosition(1-change);
         robot.rightSlide.setPosition(0+change);
@@ -100,8 +100,8 @@ public abstract class AutonomousPearl extends OpMode {
             robot.rightSlide.setPosition(0 + change);
             robot.tellMotorOutput();
         }
-    }
-    public void pickupSample(int pickupTime, long pause) {
+    }*/
+    /*public void pickupSample(int pickupTime, long pause) {
         // REQUIREMENTS TO USE FUNCTION (plz don't ignore):
         // Needs a wait before the function if the most recent movement was the slides
         // Function can't run until the servos get over their start-of-auto crisis (about 2.5 seconds). This is really obscure, but it might be a problem for somebody someday.
@@ -116,5 +116,5 @@ public abstract class AutonomousPearl extends OpMode {
         prepareNextAction((double) pickupTime / 1000);
         robot.intake_spin(0);
         prepareNextAction((double) pause / 1000);
-    }
+    }*/
 }

@@ -208,26 +208,26 @@ public class Basic_TeleOp_NewBot extends OpMode {
         //A bunch of slide nonsense. PLS don't touch unless u know what ur doing
         int liftyTopLimit = 4100;//temp value
         int liftyBottomLimit = 116;//temp value
-        int liftyGoControlerVal = robot.liftyL.getCurrentPosition() - ((int) armStickY * 260);
-        robot.liftyR.setPower(1);
-        robot.liftyL.setPower(1);
+        //int liftyGoControlerVal = robot.liftyL.getCurrentPosition() - ((int) armStickY * 260);
+        //robot.liftyR.setPower(1);
+        //robot.liftyL.setPower(1);
 
         //This needs tested. If a button is pressed but stick isn't, go to preset 1 or 2
         if (Math.abs(gamepad2.left_stick_y) < 0.2 && gamepad2.left_stick_button)
         {
             //Wall Position
-            robot.liftyL.setTargetPosition(206);
-            robot.liftyR.setTargetPosition(206);//inverted
-            if(robot.liftyL.getCurrentPosition() > 329 && robot.liftyL.getCurrentPosition() < 349)
+            //robot.liftyL.setTargetPosition(206);
+            //robot.liftyR.setTargetPosition(206);//inverted
+            //if(robot.liftyL.getCurrentPosition() > 329 && robot.liftyL.getCurrentPosition() < 349)
             {
                 gamepad2.rumble(500);
             }
         }
         else if(Math.abs(gamepad2.left_stick_y) < 0.2 && gamepad2.dpad_right)
         {
-            robot.liftyL.setTargetPosition(2500);
-            robot.liftyR.setTargetPosition(2500);
-            if(robot.liftyL.getCurrentPosition() > 2490 && robot.liftyL.getCurrentPosition() < 2510)
+            //robot.liftyL.setTargetPosition(2500);
+            //robot.liftyR.setTargetPosition(2500);
+            //if(robot.liftyL.getCurrentPosition() > 2490 && robot.liftyL.getCurrentPosition() < 2510)
             {
                 gamepad2.rumble(500);
             }
@@ -235,11 +235,11 @@ public class Basic_TeleOp_NewBot extends OpMode {
         else if (canManuallyControlVerticalSlides)
         {
             //if not going to preset positions, use the left stick
-            robot.liftyR.setTargetPosition(liftyGoControlerVal);
-            robot.liftyL.setTargetPosition(liftyGoControlerVal);
+            //robot.liftyR.setTargetPosition(liftyGoControlerVal);
+            //robot.liftyL.setTargetPosition(liftyGoControlerVal);
         }
         //Limits
-        if (robot.liftyL.getCurrentPosition() > liftyTopLimit || liftyGoControlerVal > liftyTopLimit) {
+        /*if (robot.liftyL.getCurrentPosition() > liftyTopLimit || liftyGoControlerVal > liftyTopLimit) {
             robot.liftyR.setTargetPosition(liftyTopLimit);
             robot.liftyL.setTargetPosition(liftyTopLimit);
         } else if (robot.liftyL.getCurrentPosition() < liftyBottomLimit || liftyGoControlerVal < liftyBottomLimit) {
@@ -249,7 +249,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
         //Go to Targets
         robot.liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
+*/
 
 
 
@@ -271,32 +271,32 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
         if(gamepad2.left_bumper)
         {
-            robot.tempOutakePos("UP");
+            //robot.tempOutakePos("UP");
         }
         else if(gamepad2.right_bumper)
         {
-            robot.tempOutakePos("DOWN");
+            //robot.tempOutakePos("DOWN");
         }
 
         //intake
         if(gamepad2.dpad_down)
         {
-            robot.intake_spin(-1);
+            //robot.intake_spin(-1);
         }
         else if(gamepad2.dpad_left)
         {
-            robot.intake_spin(1);
+            //robot.intake_spin(1);
         }
         else
         {
-            robot.intake_spin(0);
+            //robot.intake_spin(0);
         }
 
 
         if(gamepad2.x)
         {
-            robot.intakePosition("UP");
-            robot.slidesIn();
+            //robot.intakePosition("UP");
+            //robot.slidesIn();
         }
         else if (gamepad2.y)
         {
@@ -309,15 +309,15 @@ public class Basic_TeleOp_NewBot extends OpMode {
             gamepad2.rumbleBlips(2);
         }
 
-        if (robot.canWiggle == true && Math.abs(gamepad2.right_stick_y) > 0)
+        //if (robot.canWiggle == true && Math.abs(gamepad2.right_stick_y) > 0)
         {
             if(gamepad2.right_stick_y >= 0.05)
             {
-                robot.intakeFlipper.setPosition(robot.intakeFlipper.getPosition() + 0.05 * -gamepad2.right_stick_y);
+        //        robot.intakeFlipper.setPosition(robot.intakeFlipper.getPosition() + 0.05 * -gamepad2.right_stick_y);
             }
             else if (gamepad2.right_stick_y <= 0.05)
             {
-                robot.intakeFlipper.setPosition(robot.intakeFlipper.getPosition() - 0.05 * gamepad2.right_stick_y);
+        //        robot.intakeFlipper.setPosition(robot.intakeFlipper.getPosition() - 0.05 * gamepad2.right_stick_y);
             }
 
         }
@@ -326,7 +326,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
         double sensModifier = .045f;
         if(Math.abs(slideSum) > .1)
         {
-            double left = (robot.leftSlide.getPosition() + ((double)slideSum * sensModifier));
+    /*        double left = (robot.leftSlide.getPosition() + ((double)slideSum * sensModifier));
             double right = (robot.rightSlide.getPosition() - ((double)slideSum * sensModifier));
 
             if(left < .25)
@@ -352,7 +352,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
         else if (gamepad2.circle)
         {
             robot.clawOpenClose(Robot.openClose.CLOSE);
-        }
+        };
 
 
 
@@ -360,7 +360,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
 
 
-        switch (auxState){
+        /* switch (auxState){
             case NORMAL_OPS:
 
                 canManuallyControlVerticalSlides = true;
@@ -429,14 +429,16 @@ public class Basic_TeleOp_NewBot extends OpMode {
         //This is a panic button. If anything goes wrong and you want to stop the transfer sequence, just press y again.
         if (gamepad2.y && auxState != AuxState.NORMAL_OPS) {
           auxState = AuxState.NORMAL_OPS;
-        }
+        } */
 
     }
 
     /*
      * Code to run ONCE after the driver hits STOP
      */
-    public void stop () { telemetry.addData("Status", "Robot Stopped"); }
+    public void stop() {
+        telemetry.addData("Status", "Robot Stopped");
+    } }
 
 
     /*
@@ -456,7 +458,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
         robot.backRightDrive.setPower(-motorPowers[3]);
     }
 
-    private void singleJoystickDrive () {
+    private void singleJoystickDrive() {
         // We don't really know how this function works, but it makes the wheels drive, so we don't question it.
         // Don't mess with this function unless you REALLY know what you're doing.
         float leftY = -this.gamepad1.left_stick_y;
@@ -527,7 +529,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
     }
 
-    private float getLargestAbsVal ( float[] values){
+    private float getLargestAbsVal( float[] values){
         // This function does some math!
         float max = 0;
         for (float val : values) {

@@ -28,8 +28,8 @@ public class Robot {
     public DcMotorEx extender;
 
     public Servo grabby;
-    public CRServo leftWrist;
-    public CRServo rightWrist;
+    public Servo leftWrist;
+    public Servo rightWrist;
     //public CRServo leftIntake;
     //public CRServo rightIntake;
 
@@ -82,13 +82,13 @@ public class Robot {
         backLeftDrive = hardwareMap.get(DcMotorEx.class, "backLeftDrive");
         backRightDrive = hardwareMap.get(DcMotorEx.class, "backRightDrive");
 
-        leftArm = hardwareMap.get(DcMotorEx.class,"null");
-        rightArm = hardwareMap.get(DcMotorEx.class, "null");
-        extender = hardwareMap.get(DcMotorEx.class,"null");
+        leftArm = hardwareMap.get(DcMotorEx.class,"leftArm");
+        rightArm = hardwareMap.get(DcMotorEx.class, "rightArm");
+        extender = hardwareMap.get(DcMotorEx.class,"extender");
 
-        grabby = hardwareMap.get(Servo.class, "null");
-        leftWrist = hardwareMap.get(CRServo.class,"null");
-        rightWrist = hardwareMap.get(CRServo.class,"null");
+        grabby = hardwareMap.get(Servo.class, "grabby");
+        leftWrist = hardwareMap.get(Servo.class,"leftWrist");
+        rightWrist = hardwareMap.get(Servo.class,"rightWrist");
 
         //liftyL = hardwareMap.get(DcMotorEx.class, "liftyL");
         //liftyR = hardwareMap.get(DcMotorEx.class, "liftyR");
@@ -311,9 +311,24 @@ public class Robot {
         }
     }
 
-    public void wristControl(double changeUpDown, double changeTwist) {
-        double upDownAttempt = upDown + changeUpDown;
-        double twistAttempt = twist + changeTwist;
+    public void wristGoTo(double upDownAttempt, double twistAttempt) {
+
+        double LEFT_WRIST_UP_POS = 0; //TODO
+        double LEFT_WRIST_DOWN_POS = 0; //TODO
+        double RIGHT_WRIST_UP_POS = 0; //TODO
+        double RIGHT_WRIST_DOWN_POS = 0; //TODO
+        double FULL_POSITIVE_TWIST_OFFSET = 0; //TODO
+
+        double LEFT_WRIST_0_POS = (LEFT_WRIST_UP_POS + LEFT_WRIST_DOWN_POS) / 2;
+        double RIGHT_WRIST_0_POS = (RIGHT_WRIST_UP_POS + RIGHT_WRIST_DOWN_POS) / 2;
+        double LEFT_SCALAR = LEFT_WRIST_UP_POS - LEFT_WRIST_0_POS;
+        double RIGHT_SCALAR = RIGHT_WRIST_UP_POS - RIGHT_WRIST_0_POS;
+
+        double leftUpDownMath;
+        double rightUpDownMath;
+        double leftWristMath;
+        double rightWristMath;
+
 
         // Create limits
         if (upDownAttempt > 90) {
@@ -327,26 +342,29 @@ public class Robot {
             twistAttempt = -90;
         }
 
-        /* // TODO MESSAGE FOR CLAY:
+        // up/down
+        leftUpDownMath = upDownAttempt * LEFT_SCALAR / 90;
+        rightUpDownMath = upDownAttempt * RIGHT_SCALAR / 90;
 
-        My idea for this function is that the upDownAttempt and twistAttempt variables are used to set the servos.
-        I'm pretty sure the servos don't actually need to be constant rotation. The Attempt variables are in degrees
-        and 0,0 (upDownAttempt,twistAttempt) is straight forward.
+        // twist
+        leftWristMath = -1 * twistAttempt * FULL_POSITIVE_TWIST_OFFSET / 90;
+        rightWristMath = twistAttempt * FULL_POSITIVE_TWIST_OFFSET / 90;
 
-        The limits for the servos are as such: one limit should be 90,90 (upDownAttempt,twistAttempt) and the other
-        should be -90,-90 (upDownAttempt,twistAttempt). Then just use the power of math to convert upDownAttempt and
-        twistAttempt degree values to 0-1 values for each servo. Caden will hopefully remember this from when I showed
-        him today.
-
-        I wrote this really late so if it's completely incoherent please text me. Thanks.
-
-        P.S. Teleop is angry right now
-
-         */
+        // Move them
+        leftWrist.setPosition(leftUpDownMath + leftWristMath);
+        rightWrist.setPosition(rightUpDownMath + rightWristMath);
 
         // Success!
         upDown = upDownAttempt;
         twist = twistAttempt;
+        return;
+    }
+    public void wristControl(double changeUpDown, double changeTwist) {
+        double upDownAttempt = upDown + changeUpDown;
+        double twistAttempt = twist + changeTwist;
+
+        wristGoTo(upDownAttempt,twistAttempt);
+
         return;
     }
 
