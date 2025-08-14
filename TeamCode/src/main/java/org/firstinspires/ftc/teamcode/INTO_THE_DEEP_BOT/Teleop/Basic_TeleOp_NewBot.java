@@ -309,7 +309,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
             gamepad2.rumbleBlips(2);
         }
 
-        //if (robot.canWiggle == true && Math.abs(gamepad2.right_stick_y) > 0)
+        /*if (robot.canWiggle == true && Math.abs(gamepad2.right_stick_y) > 0)
         {
             if(gamepad2.right_stick_y >= 0.05)
             {
@@ -320,13 +320,13 @@ public class Basic_TeleOp_NewBot extends OpMode {
         //        robot.intakeFlipper.setPosition(robot.intakeFlipper.getPosition() - 0.05 * gamepad2.right_stick_y);
             }
 
-        }
+        }*/
 
         float slideSum = gamepad2.right_trigger - gamepad2.left_trigger;
         double sensModifier = .045f;
-        if(Math.abs(slideSum) > .1)
+    /*    if(Math.abs(slideSum) > .1)
         {
-    /*        double left = (robot.leftSlide.getPosition() + ((double)slideSum * sensModifier));
+            double left = (robot.leftSlide.getPosition() + ((double)slideSum * sensModifier));
             double right = (robot.rightSlide.getPosition() - ((double)slideSum * sensModifier));
 
             if(left < .25)
@@ -438,7 +438,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
      */
     public void stop() {
         telemetry.addData("Status", "Robot Stopped");
-    } }
+    }
 
 
     /*

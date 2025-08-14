@@ -82,9 +82,9 @@ public class Robot {
         backLeftDrive = hardwareMap.get(DcMotorEx.class, "backLeftDrive");
         backRightDrive = hardwareMap.get(DcMotorEx.class, "backRightDrive");
 
-        leftArm = hardwareMap.get(DcMotorEx.class,"leftArm");
+        //leftArm = hardwareMap.get(DcMotorEx.class,"leftArm");
         rightArm = hardwareMap.get(DcMotorEx.class, "rightArm");
-        extender = hardwareMap.get(DcMotorEx.class,"extender");
+        extender = hardwareMap.get(DcMotorEx.class,"slide");
 
         grabby = hardwareMap.get(Servo.class, "grabby");
         leftWrist = hardwareMap.get(Servo.class,"leftWrist");
