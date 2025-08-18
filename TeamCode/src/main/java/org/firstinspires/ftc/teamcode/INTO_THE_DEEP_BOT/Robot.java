@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -69,6 +68,7 @@ public class Robot {
     private double upDown;
     private double twist;
     private double armPosDegrees;
+    private double extenderInches;
 
     //Initialize motors and servos
     public Robot(HardwareMap hardwareMap, Telemetry telemetry, OpMode opmode){
@@ -374,7 +374,7 @@ public class Robot {
         int rightMath;
         double TICKS_IN_90 = 0; //TODO
 
-        if (attempt > Math.toDegrees(Math.PI/2)) {
+        if (attempt > 90) {
             attempt = 90;
         } else if (attempt < 0) {
             attempt = 0;
@@ -395,6 +395,34 @@ public class Robot {
 
     public void armControl(double change) {
         double attempt = armPosDegrees + change;
+
+        armGoTo(change);
+
+        return;
+    }
+
+    public void extenderGoTo(double attempt) {
+        int ticks;
+        double TICKS_IN_IN = 0; //TODO
+
+        if (attempt > 100) {
+            attempt = 100;
+        } else if (attempt < 0) {
+            attempt = 0;
+        }
+
+        ticks = (int) (attempt * TICKS_IN_IN);
+
+        extenderInches = attempt;
+
+        extender.setTargetPosition(ticks);
+        extender.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        return;
+    }
+
+    public void extenderControl(double change) {
+        double attempt = extenderInches + change;
 
         armGoTo(change);
 

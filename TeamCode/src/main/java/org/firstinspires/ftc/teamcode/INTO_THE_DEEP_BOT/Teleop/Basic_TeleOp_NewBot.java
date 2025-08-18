@@ -134,7 +134,6 @@ public class Basic_TeleOp_NewBot extends OpMode {
      */
     public void loop() {
 
-        singleJoystickDrive();
         // This little section updates the driver hub on the runtime and the motor powers.
         // It's mostly used for troubleshooting.
         telemetry.addData("Aux State", auxState);
@@ -148,50 +147,16 @@ public class Basic_TeleOp_NewBot extends OpMode {
         //So Begins the input chain. At least try a bit to organise by driver
 
         //Driver 1
-        if (gamepad1.back) {
-            if (robot.controlMode == "Robot Centric"){
-                robot.controlMode = "Field Centric";
-                telemetry.addData("Control Mode", "Field Centric Controls");
-            } else if (robot.controlMode == "Field Centric") {
-                robot.controlMode = "Robot Centric";
-                telemetry.addData("Control Mode", "Robot Centric Controls");
-            }
-        }
+        controlMode();
+        driveSpeed();
+        singleJoystickDrive();
 
-        if (gamepad1.options && robot.controlMode == "Field Centric") {
-            imu.resetYaw();
-        }
-
-        if (gamepad1.dpad_up || gamepad1.right_trigger >= 0.5) {
-            speed = 1;
-        } else if (gamepad1.dpad_down) {
-            speed = 0.25;
-        } else if (gamepad1.dpad_left || gamepad1.left_trigger >0.5) {
-            speed = 0.5;
-        } else if (gamepad1.dpad_right) {
-            speed = 0.75;
-        }
-
-        if(gamepad1.touchpad)
-        {
-            //robot.tempOutakePos("MOREUP");
-        }
-
-
-        telemetry.addData("Trackpad X", gamepad1.touchpad_finger_1_x);
-        telemetry.addData("Trackpad Y", gamepad1.touchpad_finger_1_y);
-
-        if (speed == 1) {
-            telemetry.addData("Speed", "Fast Boi");
-        } else if (speed == 0.5) {
-            telemetry.addData("Speed", "Slow Boi");
-        } else if (speed == 0.25) {
-            telemetry.addData("Speed", "Super Slow Boi");
-        } else if (speed == 0.75) {
-            telemetry.addData("Speed", "Normal Boi");
-        }
+        // Driver 2
+        mainArmControl();
+        mainWristControl();
 
         /*//Driver 2 Starts here
+
         //Lift
         if (gamepad2.left_stick_y < -0.5){
             robot.lifty.setPower(armStickY);
@@ -527,6 +492,74 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
         setIndividualPowers(motorPowers);
 
+    }
+
+    private void controlMode() {
+        if (gamepad1.back) {
+            if (robot.controlMode == "Robot Centric"){
+                robot.controlMode = "Field Centric";
+                telemetry.addData("Control Mode", "Field Centric Controls");
+            } else if (robot.controlMode == "Field Centric") {
+                robot.controlMode = "Robot Centric";
+                telemetry.addData("Control Mode", "Robot Centric Controls");
+            }
+        }
+
+        if (gamepad1.options && robot.controlMode == "Field Centric") {
+            imu.resetYaw();
+        }
+    }
+
+    private void driveSpeed() {
+        if (gamepad1.dpad_up || gamepad1.right_trigger >= 0.5) {
+            speed = 1;
+        } else if (gamepad1.dpad_down) {
+            speed = 0.25;
+        } else if (gamepad1.dpad_left || gamepad1.left_trigger >0.5) {
+            speed = 0.5;
+        } else if (gamepad1.dpad_right) {
+            speed = 0.75;
+        }
+
+        if (speed == 1) {
+            telemetry.addData("Speed", "Fast Boi");
+        } else if (speed == 0.5) {
+            telemetry.addData("Speed", "Slow Boi");
+        } else if (speed == 0.25) {
+            telemetry.addData("Speed", "Super Slow Boi");
+        } else if (speed == 0.75) {
+            telemetry.addData("Speed", "Normal Boi");
+        }
+    }
+
+    private void mainArmControl() {
+        if (gamepad2.right_stick_y > .2) {
+            robot.armControl(gamepad2.right_stick_y);
+        }
+        if (gamepad2.left_stick_y > .2) {
+            robot.extenderControl(gamepad2.left_stick_y);
+        }
+    }
+
+    private void mainWristControl() {
+        double MOVE_SPEED = 5;
+        double upDowney = 0;
+        double twisty = 0;
+        if (gamepad2.left_bumper) {
+            upDowney -= MOVE_SPEED;
+        }
+        if (gamepad2.right_bumper) {
+            upDowney += MOVE_SPEED;
+        }
+        if (gamepad2.left_trigger > .15) {
+            twisty -= MOVE_SPEED;
+        }
+        if (gamepad2.right_trigger > .15)
+        {
+            twisty += MOVE_SPEED;
+        }
+
+        robot.wristControl(upDowney, twisty);
     }
 
     private float getLargestAbsVal( float[] values){
