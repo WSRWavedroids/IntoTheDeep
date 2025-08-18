@@ -68,6 +68,7 @@ public class Robot {
     public enum openClose{OPEN,CLOSE}
     private double upDown;
     private double twist;
+    private double armPosDegrees;
 
     //Initialize motors and servos
     public Robot(HardwareMap hardwareMap, Telemetry telemetry, OpMode opmode){
@@ -368,6 +369,38 @@ public class Robot {
         return;
     }
 
+    public void armGoTo(double attempt) {
+        int leftMath;
+        int rightMath;
+        double TICKS_IN_90 = 0; //TODO
+
+        if (attempt > Math.toDegrees(Math.PI/2)) {
+            attempt = 90;
+        } else if (attempt < 0) {
+            attempt = 0;
+        }
+
+        leftMath = (int) (attempt * TICKS_IN_90 / 90);
+        rightMath = (int) (attempt * TICKS_IN_90 / 90);
+
+        armPosDegrees = attempt;
+
+        leftArm.setTargetPosition(leftMath);
+        rightArm.setTargetPosition(rightMath);
+        leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        return;
+    }
+
+    public void armControl(double change) {
+        double attempt = armPosDegrees + change;
+
+        armGoTo(change);
+
+        return;
+    }
+
     /*public void tempOutakePos(String pos)// DO NOT TRUST THESE VALS ARE PLACEHOLDERS
     {
         if (pos == "DOWN")
@@ -544,25 +577,25 @@ public class Robot {
         telemetry.update();
     }
 
-    public double inchesToTicks(double inches){
+    public double inchesToTicks(double inches) {
         // returns the inches * ticks per rotation / wheel circ
         return ((inches/12.25) * 537.6 / .5);
         //todo Reference that 1 inch ~= 50 ticks
     }
     // one side may be backwards due to the direction that the motor was faced
-    /*public void moveArm(String direction){
-        if (direction == "Up"){
-            liftyL.setPower(1);
-            liftyL.setDirection(DcMotor.Direction.FORWARD);//inverted
-            liftyR.setPower(1);
-            liftyR.setDirection(DcMotor.Direction.FORWARD);//inverted
-        } else if (direction == "Down"){
-            liftyL.setPower(0.25);
-            liftyL.setDirection(DcMotor.Direction.REVERSE);//Inverted
-            liftyR.setPower(0.25);
-            liftyR.setDirection(DcMotor.Direction.REVERSE);//Inverted
+    public void moveArm(String direction) {
+        if (direction == "Up") {
+            leftArm.setPower(1);
+            leftArm.setDirection(DcMotor.Direction.FORWARD);//inverted
+            rightArm.setPower(1);
+            rightArm.setDirection(DcMotor.Direction.FORWARD);//inverted
+        } else if (direction == "Down") {
+            leftArm.setPower(0.25);
+            leftArm.setDirection(DcMotor.Direction.REVERSE);//Inverted
+            rightArm.setPower(0.25);
+            rightArm.setDirection(DcMotor.Direction.REVERSE);//Inverted
         }
-    }*/
+    }
 
     ElapsedTime timer = new ElapsedTime();
 
