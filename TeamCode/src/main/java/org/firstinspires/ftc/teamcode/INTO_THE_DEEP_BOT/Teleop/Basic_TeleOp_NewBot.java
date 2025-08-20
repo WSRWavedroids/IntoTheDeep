@@ -60,7 +60,8 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Robot;
  * did a horrible job of doing that.
  */
 
-@TeleOp(name=" STEEVE", group="CompBot")
+
+@TeleOp(name="NOT STEEVE ANYMOREE", group="CompBot")
 public class Basic_TeleOp_NewBot extends OpMode {
 
     // This section tells the program all of the different pieces of hardware that are on our robot that we will use in the program.
@@ -109,6 +110,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
         }
         //if using field centric youl need this lolzeez
 
+        //robot.wristGoTo(0,0);
     }
 
     /*
@@ -127,18 +129,16 @@ public class Basic_TeleOp_NewBot extends OpMode {
         //robot.tempOutakePos("DOWN");
         //robot.slidesIn();
         //robot.intakePosition("UP");
+
+        //robot.leftWrist.setPosition(.5);
+        //robot.rightWrist.setPosition(.5);
+        robot.wristGoTo(0,0);
     }
 
     /*
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
      */
     public void loop() {
-
-        // This little section updates the driver hub on the runtime and the motor powers.
-        // It's mostly used for troubleshooting.
-        telemetry.addData("Aux State", auxState);
-        telemetry.addData("Status", "Run Time: " + runtime.toString());
-        robot.tellMotorOutput();
 
         float armStickY = this.gamepad2.left_stick_y;
 
@@ -151,9 +151,14 @@ public class Basic_TeleOp_NewBot extends OpMode {
         driveSpeed();
         singleJoystickDrive();
 
+        if (gamepad1.touchpad || gamepad2.touchpad) {
+            requestOpModeStop();
+        }
+
         // Driver 2
         mainArmControl();
         mainWristControl();
+        clawControl();
 
         /*//Driver 2 Starts here
 
@@ -234,14 +239,6 @@ public class Basic_TeleOp_NewBot extends OpMode {
             robot.holdArm();
         }*/
 
-        if(gamepad2.left_bumper)
-        {
-            //robot.tempOutakePos("UP");
-        }
-        else if(gamepad2.right_bumper)
-        {
-            //robot.tempOutakePos("DOWN");
-        }
 
         //intake
         if(gamepad2.dpad_down)
@@ -395,6 +392,8 @@ public class Basic_TeleOp_NewBot extends OpMode {
         if (gamepad2.y && auxState != AuxState.NORMAL_OPS) {
           auxState = AuxState.NORMAL_OPS;
         } */
+
+        doTelemetryStuff();
 
     }
 
@@ -562,6 +561,25 @@ public class Basic_TeleOp_NewBot extends OpMode {
         robot.wristControl(upDowney, twisty);
     }
 
+    private void clawControl() {
+        if (gamepad2.circle & !gamepad2.start) {
+            robot.clawOpenClose(Robot.openClose.OPEN);
+        } else if (gamepad2.cross & !gamepad2.start) {
+            robot.clawOpenClose(Robot.openClose.CLOSE);
+        }
+    }
+
+    private void doTelemetryStuff() {
+        // This little section updates the driver hub on the runtime and the motor powers.
+        // It's mostly used for troubleshooting.
+        telemetry.addData("Aux State", auxState);
+        telemetry.addData("Status", "Run Time: " + runtime.toString());
+        telemetry.addData("leftWrist", robot.leftWrist.getPosition());
+        telemetry.addData("rightWrist", robot.rightWrist.getPosition());
+        telemetry.addData("Supposed upDown",robot.upDown);
+        telemetry.addData("Supposed twist",robot.twist);
+        robot.tellMotorOutput();
+    }
     private float getLargestAbsVal( float[] values){
         // This function does some math!
         float max = 0;
