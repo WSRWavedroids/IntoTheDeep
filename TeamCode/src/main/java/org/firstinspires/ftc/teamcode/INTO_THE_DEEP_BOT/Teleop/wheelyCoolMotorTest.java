@@ -111,11 +111,11 @@ public class wheelyCoolMotorTest extends OpMode {
             }
         }
 
-        if (gamepad1.dpad_up) {
+        if (gamepad1.dpad_up || gamepad1.right_trigger > 0.25) {
             speed = 1;
         } else if (gamepad1.dpad_down) {
             speed = 0.25;
-        } else if (gamepad1.dpad_left) {
+        } else if (gamepad1.dpad_left || gamepad1.left_trigger > 0.25) {
             speed = 0.5;
         } else if (gamepad1.dpad_right) {
             speed = 0.75;
@@ -131,14 +131,6 @@ public class wheelyCoolMotorTest extends OpMode {
             telemetry.addData("Speed", "Normal Boi");
         }
 
-
-        if (gamepad1.right_trigger >= 0.5) {
-
-            speed = 1;
-
-        } else if (gamepad1.left_trigger > 0.5) {
-            speed = 0.50;
-        }
 
         //By using buttons to move in a direction, we can look at movement without stick drift or human error while pushing the stick
         if (gamepad1.triangle)//forward
