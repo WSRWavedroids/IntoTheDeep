@@ -65,8 +65,8 @@ public class Robot {
     public IMU.Parameters imuParameters;
 
     public enum openClose{OPEN,CLOSE}
-    private double upDown;
-    private double twist;
+    public double upDown;
+    public double twist;
     private double armPosDegrees;
     private double extenderInches;
 
@@ -83,7 +83,7 @@ public class Robot {
         backLeftDrive = hardwareMap.get(DcMotorEx.class, "backLeftDrive");
         backRightDrive = hardwareMap.get(DcMotorEx.class, "backRightDrive");
 
-        //leftArm = hardwareMap.get(DcMotorEx.class,"leftArm");
+        leftArm = hardwareMap.get(DcMotorEx.class,"leftArm");
         rightArm = hardwareMap.get(DcMotorEx.class, "rightArm");
         extender = hardwareMap.get(DcMotorEx.class,"slide");
 
@@ -113,17 +113,16 @@ public class Robot {
         );
 
         // This section sets the direction of all of the motors. Depending on the motor, this may change later in the program.
-        frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
-        frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
-        backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
-        backRightDrive.setDirection(DcMotor.Direction.FORWARD);
+        frontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
+        frontRightDrive.setDirection(DcMotor.Direction.REVERSE);
+        backLeftDrive.setDirection(DcMotor.Direction.FORWARD);
+        backRightDrive.setDirection(DcMotor.Direction.REVERSE);
         //TODO check inversion
         leftArm.setDirection(DcMotor.Direction.FORWARD);
         //TODO check inversion
         rightArm.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // This tells the motors to chill when we're not powering them.
-        frontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -315,10 +314,10 @@ public class Robot {
     public void wristGoTo(double upDownAttempt, double twistAttempt) {
 
         double LEFT_WRIST_UP_POS = .875; //TODO
-        double LEFT_WRIST_DOWN_POS = .875; //TODO
-        double RIGHT_WRIST_UP_POS = .125; //TODO
+        double LEFT_WRIST_DOWN_POS = .125; //TODO
+        double RIGHT_WRIST_UP_POS = .875; //TODO
         double RIGHT_WRIST_DOWN_POS = .125; //TODO
-        double FULL_POSITIVE_TWIST_OFFSET = .0625; //TODO
+        double FULL_POSITIVE_TWIST_OFFSET = .125; //TODO
 
         double LEFT_WRIST_0_POS = (LEFT_WRIST_UP_POS + LEFT_WRIST_DOWN_POS) / 2;
         double RIGHT_WRIST_0_POS = (RIGHT_WRIST_UP_POS + RIGHT_WRIST_DOWN_POS) / 2;
@@ -327,8 +326,8 @@ public class Robot {
 
         double leftUpDownMath;
         double rightUpDownMath;
-        double leftWristMath;
-        double rightWristMath;
+        double leftTwistMath;
+        double rightTwistMath;
 
 
         // Create limits
@@ -344,20 +343,23 @@ public class Robot {
         }
 
         // up/down
-        leftUpDownMath = upDownAttempt * LEFT_SCALAR / 90;
-        rightUpDownMath = upDownAttempt * RIGHT_SCALAR / 90;
+        leftUpDownMath = (upDownAttempt * LEFT_SCALAR / 90) + LEFT_WRIST_0_POS;
+        rightUpDownMath = (upDownAttempt * RIGHT_SCALAR / 90) + RIGHT_WRIST_0_POS;
 
         // twist
-        leftWristMath = -1 * twistAttempt * FULL_POSITIVE_TWIST_OFFSET / 90;
-        rightWristMath = twistAttempt * FULL_POSITIVE_TWIST_OFFSET / 90;
+        leftTwistMath = twistAttempt * FULL_POSITIVE_TWIST_OFFSET / 90;
+        rightTwistMath = -twistAttempt * FULL_POSITIVE_TWIST_OFFSET / 90;
 
         // Move them
-        leftWrist.setPosition(leftUpDownMath + leftWristMath);
-        rightWrist.setPosition(rightUpDownMath + rightWristMath);
+        leftWrist.setPosition(leftUpDownMath + leftTwistMath);
+        rightWrist.setPosition(rightUpDownMath + rightTwistMath);
 
         // Success!
         upDown = upDownAttempt;
         twist = twistAttempt;
+
+        telemetry.addData("leftUpDownMath",leftUpDownMath);
+        telemetry.addData("leftTwistMath", leftTwistMath);
         return;
     }
     public void wristControl(double changeUpDown, double changeTwist) {
