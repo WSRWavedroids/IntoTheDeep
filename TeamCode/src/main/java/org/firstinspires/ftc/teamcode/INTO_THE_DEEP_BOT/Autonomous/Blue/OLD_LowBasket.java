@@ -19,8 +19,8 @@ public class OLD_LowBasket extends AutonomousPLUS {
 
         waitForStart();
         telemetry.addData(currentPosition,"Start position");
-/*
-        robot.lifty.setPower(0);
+
+        /*robot.lifty.setPower(0);
         robot.tempOutakePos("UP");
         robot.slidesIn();
         speed = .65;
@@ -41,8 +41,8 @@ public class OLD_LowBasket extends AutonomousPLUS {
         sleep(1500);
         moveRobotForward(360,2);
         robot.clawOpenClose("OPEN");
-        sleep(4000);
-        */
+        sleep(4000);*/
+
  
     }
 }

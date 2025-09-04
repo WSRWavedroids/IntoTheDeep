@@ -313,11 +313,11 @@ public class Robot {
 
     public void wristGoTo(double upDownAttempt, double twistAttempt) {
 
-        double LEFT_WRIST_UP_POS = .875; //TODO
-        double LEFT_WRIST_DOWN_POS = .125; //TODO
-        double RIGHT_WRIST_UP_POS = .875; //TODO
-        double RIGHT_WRIST_DOWN_POS = .125; //TODO
-        double FULL_POSITIVE_TWIST_OFFSET = .125; //TODO
+        double LEFT_WRIST_UP_POS = .7292; //TODO
+        double LEFT_WRIST_DOWN_POS = .1111; //TODO
+        double RIGHT_WRIST_UP_POS = .7014; //TODO
+        double RIGHT_WRIST_DOWN_POS = .0556; //TODO
+        double FULL_POSITIVE_TWIST_OFFSET = .1668; //TODO
 
         double LEFT_WRIST_0_POS = (LEFT_WRIST_UP_POS + LEFT_WRIST_DOWN_POS) / 2;
         double RIGHT_WRIST_0_POS = (RIGHT_WRIST_UP_POS + RIGHT_WRIST_DOWN_POS) / 2;

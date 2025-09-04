@@ -116,7 +116,9 @@ public class Basic_TeleOp_NewBot extends OpMode {
     /*
      * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
      */
-    public void init_loop() {telemetry.addData("HYPE", "ARE! YOU! READY?!?!?!?!");}
+    public void init_loop() {
+        telemetry.addData("HYPE", "ARE! YOU! READY?!?!?!?!");
+    }
 
     /*
      * Code to run ONCE when the driver hits PLAY
@@ -157,8 +159,8 @@ public class Basic_TeleOp_NewBot extends OpMode {
         }
 
         // Driver 2
-        /*
-        mainArmControl();
+
+        //mainArmControl();
         mainWristControl();
         clawControl();
 
@@ -221,7 +223,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
 
 
-*/
+
         doTelemetryStuff();
 
     }
