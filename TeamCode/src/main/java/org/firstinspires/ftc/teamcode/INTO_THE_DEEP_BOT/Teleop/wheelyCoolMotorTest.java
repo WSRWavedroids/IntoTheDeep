@@ -37,20 +37,13 @@ import org.firstinspires.ftc.teamcode.SummerTestBot.Basic_Strafer_Bot;
 
 
 /**
- * This file is our iterative (Non-Linear) "OpMode" for TeleOp.
- * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
- * The names of OpModes appear on the menu of the FTC Driver Station.
- * When an selection is made from the menu, the corresponding OpMode
- * class is selected on the Robot Controller and executed.
- * This particular one is called "Lean Mean TeleOp Machine". I had a little too much fun with naming this.
+ * This file is our "Build issue detector" it allows the build, drive, and programming teams to find issues with faulty controllers, unplugged wires, and incorrectly mounted wheels.
+ * This script only looks at the drivetrain and controllers, so you may need to adapt it for your own robot
  *
- * This OpMode controls the functions of the robot during the driver-controlled period.
  *
- * If the "@Disabled" line is not commented out, the program will not show up on the driver hub.
- * If you ever have problems with the program not showing up on the driver hub, it's probably because of that.
+ * Using the face buttons the robot should move perfectly in one direction... if not its an issue with wheels or motors
+ * In addition to this, telemetry allows us to see if servos and other hardware are being told to move but aren't (wiring issue)
  *
- * Throughout this program, there are comments explaining what everything does because previous programmers
- * did a horrible job of doing that.
  */
 
 @TeleOp(name="Build issue detector", group="CompBot")
@@ -86,7 +79,7 @@ public class wheelyCoolMotorTest extends OpMode {
      */
     public void start() {
         runtime.reset();
-        telemetry.addData("Its ", "Never a code issue");
+        telemetry.addData("Its ", "Never a code issue"); // Lol... it is sometimes
         gamepad1.setLedColor(0, 0, 255, 100000000);
         gamepad2.setLedColor(0, 0, 255, 100000000);
     }
@@ -105,11 +98,6 @@ public class wheelyCoolMotorTest extends OpMode {
         telemetry.addData("Gamepad 1 Right: ", "Value X: " + gamepad1.right_stick_x, "Value Y: " + gamepad1.right_stick_y);
         telemetry.addData("Gamepad 2 Left: ", "Value X: " + gamepad2.left_stick_x, "Value Y: " + gamepad2.left_stick_y);
         telemetry.addData("Gamepad 2 Left: ", "Value X: " + gamepad2.right_stick_x, "Value Y: " + gamepad2.right_stick_y);
-        //Motor encoders... redundant
-        /*telemetry.addData("Front Right", Bot.frontRightDrive.getCurrentPosition());
-        telemetry.addData("Front Left", Bot.frontLeftDrive.getCurrentPosition());
-        telemetry.addData("Back Right", Bot.backRightDrive.getCurrentPosition());
-        telemetry.addData("Back Left", Bot.backLeftDrive.getCurrentPosition());*/
         Bot.tellMotorOutput();
 
         //Driver 1
@@ -123,11 +111,11 @@ public class wheelyCoolMotorTest extends OpMode {
             }
         }
 
-        if (gamepad1.dpad_up) {
+        if (gamepad1.dpad_up || gamepad1.right_trigger > 0.25) {
             speed = 1;
         } else if (gamepad1.dpad_down) {
             speed = 0.25;
-        } else if (gamepad1.dpad_left) {
+        } else if (gamepad1.dpad_left || gamepad1.left_trigger > 0.25) {
             speed = 0.5;
         } else if (gamepad1.dpad_right) {
             speed = 0.75;
@@ -144,32 +132,17 @@ public class wheelyCoolMotorTest extends OpMode {
         }
 
 
-        //Beginning of fast turn
-
-        if (gamepad1.right_trigger >= 0.5) {
-            //storedSpeed = speed;
-            speed = 1;
-            //Do something
-            //speed = storedSpeed;
-
-        } else if (gamepad1.left_trigger > 0.5) {
-            //storedSpeed = speed;
-            speed = 0.50;
-            //Do something
-            //speed = storedSpeed;
-        }
-        //
-
+        //By using buttons to move in a direction, we can look at movement without stick drift or human error while pushing the stick
         if (gamepad1.triangle)//forward
         {
             moveDirection("Forward");
-        } else if (gamepad1.cross)//backward
+        } else if (gamepad1.cross)
         {
             moveDirection("Backward");
-        } else if (gamepad1.circle)//left
+        } else if (gamepad1.circle)
         {
             moveDirection("Left");
-        } else if (gamepad1.square)//right
+        } else if (gamepad1.square)
         {
             moveDirection("Right");
         } else if(gamepad1.right_bumper)
@@ -181,16 +154,13 @@ public class wheelyCoolMotorTest extends OpMode {
             moveDirection("TurnLeft");
         }
 
-
         else {
             stopPls();
         }
 
     }
 
-    /*
-     * Code to run ONCE after the driver hits STOP
-     */
+
     public void stop() {
         telemetry.addData("Status", "Robot Stopped");
     }
@@ -246,8 +216,6 @@ public class wheelyCoolMotorTest extends OpMode {
         Bot.backLeftDrive.setPower(0);
         Bot.backRightDrive.setPower(0);
     }
-    /*
-     * The holding cell for all of the random functions we call above.
-     */
+
 
 }
