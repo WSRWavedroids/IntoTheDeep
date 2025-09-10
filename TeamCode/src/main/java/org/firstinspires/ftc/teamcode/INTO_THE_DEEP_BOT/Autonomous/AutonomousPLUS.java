@@ -485,6 +485,34 @@ public class AutonomousPLUS extends LinearOpMode {
         robot.encoderReset();
     }
 
+    public void autoMoveArm(int position, int pause)
+    {
+        int positionOvershoot = position +2;
+        int positionUndershoot = position -2;
+        while(robot.leftArm.getCurrentPosition() < positionUndershoot || robot.leftArm.getCurrentPosition() > positionOvershoot)
+        {
+            robot.leftArm.setTargetPosition(position);
+            robot.rightArm.setTargetPosition(position);
+
+            robot.leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+        sleep(pause);
+    }
+
+    public void autoMoveslide(int position, int pause)
+    {
+        int positionOvershoot = position +2;
+        int positionUndershoot = position -2;
+        while(robot.extender.getCurrentPosition() < positionUndershoot || robot.extender.getCurrentPosition() > positionOvershoot)
+        {
+            robot.extender.setTargetPosition(position);
+            robot.extender.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        }
+        sleep(pause);
+    }
+
     /*public void setMotorTolerance(int ticks) {
         robot.frontLeftDrive.setTargetPositionTolerance(ticks);
         robot.frontRightDrive.setTargetPositionTolerance(ticks);

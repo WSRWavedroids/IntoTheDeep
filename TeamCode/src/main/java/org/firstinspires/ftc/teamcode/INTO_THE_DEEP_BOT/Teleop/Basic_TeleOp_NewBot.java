@@ -166,39 +166,42 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
 
 
-        int armTopLimit = 4100;//temp value
-        int armBottomLimit = 0;//temp value
+        int armTopLimit = 1150;//temp value
+        int armBottomLimit = 27;//temp value
 
         int liftyGoControlerVal = robot.leftArm.getCurrentPosition() - ((int) armStickY * 260);
         robot.leftArm.setPower(1);
         robot.rightArm.setPower(1);
+        robot.extender.setPower(1);
 
         //Slide time
-        int slideInLimit = 0;
-        int slideOutLimit = 1000;
+        int slideInLimit = -15;
+        int slideOutLimit = 4257;
         int slideyGoValue = robot.extender.getCurrentPosition() - ((int) slideStickY * 260);
 
 
         //This needs tested. If a button is pressed but stick isn't, go to preset 1 or 2
-        if (Math.abs(gamepad2.left_stick_y) < 0.2 && gamepad2.left_stick_button)
+        if (Math.abs(gamepad2.right_stick_y) < 0.2 && gamepad2.left_stick_button)
         {
             //Basket Position
-            robot.leftArm.setTargetPosition(206);
-            robot.rightArm.setTargetPosition(206);//inverted
-            robot.extender.setTargetPosition(1000);
+            robot.leftArm.setTargetPosition(1150);
+            robot.rightArm.setTargetPosition(1150);//inverted
+            robot.extender.setTargetPosition(4257);
             if(robot.leftArm.getCurrentPosition() > 329 && robot.leftArm.getCurrentPosition() < 349)
             {
                 gamepad2.rumble(500);
             }
         }
-
         else if (canManuallyControlVerticalSlides)
         {
             //if not going to preset positions, use the left stick
             robot.rightArm.setTargetPosition(liftyGoControlerVal);
             robot.leftArm.setTargetPosition(liftyGoControlerVal);
             robot.extender.setTargetPosition(slideyGoValue);
+
         }
+
+
         //Limits
         //Arm
         if (robot.leftArm.getCurrentPosition() > armTopLimit || liftyGoControlerVal > armTopLimit) {
@@ -214,6 +217,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
         } else if (robot.leftArm.getCurrentPosition() < slideInLimit || liftyGoControlerVal < slideInLimit) {
             robot.extender.setTargetPosition(slideInLimit);
         }
+
         //Go to Targets
         robot.rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
