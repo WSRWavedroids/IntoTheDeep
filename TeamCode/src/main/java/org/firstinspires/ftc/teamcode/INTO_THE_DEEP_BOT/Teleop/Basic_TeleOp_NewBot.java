@@ -61,7 +61,7 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Robot;
  */
 
 
-@TeleOp(name="NOT STEEVE ANYMOREE", group="CompBot")
+@TeleOp(name="NOT STEEVE ANYMOREE", group="1CompBot")
 public class Basic_TeleOp_NewBot extends OpMode {
 
     // This section tells the program all of the different pieces of hardware that are on our robot that we will use in the program.

@@ -19,7 +19,7 @@
  * SOFTWARE.
  */
 
-package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT;
+package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Teleop;
 
 import android.util.Size;
 
@@ -59,8 +59,8 @@ import org.firstinspires.ftc.vision.opencv.PredominantColorProcessor;
  */
 
 
-@TeleOp(name = "artifactLocatorButWorkThisTimePlz", group = "Concept")
-public class artifactLocatorButWorkThisTimePlz extends LinearOpMode
+@TeleOp(name = "artifactLocatorButWorkThisTimePlz", group = "2artifactLocator")
+public class badArtifactLocator extends LinearOpMode
 {
     @Override
     public void runOpMode()
