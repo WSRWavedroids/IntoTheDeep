@@ -60,7 +60,7 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.artifactLocator;
  */
 
 
-@TeleOp(name="Artifact Locator (Partially Implemented with Robot", group="2artifactLocator")
+@TeleOp(name="Artifact Locator (Partially Implemented with Robot)", group="2artifactLocator")
 public class implementedArtifactLocator extends OpMode {
 
     // This section tells the program all of the different pieces of hardware that are on our robot that we will use in the program.

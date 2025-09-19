@@ -21,7 +21,7 @@ public class CustomColorRange extends ColorRange {
 
     public static final ColorRange ARTIFACT_GREEN = new ColorRange(
             ColorSpace.HSV,
-            new Scalar(55,  70,  70),
+            new Scalar(55,  50,  70),
             new Scalar(85, 255, 255)
     );
 

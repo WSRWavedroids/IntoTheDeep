@@ -21,6 +21,8 @@
 
 package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT;
 
+import static android.os.SystemClock.sleep;
+
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.util.Size;
@@ -221,6 +223,16 @@ public class artifactLocator extends Robot {
         allZones.add(zone3);
 
         inventory = new slotInventory();
+
+        while (portal.getCameraState() != VisionPortal.CameraState.OPENING_CAMERA_DEVICE) {
+            sleep(10);
+        }
+        exposureControl = portal.getCameraControl(ExposureControl.class);
+        exposureControl.setMode(ExposureControl.Mode.Manual);
+        exposureControl.setExposure(37, TimeUnit.MILLISECONDS);
+
+        gainControl = portal.getCameraControl(GainControl.class);
+        gainControl.setGain(85);
     }
 
     public void setCameraSettings() {
@@ -306,7 +318,7 @@ public class artifactLocator extends Robot {
          *      ColorBlobLocatorProcessor.BlobCriteria.BY_CONTOUR_AREA, SortOrder.DESCENDING, blobList);
          */
 
-        this.sortOutBlobs();
+        //this.sortOutBlobs(); // TODO uncomment this please
         this.takeInventory();
 
     }
@@ -384,7 +396,7 @@ public class artifactLocator extends Robot {
                 return currentSlot;
             }
         }
-        return null; //TODO ask Clay: what if there is no slot of the specified type?
+        return null;
     }
 
     public slot findSlotByZone(slotRange zone) {
@@ -393,6 +405,8 @@ public class artifactLocator extends Robot {
     }
     @SuppressLint("DefaultLocale")
     public void cameraTelemetry() {
+
+        telemetry.addLine("Inventory: " + inventory.count + " Artifacts; " + inventory.purpleCount + " purple, " + inventory.greenCount + " green.");
         telemetry.addLine("Circularity Radius Center");
         telemetry.addLine("Gain: " + Integer.toString(gainControl.getGain()));
 
@@ -428,9 +442,9 @@ public class artifactLocator extends Robot {
         public slot(int slotIdentity) {
             this.slotIdentity = slotIdentity;
             switch (this.slotIdentity) {
-                case 1: servoFirePosition = 0; break; //TODO fill in with correct position
-                case 2: servoFirePosition = 0; break; //TODO fill in with correct position
-                case 3: servoFirePosition = 0; break; //TODO fill in with correct position
+                case 1: servoFirePosition = 0; servoLoadPosition = 0; break; //TODO fill in with correct position
+                case 2: servoFirePosition = 0; servoLoadPosition = 0; break; //TODO fill in with correct position
+                case 3: servoFirePosition = 0; servoLoadPosition = 0; break; //TODO fill in with correct position
                 default: throw new IllegalArgumentException("Invalid slotIdentity"); // Fancy code throw error if bad
             }
         }
