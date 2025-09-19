@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT;
 
 import android.annotation.SuppressLint;
 
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -11,6 +12,11 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
+import com.qualcomm.hardware.limelightvision.LLStatus;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -29,6 +35,8 @@ public class Robot {
     public Servo grabby;
     public Servo leftWrist;
     public Servo rightWrist;
+
+    public Limelight3A limelight;
     //public CRServo leftIntake;
     //public CRServo rightIntake;
 
@@ -91,18 +99,7 @@ public class Robot {
         leftWrist = hardwareMap.get(Servo.class,"leftWrist");
         rightWrist = hardwareMap.get(Servo.class,"rightWrist");*/
 
-        //liftyL = hardwareMap.get(DcMotorEx.class, "liftyL");
-        //liftyR = hardwareMap.get(DcMotorEx.class, "liftyR");
-        //leftIntake = hardwareMap.get(CRServo.class, "leftIntake");
-        //rightIntake = hardwareMap.get(CRServo.class, "rightIntake");
-        //intakeFlipper = hardwareMap.get(Servo.class, "flipperServo");
-        //leftFlippyOutakeServo = hardwareMap.get(Servo.class, "leftFlippyOutakeServo");
-        //rightFlippyOutakeServo = hardwareMap.get(Servo.class, "rightFlippyOutakeServo");
-        //grabbyOutakeServoL = hardwareMap.get(Servo.class, "grabbyOutakeServoL");
-        //grabbyOutakeServoR = hardwareMap.get(Servo.class, "grabbyOutakeServoR");
-        //leftSlide = hardwareMap.get(Servo.class, "leftSlide");
-        //rightSlide = hardwareMap.get(Servo.class, "rightSlide");
-        //myOtos = hardwareMap.get(SparkFunOTOS.class, "sensor_otos");
+        limelight = hardwareMap.get(Limelight3A.class, "limelight");
 
 
         imuParameters = new IMU.Parameters(
