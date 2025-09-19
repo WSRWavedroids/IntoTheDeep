@@ -158,8 +158,8 @@ public class artifactLocator extends Robot {
                 .setContourMode(ColorBlobLocatorProcessor.ContourMode.EXTERNAL_ONLY)
                 .setRoi(ImageRegion.asUnityCenterCoordinates(-0.75, 0.75, 0.75, -0.75))
                 .setDrawContours(true)   // Show contours on the Stream Preview
-                //.setBoxFitColor(Color.rgb(255, 0, 255))       // Disable the drawing of rectangles
-                .setCircleFitColor(Color.rgb(255, 0, 255)) // Draw a circle
+                .setBoxFitColor(Color.rgb(255, 0, 255))       // Disable the drawing of rectangles
+                //.setCircleFitColor(Color.rgb(255, 0, 255)) // Draw a circle
                 .setBlurSize(5)          // Smooth the transitions between different colors in image
 
                 // the following options have been added to fill in perimeter holes.
@@ -174,8 +174,8 @@ public class artifactLocator extends Robot {
                 .setContourMode(ColorBlobLocatorProcessor.ContourMode.EXTERNAL_ONLY)
                 .setRoi(ImageRegion.asUnityCenterCoordinates(-0.75, 0.75, 0.75, -0.75))
                 .setDrawContours(true)   // Show contours on the Stream Preview
-                //.setBoxFitColor(Color.rgb(0, 255, 0))       // Disable the drawing of rectangles
-                .setCircleFitColor(Color.rgb(0, 255, 0)) // Draw a circle
+                .setBoxFitColor(Color.rgb(0, 255, 0))       // Disable the drawing of rectangles
+                //.setCircleFitColor(Color.rgb(0, 255, 0)) // Draw a circle
                 .setBlurSize(5)          // Smooth the transitions between different colors in image
 
                 // the following options have been added to fill in perimeter holes.
@@ -325,7 +325,7 @@ public class artifactLocator extends Robot {
                 z2Filled = true;
             } else if (zone3.inRange(circleFit.getX(),circleFit.getY())) {
                 findSlotByZone(zone3).occupied = slotState.PURPLE;
-                z2Filled = true;
+                z3Filled = true;
             }
         }
 

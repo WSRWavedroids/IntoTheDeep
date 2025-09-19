@@ -14,15 +14,15 @@ public class CustomColorRange extends ColorRange {
     // -----------------------------------------------------------------------------
 
     public static final ColorRange ARTIFACT_PURPLE = new ColorRange(
-            ColorSpace.RGB,
-            new Scalar( 165, 0, 255),
-            new Scalar(70, 35, 107)
+            ColorSpace.HSV,
+            new Scalar(134,  70,  70),
+            new Scalar(154, 255, 255)
     );
 
     public static final ColorRange ARTIFACT_GREEN = new ColorRange(
-            ColorSpace.YCrCb,
-            new Scalar(118, 100, 130),
-            new Scalar(237, 180, 255)
+            ColorSpace.HSV,
+            new Scalar(55,  70,  70),
+            new Scalar(85, 255, 255)
     );
 
     public static final ColorRange EVERYTHING = new ColorRange(

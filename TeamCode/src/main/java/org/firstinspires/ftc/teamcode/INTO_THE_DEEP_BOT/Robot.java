@@ -83,13 +83,13 @@ public class Robot {
         backLeftDrive = hardwareMap.get(DcMotorEx.class, "backLeftDrive");
         backRightDrive = hardwareMap.get(DcMotorEx.class, "backRightDrive");
 
-        leftArm = hardwareMap.get(DcMotorEx.class,"leftArm");
+        /*leftArm = hardwareMap.get(DcMotorEx.class,"leftArm");
         rightArm = hardwareMap.get(DcMotorEx.class, "rightArm");
         extender = hardwareMap.get(DcMotorEx.class,"slide");
 
         grabby = hardwareMap.get(Servo.class, "grabby");
         leftWrist = hardwareMap.get(Servo.class,"leftWrist");
-        rightWrist = hardwareMap.get(Servo.class,"rightWrist");
+        rightWrist = hardwareMap.get(Servo.class,"rightWrist");*/
 
         //liftyL = hardwareMap.get(DcMotorEx.class, "liftyL");
         //liftyR = hardwareMap.get(DcMotorEx.class, "liftyR");
@@ -118,16 +118,16 @@ public class Robot {
         backLeftDrive.setDirection(DcMotor.Direction.FORWARD);
         backRightDrive.setDirection(DcMotor.Direction.REVERSE);
         //TODO check inversion
-        leftArm.setDirection(DcMotor.Direction.FORWARD);
+        //leftArm.setDirection(DcMotor.Direction.FORWARD);
         //TODO check inversion
-        rightArm.setDirection(DcMotorSimple.Direction.REVERSE);
+        //rightArm.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // This tells the motors to chill when we're not powering them.
         frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //leftArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //rightArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //This is new..
         telemetry.addData("Status", "Initialized");
