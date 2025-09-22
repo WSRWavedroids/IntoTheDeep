@@ -65,7 +65,7 @@ import java.util.List;
  *   and the ip address the Limelight device assigned the Control Hub and which is displayed in small text
  *   below the name of the Limelight on the top level configuration screen.
  */
-@Autonomous(name = "Randomization", group = "Sensor")
+@Autonomous(name = "Decoder", group = "Sensor")
 public class Limelight_Randomization_Scanner extends AutonomousPLUS {
 
     private Limelight3A limelight;

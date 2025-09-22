@@ -38,9 +38,9 @@ import com.qualcomm.hardware.limelightvision.LLStatus;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
+import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Autonomous.AutonomousPLUS;
 
 import java.util.List;
 
@@ -66,17 +66,22 @@ import java.util.List;
  *   and the ip address the Limelight device assigned the Control Hub and which is displayed in small text
  *   below the name of the Limelight on the top level configuration screen.
  */
+
 @Autonomous(name = "Limelight Score Target", group = "Sensor")
-public class Limelight_Target_Scanner extends LinearOpMode {
+public class Limelight_Target_Scanner extends AutonomousPLUS {
 
     private Limelight3A limelight;
 
+
     @Override
-    public void runOpMode() throws InterruptedException
+    public void runOpMode()
     {
+
+
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
 
         telemetry.setMsTransmissionInterval(11);
+
 
         limelight.pipelineSwitch(0);
 
@@ -114,6 +119,7 @@ public class Limelight_Target_Scanner extends LinearOpMode {
                 telemetry.addData("ty", result.getTy());
                 telemetry.addData("tync", result.getTyNC());
 
+
                 telemetry.addData("Botpose", botpose.toString());
 
                 // Access barcode results
@@ -123,18 +129,23 @@ public class Limelight_Target_Scanner extends LinearOpMode {
                 for (LLResultTypes.FiducialResult fr : fiducialResults) {
                     telemetry.addData("Fiducial", "ID: %d, Family: %s, X: %.2f, Y: %.2f", fr.getFiducialId(), fr.getFamily(), fr.getTargetXDegrees(), fr.getTargetYDegrees());
 
-                    if(fr.getFiducialId() == 21)
-                    {
-                        telemetry.addData("Pattern: ", "GPP");
-                    }
-                    else if (fr.getFiducialId() == 22)
-                    {
-                        telemetry.addData("Pattern: ", "PGP");
-                    }
-                    else if (fr.getFiducialId() == 23)
-                    {
-                        telemetry.addData("Pattern: ", "PPG");
-                    }
+                    Pose3D targetPose = fr.getTargetPoseRobotSpace();
+
+                    double distanceZ = targetPose.getPosition().z;
+                    double distanceY = targetPose.getPosition().y;
+                    double distanceX = targetPose.getPosition().x;
+
+                    double angleX = fr.getTargetXDegrees();
+                    double angleY = fr.getTargetYDegrees();
+
+                    telemetry.addData("Dist Z:", distanceZ);
+                    telemetry.addData("Dist Y:", distanceY);
+                    telemetry.addData("Dist X:", distanceX);
+
+                    telemetry.addData("Angle Z:", angleX);
+                    telemetry.addData("Angle Y:", angleY);
+
+
                 }
 
             } else {
@@ -142,7 +153,65 @@ public class Limelight_Target_Scanner extends LinearOpMode {
             }
 
             telemetry.update();
+        }}
+
+        public void InitLimeLightTargeting(int pipeline)
+        {
+
+            limelight = hardwareMap.get(Limelight3A.class , "limelight");
+
+            telemetry.setMsTransmissionInterval(11);
+
+            limelight.pipelineSwitch(pipeline);
+
+            /*
+             * Starts polling for data.  If you neglect to call start(), getLatestResult() will return null.
+             */
+            limelight.start();
         }
-        limelight.stop();
+
+
+        public Pose3D tagInfo()
+        {
+            Pose3D current = null;
+
+            LLResult result = limelight.getLatestResult();
+
+            List<LLResultTypes.FiducialResult> fiducialResults = result.getFiducialResults();
+            for (LLResultTypes.FiducialResult fr : fiducialResults) {
+                telemetry.addData("Fiducial", "ID: %d, Family: %s, X: %.2f, Y: %.2f", fr.getFiducialId(), fr.getFamily(), fr.getTargetXDegrees(), fr.getTargetYDegrees());
+
+                 Pose3D targetPose = fr.getTargetPoseRobotSpace();
+
+                 int tagID = fr.getFiducialId();
+
+                double distanceZ = targetPose.getPosition().z;
+                double distanceY = targetPose.getPosition().y;
+                double distanceX = targetPose.getPosition().x;
+
+                double angleX = fr.getTargetXDegrees();
+                double angleY = fr.getTargetYDegrees();
+
+                telemetry.addData("Tag #: ", tagID);
+
+                telemetry.addData("Dist Z: ", distanceZ);
+                telemetry.addData("Dist Y: ", distanceY);
+                telemetry.addData("Dist X: ", distanceX);
+
+                telemetry.addData("Angle Z: ", angleX);
+                telemetry.addData("Angle Y: ", angleY);
+
+                current = targetPose;
+
+            }
+
+            return current;
+
+
+
+
+
+
+
     }
 }

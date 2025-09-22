@@ -10,7 +10,7 @@ import com.qualcomm.hardware.limelightvision.Limelight3A;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Autonomous.AutonomousPLUS;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Autonomous.Limelight_Randomization_Scanner;
 
-@Autonomous(group = "Basic", name = "TESTMEEEEE")
+@Autonomous(group = "Basic", name = "Decode Auto")
 public class Test_Randomization_Blue extends AutonomousPLUS {
 
     public Limelight_Randomization_Scanner Limelight = new Limelight_Randomization_Scanner();
