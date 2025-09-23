@@ -71,7 +71,7 @@ import java.util.List;
 public class Limelight_Target_Scanner extends AutonomousPLUS {
 
     private Limelight3A limelight;
-
+    public static final String ALLIANCE_KEY = "Alliance";
 
     @Override
     public void runOpMode()
@@ -83,7 +83,7 @@ public class Limelight_Target_Scanner extends AutonomousPLUS {
         telemetry.setMsTransmissionInterval(11);
 
 
-        limelight.pipelineSwitch(0);
+        limelight.pipelineSwitch(1);
 
         /*
          * Starts polling for data.  If you neglect to call start(), getLatestResult() will return null.
@@ -171,9 +171,11 @@ public class Limelight_Target_Scanner extends AutonomousPLUS {
         }
 
 
-        public Pose3D tagInfo()
+        public WaveTag tagInfo()
         {
-            Pose3D current = null;
+            WaveTag current = new WaveTag();
+
+            current.currentlyDetected = false;
 
             LLResult result = limelight.getLatestResult();
 
@@ -181,27 +183,18 @@ public class Limelight_Target_Scanner extends AutonomousPLUS {
             for (LLResultTypes.FiducialResult fr : fiducialResults) {
                 telemetry.addData("Fiducial", "ID: %d, Family: %s, X: %.2f, Y: %.2f", fr.getFiducialId(), fr.getFamily(), fr.getTargetXDegrees(), fr.getTargetYDegrees());
 
+                current.currentlyDetected = true;
                  Pose3D targetPose = fr.getTargetPoseRobotSpace();
+                 current.data = targetPose;
 
-                 int tagID = fr.getFiducialId();
+                 current.tagID = fr.getFiducialId();
 
-                double distanceZ = targetPose.getPosition().z;
-                double distanceY = targetPose.getPosition().y;
-                double distanceX = targetPose.getPosition().x;
+                 current.distanceZ = targetPose.getPosition().z;
+                current.distanceY = targetPose.getPosition().y;
+                current.distanceX = targetPose.getPosition().x;
 
-                double angleX = fr.getTargetXDegrees();
-                double angleY = fr.getTargetYDegrees();
-
-                telemetry.addData("Tag #: ", tagID);
-
-                telemetry.addData("Dist Z: ", distanceZ);
-                telemetry.addData("Dist Y: ", distanceY);
-                telemetry.addData("Dist X: ", distanceX);
-
-                telemetry.addData("Angle Z: ", angleX);
-                telemetry.addData("Angle Y: ", angleY);
-
-                current = targetPose;
+                current.angleX = fr.getTargetXDegrees();
+                current.angleY = fr.getTargetYDegrees();
 
             }
 

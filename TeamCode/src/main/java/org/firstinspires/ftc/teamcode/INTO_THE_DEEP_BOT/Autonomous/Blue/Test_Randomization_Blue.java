@@ -17,13 +17,18 @@ public class Test_Randomization_Blue extends AutonomousPLUS {
     public String currentPosition;
     public String pattern;
 
+    public static final String ALLIANCE_KEY = "Alliance";
+    public static final String PATTERN_KEY = "Pattern";
+
     public void runOpMode() {
 
         super.runOpMode();
 
+
         if(opModeInInit())
         {
-            Limelight.InitLimeLight(0, robot.hardwareMap);
+            prepareAuto();
+            Limelight.InitLimeLight(1, robot.hardwareMap);
             while(opModeInInit())
             {
                 pattern = Limelight.GetRandomization();
@@ -35,17 +40,20 @@ public class Test_Randomization_Blue extends AutonomousPLUS {
 
         waitForStart();
         telemetry.addData("Our pattern is: ", pattern, " ...yay");
-        prepareAuto();
+
         if(pattern == "PPG")
         {
             telemetry.addData("We doin", " PPG now");
+            blackboard.put(PATTERN_KEY, "PPG");
         }
         else if(pattern == "GPP")
         {
             telemetry.addData("We doin", " GPP now");
+            blackboard.put(PATTERN_KEY, "GPP");
         } else if (pattern  == "PGP")
         {
             telemetry.addData("We doin", " PGP now");
+            blackboard.put(PATTERN_KEY, "PGP");
         }
         else
         {

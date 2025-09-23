@@ -46,7 +46,7 @@ public class AutonomousPLUS extends LinearOpMode {
     // This section tells the program all of the different pieces of hardware that are on our robot that we will use in the program.
     private ElapsedTime runtime = new ElapsedTime();
 
-
+    public Limelight_Randomization_Scanner randomization;
     public double speed = 0.6;
     public int sleepTime;
     public boolean inMarker;
@@ -66,33 +66,6 @@ public class AutonomousPLUS extends LinearOpMode {
 
     //These are the basic functions for mechnum movement during auto... Don't mess with these unless something is inverted
     // Remember Without ODO pods there will be some inconsistency due to mechnum slippage
-/*
-    @Deprecated
-    public void autoSlides(double change, long pause)
-    {
-        robot.leftSlide.setPosition(1-change);
-        robot.rightSlide.setPosition(0+change);
-        while(robot.leftSlide.getPosition() != 1-change)
-        {
-            robot.leftSlide.setPosition(1-change);
-            robot.rightSlide.setPosition(0+change);
-            robot.tellMotorOutput();
-        }
-        sleep(pause);
-    }
-    public void autoSlides(double change, boolean waitForCompletion, long pause)
-    {
-        robot.leftSlide.setPosition(1-change);
-        robot.rightSlide.setPosition(0+change);
-        if (waitForCompletion) {
-            while (robot.leftSlide.getPosition() != 1 - change) {
-                robot.leftSlide.setPosition(1 - change);
-                robot.rightSlide.setPosition(0 + change);
-                robot.tellMotorOutput();
-            }
-        }
-        sleep(pause);
-    }*/
 
     /**
      * Moves the robot in the provided X and Y directions and turns using... some value.
@@ -416,183 +389,36 @@ public class AutonomousPLUS extends LinearOpMode {
     }
 
 
-/*
-    @Deprecated
-    public void moveArm(int ticks, double power, long pause) {
-        //Moves the lift to the specified position...
-        // Doesn't move it by the number of ticks given as the drivetrain functions expect.
-        robot.liftyR.setPower(power);
-        robot.liftyL.setPower(power);
-        robot.liftyR.setTargetPosition(ticks);
-        robot.liftyL.setTargetPosition(ticks);
-        robot.liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        while (!(robot.liftyR.getCurrentPosition() > (ticks - 10) && robot.liftyR.getCurrentPosition() < (ticks + 10)))
-        {
-            robot.tellMotorOutput();
-        }
-        sleep(pause);
-    }
 
-    public void moveArm(int ticks, double power, boolean waitForCompletion, long pause) {
-        //Moves the lift to the specified position...
-        // Doesn't move it by the number of ticks given as the drivetrain functions expect.
-        robot.liftyR.setPower(power);
-        robot.liftyL.setPower(power);
-        robot.liftyR.setTargetPosition(ticks);
-        robot.liftyL.setTargetPosition(ticks);
-        robot.liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        if (waitForCompletion) { // This delays the return of the function until the arm is done moving
-            while (!(robot.liftyR.getCurrentPosition() > (ticks - 10) && robot.liftyR.getCurrentPosition() < (ticks + 10)))
-            {
-                robot.tellMotorOutput();
-            }
-        }
-        sleep(pause);
-    }*/
-/*
-    public void pickupSample(int pickupTime, long pause) {
-        // REQUIREMENTS TO USE FUNCTION (plz don't ignore):
-            // Needs a wait before the function if the most recent movement was the slides
-            // Function can't run until the servos get over their start-of-auto crisis (about 2.5 seconds). This is really obscure, but it might be a problem for somebody someday.
-        double distance = robot.rightSlide.getPosition() + .20;
-        robot.intake_spin(.75);
-        prepareNextAction(100);
-        //robot.leftSlide.setPosition(1-(robot.leftSlide.getPosition()+.10));
-        //robot.rightSlide.setPosition(0+(robot.leftSlide.getPosition()+.10));
-        robot.intakeFlipper.setPosition(.15);
-        prepareNextAction(0);
-        autoSlides(distance,0);
-        prepareNextAction(pickupTime);
-        robot.intake_spin(0);
-        prepareNextAction(pause);
-    }*/
     public void prepareAuto() {
-        /*robot.liftyL.setPower(0);
-        //robot.liftyR.setPower(0);
-        robot.intakePosition("UP");
-        robot.tempOutakePos("DOWN");
-        robot.slidesIn();
-        //CHASE WAS HERE ;)
-        robot.clawOpenClose("CLOSED");
-        robot.frontLeftDrive.setTargetPositionTolerance(12);
-        robot.frontRightDrive.setTargetPositionTolerance(12);
-        robot.backLeftDrive.setTargetPositionTolerance(12);
-        robot.backRightDrive.setTargetPositionTolerance(12);
-        //robot.liftyL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //robot.liftyR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);*/
+
+
         robot.encoderReset();
+
     }
 
-    public void autoMoveArm(int position, int pause)
-    {
-        int positionOvershoot = position +2;
-        int positionUndershoot = position -2;
-        while(robot.leftArm.getCurrentPosition() < positionUndershoot || robot.leftArm.getCurrentPosition() > positionOvershoot)
-        {
-            robot.leftArm.setTargetPosition(position);
-            robot.rightArm.setTargetPosition(position);
 
-            robot.leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
-        sleep(pause);
-    }
 
-    public void autoMoveslide(int position, int pause)
-    {
-        int positionOvershoot = position +2;
-        int positionUndershoot = position -2;
-        while(robot.extender.getCurrentPosition() < positionUndershoot || robot.extender.getCurrentPosition() > positionOvershoot)
-        {
-            robot.extender.setTargetPosition(position);
-            robot.extender.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        }
-        sleep(pause);
-    }
-
-    /*public void setMotorTolerance(int ticks) {
+    public void setDrivetrainTolerances(int ticks) {
         robot.frontLeftDrive.setTargetPositionTolerance(ticks);
         robot.frontRightDrive.setTargetPositionTolerance(ticks);
         robot.backLeftDrive.setTargetPositionTolerance(ticks);
         robot.backRightDrive.setTargetPositionTolerance(ticks);
-    }*/
+    }
 
     public void prepareNextAction(long pause) {
         sleep(pause);
         robot.encoderReset();
     }
 
-    public void dropdasample()
-    {
 
-        //robot.intake_outake(-1);
-    }
 
     public int convertInchesToTicks(int inches){
         int ticks = (int) ((537.6 * inches) / (3.77953 * 3.1415926535));
         return ticks;
     }
 
-    /*public void moveLift(String direction, double power) {
-        if (direction == "Up") {
-            robot.lifty.setDirection(DcMotor.Direction.FORWARD);
-            robot.lifty.setPower(0.75);
-
-            sleep(sleepTime);
-            robot.lifty.setPower(0.1);
-
-            sleep(500);
-        } else if (direction == "Down") {
-            robot.lifty.setDirection(DcMotor.Direction.REVERSE);
-            robot.lifty.setPower(0.5);
-        }
-    }*/
-
-    /*public void armPID(){
-
-        double Kp = 5;
-        double Ki = 0;
-        double Kd = 0.2;
-
-        double reference = slidePos;
-        float encoderPositionL = robot.lifty.getCurrentPosition();
-        //float encoderPositionR = robot.waterslide.getCurrentPosition();
-        double integralSumL = 0;
-        double integralSumR = 0;
-        double lastErrorL = 0;
-        double lastErrorR = 0;
-
-        ElapsedTime timer = new ElapsedTime();
-
-        while (encoderPositionL != slidePos) {
-
-            // calculate the error
-            double errorL = reference - encoderPositionL;
-            //double errorR = reference - encoderPositionR;
-
-            // rate of change of the error
-            double derivativeL = (errorL - lastErrorL) / timer.seconds();
-            //double derivativeR = (errorR - lastErrorR) / timer.seconds();
-
-            // sum of all error over time
-            integralSumL = integralSumL + (errorL * timer.seconds());
-
-            double outL = (Kp * errorL) + (Ki * integralSumL) + (Kd * derivativeL);
-            //double outR = (Kp * errorR) + (Ki * integralSumR) + (Kd * derivativeR);
-
-            robot.lifty.setPower(outL);
-
-            lastErrorL = errorL;
-            //lastErrorR = errorR;
-
-            // reset the timer for next time
-            timer.reset();
-
-        }
-    }*/
 
     /**
      * This is the autonomous mode. It moves the robot without us having to touch the controller.
@@ -601,3 +427,4 @@ public class AutonomousPLUS extends LinearOpMode {
      */
 
 }
+

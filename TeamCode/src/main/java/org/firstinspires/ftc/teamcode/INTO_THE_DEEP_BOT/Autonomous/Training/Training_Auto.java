@@ -54,20 +54,20 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Robot;
             moveRobotForward(1500,10);
             prepareNextAction(10);
             turnRobotRight(490, 10);
-            robot.clawOpenClose(Robot.openClose.OPEN);
+            //robot.clawOpenClose(Robot.openClose.OPEN);
             turnRobotLeft(321,12);
             Turnfully(10);
 
-            robot.clawOpenClose(Robot.openClose.OPEN);
+            //robot.clawOpenClose(Robot.openClose.OPEN);
             //number for slideInLimit = -15;
             //number for  slideOutLimit = 4257;
             //number for armTopLimit = 1150;//temp value
             //number for armBottomLimit = 27;//temp value
-            robot.leftArm.setPower(1);
-            robot.rightArm.setPower(1);
-            robot.extender.setPower(1);
-            autoMoveArm(360, 2);
-            autoMoveslide(360, 2);
+            //robot.leftArm.setPower(1);
+            //robot.rightArm.setPower(1);
+            //robot.extender.setPower(1);
+            //autoMoveArm(360, 2);
+            //autoMoveslide(360, 2);
 
 
             //TODO use other mechanisms / functions

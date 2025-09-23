@@ -19,6 +19,7 @@ import com.qualcomm.hardware.limelightvision.LLStatus;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
 import java.util.Objects;
 
@@ -29,37 +30,12 @@ public class Robot {
     public DcMotorEx frontRightDrive;
     public DcMotorEx backLeftDrive;
     public DcMotorEx backRightDrive;
-    public DcMotorEx leftArm;
-    public DcMotorEx rightArm;
-    public DcMotorEx extender;
 
-    public Servo grabby;
-    public Servo leftWrist;
-    public Servo rightWrist;
 
     public Limelight3A limelight;
-    //public CRServo leftIntake;
-    //public CRServo rightIntake;
 
-    //public Servo intakeFlipper;
 
-    //public Servo leftFlippyOutakeServo;
-    //public Servo rightFlippyOutakeServo;
-    //public Servo grabbyOutakeServoL;
-    //public Servo grabbyOutakeServoR;
-
-    //public Servo leftSlide;
-    //public Servo rightSlide;
-
-    //public boolean teleopEncoderMode;
-
-    //public boolean teleopPowerMode;
-
-    //public DistanceSensor distanceSensor;
-
-    //public SparkFunOTOS myOtos;
-
-    //public WebcamName CamCam;
+    public WebcamName CamCam;
 
     public Telemetry telemetry;
     //public BNO055IMU imu;
@@ -67,17 +43,10 @@ public class Robot {
     //init and declare war
     public OpMode opmode;
     public HardwareMap hardwareMap;
-    public static double parkingZone;
     public String startingPosition;
     public String controlMode = "Robot Centric";// Robot Centric
-    //public String intakeFlipperPos ="UP";
     public IMU.Parameters imuParameters;
 
-    public enum openClose{OPEN,CLOSE}
-    public double upDown;
-    public double twist;
-    private double armPosDegrees;
-    private double extenderInches;
 
     //Initialize motors and servos
     public Robot(HardwareMap hardwareMap, Telemetry telemetry, OpMode opmode){
@@ -91,14 +60,8 @@ public class Robot {
         frontLeftDrive = hardwareMap.get(DcMotorEx.class, "frontLeftDrive");
         backLeftDrive = hardwareMap.get(DcMotorEx.class, "backLeftDrive");
         backRightDrive = hardwareMap.get(DcMotorEx.class, "backRightDrive");
+        CamCam = hardwareMap.get(WebcamName.class, "CamCam");
 
-        /*leftArm = hardwareMap.get(DcMotorEx.class,"leftArm");
-        rightArm = hardwareMap.get(DcMotorEx.class, "rightArm");
-        extender = hardwareMap.get(DcMotorEx.class,"slide");
-
-        grabby = hardwareMap.get(Servo.class, "grabby");
-        leftWrist = hardwareMap.get(Servo.class,"leftWrist");
-        rightWrist = hardwareMap.get(Servo.class,"rightWrist");*/
 
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
 
@@ -115,17 +78,13 @@ public class Robot {
         frontRightDrive.setDirection(DcMotor.Direction.REVERSE);
         backLeftDrive.setDirection(DcMotor.Direction.FORWARD);
         backRightDrive.setDirection(DcMotor.Direction.REVERSE);
-        //TODO check inversion
-        //leftArm.setDirection(DcMotor.Direction.FORWARD);
-        //TODO check inversion
-        //rightArm.setDirection(DcMotorSimple.Direction.REVERSE);
+
 
         // This tells the motors to chill when we're not powering them.
         frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //leftArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //rightArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         //This is new..
         telemetry.addData("Status", "Initialized");
@@ -225,355 +184,6 @@ public class Robot {
 
     }
 
-    /*public void slidesIn()
-    {
-        leftSlide.setPosition(1); //guess value... DO NOT TRUST
-        rightSlide.setPosition(0); //guess value... DO NOT TRUST
-        //intakePosition("UP");
-    }*/
-
-    /*public void collapseExpansion()
-    {
-        tempOutakePos("DOWN");
-        //Moves and waits until the vert slides are at the bottom before moving on
-        while (liftyL.getCurrentPosition() < -5 || liftyL.getCurrentPosition() > 5)
-        {
-            liftyL.setPower(1);
-            liftyR.setPower(1);
-            liftyL.setTargetPosition(0);
-            liftyR.setTargetPosition(0);
-            liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
-
-        while(leftFlippyOutakeServo.getPosition() > 0.1)
-        {
-            tempOutakePos("DOWN");
-            tellMotorOutput(); //Just a stalling method... had to have something here
-        }
-
-        intakePosition("UP");
-
-        slidesIn(); //move the intake up and the horiz slides in
-        while(leftSlide.getPosition() < 1)
-        {
-            slidesIn();
-            tellMotorOutput();
-        }
-    }*/
-
-    /*public void intake_spin (double direction){
-        //servos spin in thingy
-        if(direction > 0) // >0 is out
-        {
-            leftIntake.setDirection(CRServo.Direction.FORWARD);
-            rightIntake.setDirection(CRServo.Direction.REVERSE);//direction is forward... set speed to that val
-            leftIntake.setPower(Math.abs(direction));
-            rightIntake.setPower(Math.abs(direction));
-        }
-        else // <0 is in
-        {
-            leftIntake.setDirection(CRServo.Direction.REVERSE);
-            rightIntake.setDirection(CRServo.Direction.FORWARD);//direction is forward... set speed to that val
-            leftIntake.setPower(Math.abs(direction));
-            rightIntake.setPower(Math.abs(direction));
-        }
-
-    }*/
-    //public boolean canWiggle = true;
-    /*public void intakePosition (String intakeFlipperPos)
-    {
-        if(intakeFlipperPos == "IN")
-        {
-            intakeFlipper.setPosition(1);//guess position
-            canWiggle = false;
-        }
-        else if(intakeFlipperPos == "DOWN")
-        {
-            intakeFlipper.setPosition(.15);
-            canWiggle = true;
-        }
-        else if(intakeFlipperPos == "UP")
-        {
-            intakeFlipper.setPosition(.75);//testing value DO NOT TRUST
-            canWiggle = true;
-        }
-
-    }*/
-
-    public void clawOpenClose(openClose openClose) {
-        if(openClose == Robot.openClose.OPEN) {
-            grabby.setPosition(0);
-        } else if (openClose == Robot.openClose.CLOSE) {
-            grabby.setPosition(1);
-        }
-    }
-
-    public void wristGoTo(double upDownAttempt, double twistAttempt) {
-
-        double LEFT_WRIST_UP_POS = .7292;
-        double LEFT_WRIST_DOWN_POS = .1111;
-        double RIGHT_WRIST_UP_POS = .7014;
-        double RIGHT_WRIST_DOWN_POS = .0556;
-        double FULL_POSITIVE_TWIST_OFFSET = .1668;
-
-        double LEFT_WRIST_0_POS = (LEFT_WRIST_UP_POS + LEFT_WRIST_DOWN_POS) / 2;
-        double RIGHT_WRIST_0_POS = (RIGHT_WRIST_UP_POS + RIGHT_WRIST_DOWN_POS) / 2;
-        double LEFT_SCALAR = LEFT_WRIST_UP_POS - LEFT_WRIST_0_POS;
-        double RIGHT_SCALAR = RIGHT_WRIST_UP_POS - RIGHT_WRIST_0_POS;
-
-        double leftUpDownMath;
-        double rightUpDownMath;
-        double leftTwistMath;
-        double rightTwistMath;
-
-
-        // Create limits
-        if (upDownAttempt > 90) {
-            upDownAttempt = 90;
-        } else if (upDownAttempt < -90) {
-            upDownAttempt = -90;
-        }
-        if (twistAttempt > 90) {
-            twistAttempt = 90;
-        } else if (twistAttempt < -90) {
-            twistAttempt = -90;
-        }
-
-        // up/down
-        leftUpDownMath = (upDownAttempt * LEFT_SCALAR / 90) + LEFT_WRIST_0_POS;
-        rightUpDownMath = (upDownAttempt * RIGHT_SCALAR / 90) + RIGHT_WRIST_0_POS;
-
-        // twist
-        leftTwistMath = twistAttempt * FULL_POSITIVE_TWIST_OFFSET / 90;
-        rightTwistMath = -twistAttempt * FULL_POSITIVE_TWIST_OFFSET / 90;
-
-        // Move them
-        leftWrist.setPosition(leftUpDownMath + leftTwistMath);
-        rightWrist.setPosition(rightUpDownMath + rightTwistMath);
-
-        // Success!
-        upDown = upDownAttempt;
-        twist = twistAttempt;
-
-        telemetry.addData("leftUpDownMath",leftUpDownMath);
-        telemetry.addData("leftTwistMath", leftTwistMath);
-        return;
-    }
-    public void wristControl(double changeUpDown, double changeTwist) {
-        double upDownAttempt = upDown + changeUpDown;
-        double twistAttempt = twist + changeTwist;
-
-        wristGoTo(upDownAttempt,twistAttempt);
-
-        return;
-    }
-
-    public void armGoTo(double attempt) {
-        int leftMath;
-        int rightMath;
-        double TICKS_IN_90 = 0; //TODO
-
-        if (attempt > 90) {
-            attempt = 90;
-        } else if (attempt < 0) {
-            attempt = 0;
-        }
-
-        leftMath = (int) (attempt * TICKS_IN_90 / 90);
-        rightMath = (int) (attempt * TICKS_IN_90 / 90);
-
-        armPosDegrees = attempt;
-
-        leftArm.setTargetPosition(leftMath);
-        rightArm.setTargetPosition(rightMath);
-        leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        return;
-    }
-
-    public void armControl(double change) {
-        double attempt = armPosDegrees + change;
-
-        armGoTo(change);
-
-        return;
-    }
-
-    public void extenderGoTo(double attempt) {
-        int ticks;
-        double TICKS_IN_IN = 0; //TODO
-
-        if (attempt > 100) {
-            attempt = 100;
-        } else if (attempt < 0) {
-            attempt = 0;
-        }
-
-        ticks = (int) (attempt * TICKS_IN_IN);
-
-        extenderInches = attempt;
-
-        extender.setTargetPosition(ticks);
-        extender.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        return;
-    }
-
-    public void extenderControl(double change) {
-        double attempt = extenderInches + change;
-
-        armGoTo(change);
-
-        return;
-    }
-
-    /*public void tempOutakePos(String pos)// DO NOT TRUST THESE VALS ARE PLACEHOLDERS
-    {
-        if (pos == "DOWN")
-        {
-            leftFlippyOutakeServo.setPosition(0);
-            rightFlippyOutakeServo.setPosition(0);
-        }
-        if (pos == "UP")
-        {
-            leftFlippyOutakeServo.setPosition(.8);
-            rightFlippyOutakeServo.setPosition(.8);
-        }
-        if (pos == "MOREUP")
-        {
-            leftFlippyOutakeServo.setPosition(.85);
-            rightFlippyOutakeServo.setPosition(.85);
-        }
-
-
-    }*/
-
-    /* public void TransferSequence()
-    {
-        //intakePosition("UP");
-        tempOutakePos("DOWN");
-
-        //Moves and waits until the vert slides are at the bottom before moving on
-        while (liftyL.getCurrentPosition() < -5 || liftyL.getCurrentPosition() > 5)
-        {
-            liftyL.setPower(1);
-            liftyR.setPower(1);
-            liftyL.setTargetPosition(0);
-            liftyR.setTargetPosition(0);
-            liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
-
-
-        while(leftFlippyOutakeServo.getPosition() > 0.1)
-        {
-            tempOutakePos("DOWN");
-            tellMotorOutput(); //Just a stalling method... had to have something here
-        }
-
-        intakePosition("UP");
-       /* while(intakeFlipper.getPosition() != .75)
-        {
-            intakePosition("UP");
-            tellMotorOutput();
-        }*/
-
-    /*    slidesIn(); //move the intake up and the horiz slides in
-        while(leftSlide.getPosition() < 1)
-        {
-            slidesIn();
-            tellMotorOutput();
-        }
-
-        //flip the transfer down here
-
-
-        //Moves the intake in and waits until it reaches its destination
-        while(intakeFlipper.getPosition() < 1)
-        {
-            intakeFlipper.setPosition(1);
-            tellMotorOutput(); //Just a stalling method... had to have something here
-        }
-
-
-        //Make a timer for running the intake spit-out
-        ElapsedTime timer = new ElapsedTime();
-        timer.reset();
-        while (timer.milliseconds() < 1000 )
-        {
-            tellMotorOutput();
-        }
-        timer.reset();
-        while (timer.milliseconds() < 800 )
-        {
-            intake_spin(-.5);
-        }
-        intake_spin(0);
-
-        //Flip the intake out of the way before moving on
-        intakePosition("UP");
-        while(intakeFlipper.getPosition() != .75)
-        {
-            intakeFlipper.setPosition(.75);
-            tellMotorOutput(); //more stalling... tee hee
-        }
-        //flip the intake up to allow scoring
-        //Function Ends here
-    }*/
-
-    /*public void safeCollapse()
-    {
-
-        tempOutakePos("DOWN");
-
-        //Moves and waits until the vert slides are at the bottom before moving on
-        while (liftyL.getCurrentPosition() < -5 || liftyL.getCurrentPosition() > 5)
-        {
-            liftyL.setPower(1);
-            liftyR.setPower(1);
-            liftyL.setTargetPosition(0);
-            liftyR.setTargetPosition(0);
-            liftyL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            liftyR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
-
-        while(leftFlippyOutakeServo.getPosition() > 0.1)
-        {
-            tempOutakePos("DOWN");
-            tellMotorOutput(); //Just a stalling method... had to have something here
-        }
-
-        intakePosition("UP");
-       /* while(intakeFlipper.getPosition() != .75)
-        {
-            intakePosition("UP");
-            tellMotorOutput();
-        }*/
-
-    /*    slidesIn(); //move the intake up and the horiz slides in
-        while(leftSlide.getPosition() < 1)
-        {
-            slidesIn();
-            tellMotorOutput();
-        }
-
-        //flip the transfer down here
-
-
-
-        //Flip the intake out of the way before moving on
-        intakePosition("UP");
-        while(intakeFlipper.getPosition() != .75)
-        {
-            intakeFlipper.setPosition(.75);
-            tellMotorOutput(); //more stalling... tee hee
-        }
-        //flip the intake up to allow scoring
-        //Function Ends here
-    }*/
-
 
 
     public DcMotor.RunMode encoderRunningMode(){
@@ -599,9 +209,7 @@ public class Robot {
         telemetry.addData("Motors", String.format("FR Power(%.2f) FR Location (%d) FR Target (%d)", frontRightDrive.getPower(), frontRightDrive.getCurrentPosition(), frontRightDrive.getTargetPosition()));
         telemetry.addData("Motors", String.format("BL Power(%.2f) BL Location (%d) BL Target (%d)", backLeftDrive.getPower(), backLeftDrive.getCurrentPosition(), backLeftDrive.getTargetPosition()));
         telemetry.addData("Motors", String.format("BR Power(%.2f) BR Location (%d) BR Target (%d)", backRightDrive.getPower(), backRightDrive.getCurrentPosition(), backRightDrive.getTargetPosition()));
-        //telemetry.addData("Motors", String.format("LiftyL Power (%.2f) LiftyL Location (%d) LiftyL Target (%d)", liftyL.getPower(), liftyL.getCurrentPosition(), liftyL.getTargetPosition()));
-        //telemetry.addData("Motors", String.format("LiftyR Power (%.2f) LiftyR Location (%d) LiftyR Target (%d)", liftyR.getPower(), liftyR.getCurrentPosition(), liftyR.getTargetPosition()));
-        //telemetry.addData("Flipper", intakeFlipper.getPosition());
+
         telemetry.update();
     }
 
@@ -610,109 +218,14 @@ public class Robot {
         return ((inches/12.25) * 537.6 / .5);
         //todo Reference that 1 inch ~= 50 ticks
     }
-    // one side may be backwards due to the direction that the motor was faced
-    public void moveArm(String direction) {
-        if (direction == "Up") {
-            leftArm.setPower(1);
-            leftArm.setDirection(DcMotor.Direction.FORWARD);//inverted
-            rightArm.setPower(1);
-            rightArm.setDirection(DcMotor.Direction.FORWARD);//inverted
-        } else if (direction == "Down") {
-            leftArm.setPower(0.25);
-            leftArm.setDirection(DcMotor.Direction.REVERSE);//Inverted
-            rightArm.setPower(0.25);
-            rightArm.setDirection(DcMotor.Direction.REVERSE);//Inverted
-        }
-    }
 
     ElapsedTime timer = new ElapsedTime();
 
-    /*public void holdArm(){
-        liftyL.setDirection(DcMotor.Direction.FORWARD);//
-        liftyL.setPower(0.05);
-        liftyR.setDirection(DcMotor.Direction.FORWARD);//
-        liftyR.setPower(0.05);
-    }*/
+
 
     public void prepareAuto(){
-        //liftyL.setPower(0);
-        //liftyR.setPower(0);
-        //intakePosition("UP");
-        //tempOutakePos("DOWN");
-        //slidesIn();
-        //clawOpenClose("CLOSED");
-        //liftyL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //liftyR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
     }
 
-
-    //public boolean primaryClawClosed = false;
-
-
-  /*  Some April Tag and tensorflow stuff
-
-    public void showersAndFlowers(){
-
-        AprilTagProcessor OSHAmobile;
-
-        OSHAmobile = new AprilTagProcessor.Builder()
-                .setTagLibrary(AprilTagGameDatabase.getCurrentGameTagLibrary())
-                .setDrawTagID(true)
-                .setDrawTagOutline(true)
-                .setDrawAxes(true)
-                .setDrawCubeProjection(true)
-                .build();
-    }
-
-    public void tensorFlowDetection(){
-
-        TfodProcessor safetyGlasses;
-
-        safetyGlasses = new TfodProcessor.Builder()
-                .setMaxNumRecognitions(10)
-                .setUseObjectTracker(true)
-                .setTrackerMaxOverlap((float) 0.2)
-                .setTrackerMinSize(16)
-                .build();
-    }
-
-    public void visionPortal(AprilTagProcessor aprilTagProcessor, TfodProcessor tfodProcessor){
-        VisionPortal Oracle;
-
-
-        myVisionPortal = new VisionPortal.Builder()
-                .setCamera(hardwareMap.get(WebcamName.class, "Cam Cam"))
-                .addProcessor(aprilTagProcessor)
-                .setCameraResolution(new Size(640, 480))
-                .setStreamFormat(VisionPortal.StreamFormat.YUY2)
-                .enableCameraMonitoring(true)
-                .setAutoStopLiveView(true)
-                .build();
-
-
-    }
-
-    public void retrieveAprilTags(AprilTagProcessor ATP){
-        List<AprilTagDetection> ATDS;         // list of all detections // current detection in for() loop
-        int SPOTnum;                           // ID code of current detection, in for() loop
-
-        // Get a list of AprilTag detections.
-        ATDS = ATP.getDetections();
-
-        // Cycle through through the list and process each AprilTag.
-        for (AprilTagDetection SPOT : ATDS) {
-
-            if (SPOT.metadata != null) {  // This check for non-null Metadata is not needed for reading only ID code.
-                SPOTnum = SPOT.id;
-
-                // Now take action based on this tag's ID code, or store info for later action.
-
-            }
-        }
-    }
-
-
-   */
 }
 

@@ -40,7 +40,18 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Robot;
+
+import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
+import com.qualcomm.hardware.limelightvision.LLStatus;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
+import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Autonomous.AutonomousPLUS;
 
 
 /**
@@ -61,7 +72,7 @@ import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Robot;
  */
 
 
-@TeleOp(name="NOT STEEVE ANYMOREE", group="1CompBot")
+@TeleOp(name="CS", group="1CompBot")
 public class Basic_TeleOp_NewBot extends OpMode {
 
     // This section tells the program all of the different pieces of hardware that are on our robot that we will use in the program.
@@ -70,21 +81,17 @@ public class Basic_TeleOp_NewBot extends OpMode {
     //private double storedSpeed;
     public Robot robot = null;
     public IMU imu;
+    public Limelight_Target_Scanner scanner = null;
+    public WaveTag targetData = null;
 
-    public enum AuxState {
-        VERTS_IN,
-        LINEARS_IN,
-        OUTTAKING,
-        RESETTING,
-        NORMAL_OPS
-    }
+    public static final String ALLIANCE_KEY = "Alliance"; //For blackboard
+
 
     public boolean canManuallyControlVerticalSlides = true;
 
-    AuxState auxState = AuxState.NORMAL_OPS;
     ElapsedTime outtakeTimer = new ElapsedTime();
 
-    //public SparkFunOTOS sparky = hardwareMap.get(SparkFunOTOS.class, "sparkFunSparkJoy"); // Field Centric IMU is garbage
+
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -109,8 +116,15 @@ public class Basic_TeleOp_NewBot extends OpMode {
             imu.initialize(parameters);
         }
         //if using field centric youl need this lolzeez
+         if (blackboard.get(ALLIANCE_KEY) == "BLUE")
+         {
+             scanner.InitLimeLightTargeting(1);
+         }
+         else if(blackboard.get(ALLIANCE_KEY) == "RED")
+         {
+             scanner.InitLimeLightTargeting(2);
+         }
 
-        //robot.wristGoTo(0,0);
     }
 
     /*
@@ -128,13 +142,8 @@ public class Basic_TeleOp_NewBot extends OpMode {
         telemetry.addData("HYPE", "Let's do this!!!");
         gamepad1.setLedColor(0, 0, 255, 100000000);
         gamepad2.setLedColor(0, 0, 255, 100000000);
-        //robot.tempOutakePos("DOWN");
-        //robot.slidesIn();
-        //robot.intakePosition("UP");
 
-        //robot.leftWrist.setPosition(.5);
-        //robot.rightWrist.setPosition(.5);
-        robot.wristGoTo(0,0);
+
     }
 
     /*
@@ -142,11 +151,8 @@ public class Basic_TeleOp_NewBot extends OpMode {
      */
     public void loop() {
 
-        float armStickY = this.gamepad2.right_stick_y;
-        float slideStickY = this.gamepad2.left_stick_y;
+        targetData = scanner.tagInfo();
 
-
-        // This section checks what buttons on the Dpad are being pressed and changes the speed accordingly.
         //So Begins the input chain. At least try a bit to organise by driver
 
         //Driver 1
@@ -154,76 +160,35 @@ public class Basic_TeleOp_NewBot extends OpMode {
         driveSpeed();
         singleJoystickDrive();
 
+        if(gamepad1.right_stick_button) //Opens auto wheel mode
+        {
+            if(!targetData.currentlyDetected)
+            {
+                //180 Turn
+                robot.frontLeftDrive.setTargetPosition(robot.frontLeftDrive.getTargetPosition() + 180);
+                robot.frontRightDrive.setTargetPosition(robot.frontRightDrive.getTargetPosition() + 180);
+                robot.backLeftDrive.setTargetPosition(robot.backLeftDrive.getTargetPosition() + 180);
+                robot.backRightDrive.setTargetPosition(robot.backRightDrive.getTargetPosition() + 180);
+            }
+            else //Turn to face target tag
+            {
+                double constant = 0; //We will know this later
+
+               double turnTicks =  targetData.angleX * constant;
+
+                robot.frontLeftDrive.setTargetPosition(robot.frontLeftDrive.getTargetPosition() + (int)turnTicks);
+                robot.frontRightDrive.setTargetPosition(robot.frontRightDrive.getTargetPosition() + (int)turnTicks);
+                robot.backLeftDrive.setTargetPosition(robot.backLeftDrive.getTargetPosition() + (int)turnTicks);
+                robot.backRightDrive.setTargetPosition(robot.backRightDrive.getTargetPosition() + (int)turnTicks);
+            }
+
+        }
+
         if (gamepad1.touchpad || gamepad2.touchpad) {
             requestOpModeStop();
         }
 
         // Driver 2
-
-        //mainArmControl();
-        mainWristControl();
-        clawControl();
-
-
-
-        int armTopLimit = 1150;//temp value
-        int armBottomLimit = 27;//temp value
-
-        int liftyGoControlerVal = robot.leftArm.getCurrentPosition() - ((int) armStickY * 260);
-        robot.leftArm.setPower(1);
-        robot.rightArm.setPower(1);
-        robot.extender.setPower(1);
-
-        //Slide time
-        int slideInLimit = -15;
-        int slideOutLimit = 4257;
-        int slideyGoValue = robot.extender.getCurrentPosition() - ((int) slideStickY * 260);
-
-
-        //This needs tested. If a button is pressed but stick isn't, go to preset 1 or 2
-        if (Math.abs(gamepad2.right_stick_y) < 0.2 && gamepad2.left_stick_button)
-        {
-            //Basket Position
-            robot.leftArm.setTargetPosition(1150);
-            robot.rightArm.setTargetPosition(1150);//inverted
-            robot.extender.setTargetPosition(4257);
-            if(robot.leftArm.getCurrentPosition() > 329 && robot.leftArm.getCurrentPosition() < 349)
-            {
-                gamepad2.rumble(500);
-            }
-        }
-        else if (canManuallyControlVerticalSlides)
-        {
-            //if not going to preset positions, use the left stick
-            robot.rightArm.setTargetPosition(liftyGoControlerVal);
-            robot.leftArm.setTargetPosition(liftyGoControlerVal);
-            robot.extender.setTargetPosition(slideyGoValue);
-
-        }
-
-
-        //Limits
-        //Arm
-        if (robot.leftArm.getCurrentPosition() > armTopLimit || liftyGoControlerVal > armTopLimit) {
-            robot.leftArm.setTargetPosition(armTopLimit);
-            robot.rightArm.setTargetPosition(armTopLimit);
-        } else if (robot.leftArm.getCurrentPosition() < armBottomLimit || liftyGoControlerVal < armBottomLimit) {
-            robot.rightArm.setTargetPosition(armBottomLimit);
-            robot.leftArm.setTargetPosition(armBottomLimit);
-        }
-        //Slide
-        if (robot.extender.getCurrentPosition() > slideOutLimit || liftyGoControlerVal > slideOutLimit) {
-            robot.extender.setTargetPosition(armTopLimit);
-        } else if (robot.leftArm.getCurrentPosition() < slideInLimit || liftyGoControlerVal < slideInLimit) {
-            robot.extender.setTargetPosition(slideInLimit);
-        }
-
-        //Go to Targets
-        robot.rightArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.leftArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.extender.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-
 
 
 
@@ -251,6 +216,11 @@ public class Basic_TeleOp_NewBot extends OpMode {
         if (motorPowers.length != 4) {
             return;
         }
+        robot.frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.backLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot.backRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         robot.frontLeftDrive.setPower(-motorPowers[0]);
         robot.frontRightDrive.setPower(-motorPowers[1]);
         robot.backLeftDrive.setPower(-motorPowers[2]);
@@ -274,14 +244,14 @@ public class Basic_TeleOp_NewBot extends OpMode {
 
         float[] motorPowers = new float[4];
 
-        if (robot.controlMode == "Robot Centric") {
+        if (robot.controlMode == "Robot Centric" && !gamepad1.right_stick_button) {
 
             motorPowers[0] = (leftY + leftX + rightX);//might need inverted back
             motorPowers[1] = (leftY - leftX - rightX);
             motorPowers[2] = (leftY - leftX + rightX);
             motorPowers[3] = (leftY + leftX - rightX);
 
-        } else if (robot.controlMode == "Field Centric") {
+        } else if (robot.controlMode == "Field Centric" && !gamepad1.right_stick_button) {
             double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);;// sparky.getPosition().h
 
             // Rotate the movement direction counter to the bot's rotation
@@ -305,6 +275,19 @@ public class Basic_TeleOp_NewBot extends OpMode {
             motorPowers[1] = (float) backLeftPower;
             motorPowers[2] = (float)frontRightPower;
             motorPowers[3] = (float) backRightPower;
+        }
+        else if(gamepad1.right_stick_button)
+        {
+            robot.frontLeftDrive.setPower(speed);
+            robot.frontRightDrive.setPower(speed);
+            robot.backLeftDrive.setPower(speed);
+            robot.backRightDrive.setPower(speed);
+
+            robot.frontLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.frontRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.backLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.backRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         }
 
         float max = getLargestAbsVal(motorPowers);
@@ -366,48 +349,10 @@ public class Basic_TeleOp_NewBot extends OpMode {
         }
     }
 
-    private void mainArmControl() {
-        if (gamepad2.right_stick_y > .2) {
-            robot.armControl(gamepad2.right_stick_y);
-        }
-        if (gamepad2.left_stick_y > .2) {
-            robot.extenderControl(gamepad2.left_stick_y);
-        }
-    }
-
-    private void mainWristControl() {
-        double MOVE_SPEED = 5;
-        double upDowney = 0;
-        double twisty = 0;
-        if (gamepad2.left_bumper) {
-            upDowney -= MOVE_SPEED;
-        }
-        if (gamepad2.right_bumper) {
-            upDowney += MOVE_SPEED;
-        }
-        if (gamepad2.left_trigger > .15) {
-            twisty -= MOVE_SPEED;
-        }
-        if (gamepad2.right_trigger > .15)
-        {
-            twisty += MOVE_SPEED;
-        }
-
-        robot.wristControl(upDowney, twisty);
-    }
-
-    private void clawControl() {
-        if (gamepad2.circle & !gamepad2.start) {
-            robot.clawOpenClose(Robot.openClose.OPEN);
-        } else if (gamepad2.cross & !gamepad2.start) {
-            robot.clawOpenClose(Robot.openClose.CLOSE);
-        }
-    }
 
     private void doTelemetryStuff() {
         // This little section updates the driver hub on the runtime and the motor powers.
         // It's mostly used for troubleshooting.
-        telemetry.addData("Aux State", auxState);
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("leftWrist", robot.leftWrist.getPosition());
         telemetry.addData("rightWrist", robot.rightWrist.getPosition());
