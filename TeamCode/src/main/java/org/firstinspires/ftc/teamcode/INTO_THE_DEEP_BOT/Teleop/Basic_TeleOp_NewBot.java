@@ -354,14 +354,6 @@ public class Basic_TeleOp_NewBot extends OpMode {
         // This little section updates the driver hub on the runtime and the motor powers.
         // It's mostly used for troubleshooting.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
-        telemetry.addData("leftWrist", robot.leftWrist.getPosition());
-        telemetry.addData("rightWrist", robot.rightWrist.getPosition());
-        telemetry.addData("Supposed upDown",robot.upDown);
-        telemetry.addData("Supposed twist",robot.twist);
-
-        telemetry.addData("LeftArmVal ", robot.leftArm.getCurrentPosition());
-        telemetry.addData("RightArmVal ", robot.rightArm.getCurrentPosition());
-        telemetry.addData("SlideVal ", robot.extender.getCurrentPosition());
 
         robot.tellMotorOutput();
     }
