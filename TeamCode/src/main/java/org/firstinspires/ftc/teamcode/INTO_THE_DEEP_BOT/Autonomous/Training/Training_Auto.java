@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Autonomous.Training;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Autonomous.AutonomousPLUS;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Robot;
-
+@Disabled
 @Autonomous(group = "Basic", name = "Training Auto")
     public class Training_Auto extends AutonomousPLUS {
 

@@ -28,7 +28,8 @@ public class Test_Randomization_Blue extends AutonomousPLUS {
         if(opModeInInit())
         {
             prepareAuto();
-            Limelight.InitLimeLight(1, robot.hardwareMap);
+            Limelight.InitLimeLight(0, robot.hardwareMap);
+            blackboard.put(ALLIANCE_KEY, "BLUE");
             while(opModeInInit())
             {
                 pattern = Limelight.GetRandomization();

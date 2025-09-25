@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.SummerTestBot;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -50,7 +51,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Throughout this program, there are comments explaining what everything does because previous programmers
  * did a horrible job of doing that.
  */
-
+@Disabled
 @TeleOp(name="Basic Strafer", group="CompBot")
 public class Basic_Strafer_Bot_Tele_Op extends OpMode {
 

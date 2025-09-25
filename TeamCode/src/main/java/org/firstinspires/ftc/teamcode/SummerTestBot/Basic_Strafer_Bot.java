@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.SummerTestBot;
 
 import android.annotation.SuppressLint;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -12,7 +13,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.Objects;
-
+@Disabled
 public class Basic_Strafer_Bot {
 
     public DcMotor frontLeftDrive;

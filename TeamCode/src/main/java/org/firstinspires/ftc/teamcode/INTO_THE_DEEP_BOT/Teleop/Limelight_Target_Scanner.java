@@ -38,6 +38,7 @@ import com.qualcomm.hardware.limelightvision.LLStatus;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Autonomous.AutonomousPLUS;
@@ -155,19 +156,21 @@ public class Limelight_Target_Scanner extends AutonomousPLUS {
             telemetry.update();
         }}
 
-        public void InitLimeLightTargeting(int pipeline)
+        public void InitLimeLightTargeting(int pipeline, HardwareMap hardwareMap)
         {
 
             limelight = hardwareMap.get(Limelight3A.class , "limelight");
 
             telemetry.setMsTransmissionInterval(11);
-
             limelight.pipelineSwitch(pipeline);
+
 
             /*
              * Starts polling for data.  If you neglect to call start(), getLatestResult() will return null.
              */
             limelight.start();
+
+
         }
 
 

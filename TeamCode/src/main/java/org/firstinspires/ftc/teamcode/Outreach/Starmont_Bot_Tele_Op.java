@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.Outreach;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -48,7 +49,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * <p>
  * Throughout this program, there are comments explaining what everything does. If there's anything you're confused about, don't hesitate to ask! :)
  */
-
+@Disabled
 //This sets this op mode as a TeleOp op mode, gives it a name, and gives it a group
 @TeleOp(name="TeleOp For Starmont", group="Outreach")
 

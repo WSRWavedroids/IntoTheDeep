@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Autonomous.Blue;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.INTO_THE_DEEP_BOT.Autonomous.AutonomousPLUS;
-
+@Disabled
 @Autonomous(group = "Basic", name = "Improved Movements?")
 public class ImprovedDrivetrainMovementsTest extends AutonomousPLUS {
 
