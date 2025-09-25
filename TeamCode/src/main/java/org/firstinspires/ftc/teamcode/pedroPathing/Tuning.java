@@ -16,6 +16,7 @@ import com.bylazar.field.Style;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.follower.Follower;
+import com.pedropathing.pathgen.PathBuilder;
 import com.pedropathing.geometry.*;
 import com.pedropathing.math.*;
 import com.pedropathing.paths.*;
