@@ -184,7 +184,7 @@ public class Basic_TeleOp_NewBot extends OpMode {
             SpinTargetBackRight = robot.backRightDrive.getCurrentPosition() - 830*4;
             spinTargetAquired = true;
             speed = 1;
-        }
+        }//we so cool if this works
 
 
         if (!detected) {
