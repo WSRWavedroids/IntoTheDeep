@@ -210,23 +210,26 @@ public class artifactLocator extends Robot {
                 .setCamera(internalCamera)
                 .build();
 
+        //Define slots
         slotA = new slot(1);
         slotB = new slot(2);
         slotC = new slot(3);
 
+        //Sort things into lists
         allSlots.add(slotA);
         allSlots.add(slotB);
         allSlots.add(slotC);
-
         allZones.add(zone1);
         allZones.add(zone2);
         allZones.add(zone3);
 
+        // Define the inventory
         inventory = new slotInventory();
 
-        while (portal.getCameraState() != VisionPortal.CameraState.OPENING_CAMERA_DEVICE) {
-            sleep(10);
-        }
+        // Set camera settings
+        /*while (portal.getCameraState() != VisionPortal.CameraState.CAMERA_DEVICE_READY) {
+            sleep(10); //lol stallin
+        }*/ sleep(2000);
         exposureControl = portal.getCameraControl(ExposureControl.class);
         exposureControl.setMode(ExposureControl.Mode.Manual);
         exposureControl.setExposure(37, TimeUnit.MILLISECONDS);
